@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag and Drop Test</title>
+</head>
+
+<body>
+    <style>
+        ol {
+            min-height: 60px;
+            border: 1px solid;
+        }
+    </style>
+
+    <p>What fruits do you like?</p>
+    <ol ondragstart="dragStartHandler(event)">
+        <li draggable="true" data-value="fruit-apple">Apples</li>
+        <li draggable="true" data-value="fruit-orange">Oranges</li>
+        <li draggable="true" data-value="fruit-pear">Pears</li>
+    </ol>
+
+    <p>Drop your favorite fruits below:</p>
+    <ol id="dropzone"
+        ondrop="dropHandler(event)"
+        ondragover="dragOverHandler(event)"
+    >
+        <!-- don't forget to change the "text/x-example" type to something
+        dropzone="move string:text/x-example"
+        ondragenter="dragEnterHandler(event)"
+        specific to your site -->
+    </ol>
+
+    <script src="test.js"></script>
+</body>
+</html>
