@@ -1,25 +1,24 @@
 const webpack = require('webpack');
 const path = require('path');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
-const buildPath = path.resolve(__dirname, 'www');
 
 const config = {
     entry: './src/app.js',
     // Render source-map file for final build
-    devtool: 'source-map',
+    // devtool: 'source-map',
     // output config
     output: {
-        path: buildPath, // Path of output file
+        path: path.resolve(__dirname, 'www'), // Path of output file
         filename: 'bundle.js', // Name of output file
     },
     plugins: [
         // Minify the bundle
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     },
-        // }),
-        //
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+        }),
+
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
@@ -47,11 +46,13 @@ const config = {
                     "style-loader",
                     {
                         loader: "css-loader",
-                        options: { modules: true }
+                        options: {
+                            modules: true,
+                            localIdentName: '[name]__[local]--[hash:base64:5]' } // BEM-Style
                     },
-                    "less-loader",
+                    { loader: "less-loader", options: { relativeUrls: false } },
                 ],
-                exclude: "/\.(png|jpg)?$/"
+                exclude: "/\.(png|jpg|svg)?$/"
             },
             {
                 test: /\.jsx?$/,
@@ -67,21 +68,21 @@ const config = {
                 loader: "url-loader?limit=10000&mimetype=application/font-woff"
             },
             {
-                test: /\.(svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: "url-loader?limit=10000&mimetype=image/svg+xml"
-            },
-            {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "url-loader?limit=10000&mimetype=application/octet-stream"
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file"
+                loader: "file-loader"
             },
             {
                 test: /\.(png|jpg)?$/,
                 loader: "file-loader"
-            }
+            },
+            {
+                test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "url-loader?limit=10000&mimetype=image/svg+xml"
+            },
         ],
     },
 };

@@ -37,9 +37,7 @@
     "webpack",
     "cordova",
     "babel",
-    "dev",
-    "server",
-    "boilerplate"
+    "component"
   ],
   "license": "MIT",
   "main": "./src/index.js",

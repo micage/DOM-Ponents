@@ -1,74 +1,8 @@
-@pane-bg-color: #dde;
-@ctl_bg_color: rgb(220, 220, 220);
-@ctl_color: rgb(200, 150, 100);
-@hbar-color: rgb(100, 100, 100);
-@vbar-color: rgb(100, 100, 100);
-@h1-color: rgb(200, 200, 200);
-@h2-color: rgb(200, 200, 200);
-@v1-color: rgb(200, 200, 200);
-@v2-color: rgb(200, 200, 200);
-@min: 8px;
-@pct: 98%;
+.splitView {
+    .one {
 
-#content {
-
-}
-.scrollView {
-    background-color: @pane-bg-color;
-    width: 400px;
-    height: 300px;
-    margin: 100px;
-    border: 2px solid grey;
-
-    .frame {
-        width: @pct;
-        height: @pct;
-        float: left;
-        overflow: hidden;
-        .view {
-            background-image: url('/ColorWheel.svg');
-            //background-size: contain;
-            width: 2000px;
-            height: 2000px;
-        }
     }
-    .v .bar:active, .h .bar:active, .v .bar:hover, .h .bar:hover {
-        background-color: white;
-    }
-    .v {
-        min-width: @min;
-        height: @pct;
-        float: right;
-        .one {
-            background-color: @v1-color;
-        }
-        .bar {
-            cursor: ns-resize;
-            background-color: @vbar-color;
-        }
-        .two {
-            background-color: @v2-color;
-        }
-    }
-    .h {
-        width: @pct;
-        min-height: @min;
-        float: left;
-        .one {
-            background-color: @h1-color;
-        }
-        .bar {
-            cursor: ew-resize;
-            background-color: @hbar-color;
-        }
-        .two {
-            background-color: @h2-color;
-        }
-    }
-    .corner {
-        float: right;
-        min-width: @min;
-        min-height: @min;
-        background-color: @ctl_bg_color;
+    .two {
+        
     }
 }

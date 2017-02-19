@@ -63,15 +63,16 @@ module.exports = {
                     "style-loader",
                     {
                         loader: "css-loader",
-                        options: { modules: true }
+                        options: {
+                            modules: true,
+                            localIdentName: '[name]__[local]--[hash:base64:5]' } // BEM-Style
                     },
-                    "less-loader",
+                    { loader: "less-loader", options: { relativeUrls: false } },
                 ],
-                exclude: "/\.(png|jpg)?$/"
+                exclude: "/\.(png|jpg|svg)?$/"
             },
             {
                 test: /\.jsx?$/,
-                // include: [path.join(__dirname, '')],
                 loader: 'babel-loader',
                 options: {
                     presets: ['es2015', 'react']
@@ -81,10 +82,6 @@ module.exports = {
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: "url-loader?limit=10000&mimetype=application/font-woff"
-            },
-            {
-                test: /\.(svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: "url-loader?limit=10000&mimetype=image/svg+xml"
             },
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
@@ -103,9 +100,10 @@ module.exports = {
                 loader: "file-loader!url-loader?limit=10000&minetype=image/jpg"
             },
             {
-                test: /\.svg/,
-                loader: "url-loader?minetype=image/svg+xml"
-            },
+                test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "url-loader?limit=10000&mimetype=image/svg+xml"
+                // loader: "file-loader"
+            }
         ]
     }
 };
