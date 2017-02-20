@@ -37,23 +37,34 @@ let scrollView = {
 };
 let options = null;
 
-const Create = (parent, _options) => {
+const Create = (_options) => {
     options = Object.assign({
-        orientation: 'vertical'
+        horizontal: true,
+        thumbSize: 30,
+        ratio: 0.5,
+        barClass: styles.bar
     }, _options);
 
-    let dom = createDOM(parent, scrollView);
+    let dom = createDOM(scrollView);
+    return dom;
+};
 
-    $('.' + styles.scrollView).hover(function() {
-        // 'this' is the scrollView (HTMLDivElement)
-        $(this.children[1]).fadeIn();
-        $(this.children[2]).fadeIn();
-        $(this.children[3]).fadeIn();
-    }, function() {
-        $(this.children[1]).fadeOut();
-        $(this.children[2]).fadeOut();
-        $(this.children[3]).fadeOut();
-    });
+// after document is ready
+$( () => {
+    // fadeIn/fadeOut of scrollbars
+    // $('.' + styles.scrollView).hover(
+    //     // 'this' is the scrollView (HTMLDivElement)
+    //     function() {
+    //         $(this.children[1]).fadeIn();
+    //         $(this.children[2]).fadeIn();
+    //         $(this.children[3]).fadeIn();
+    //     },
+    //     function() {
+    //         $(this.children[1]).fadeOut();
+    //         $(this.children[2]).fadeOut();
+    //         $(this.children[3]).fadeOut();
+    //     }
+    // );
 
     $('.' + styles.h)
         .on('ratio', function(evt, ratio) {
@@ -63,7 +74,7 @@ const Create = (parent, _options) => {
         })
         .split({
             horizontal: true,
-            thumbSize: 40,
+            thumbSize: 30,
             ratio: 0.5,
             barClass: styles.bar
         });
@@ -80,9 +91,8 @@ const Create = (parent, _options) => {
             ratio: 0.64,
             barClass: styles.bar
         });
+});
 
-    return dom;
-};
 export default Create;
 
 

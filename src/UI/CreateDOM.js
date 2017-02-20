@@ -14,9 +14,9 @@ const nonNode = [
     'type', 'class', 'id'
 ];
 
-const createDom = (parent, json) => {
+const createDom = (json) => {
     let objTree = new ObjectTree(json);
-    //let parent = _parent;
+    let parent = null;
     let stack = [];
 
     const DomCreator = (node) => {
@@ -24,19 +24,16 @@ const createDom = (parent, json) => {
         // keys that are contained in nonNode are no elements
         if ( nonNode.find( key => key === node.id ) ) { return; }
 
-        let attr = node.data;
-        // let elem = (typeof attr.type === "function" ?
-        //     (attr.type)(parent) :
-        //     document.createElement(attr.type || 'div') );
+        let attr = node.data; // data contains the children of the current node
+
         let elem = ( (attrType) => {
             if (typeof attrType === "function") {
-                return (attrType)(parent);
+                return (attrType)();
             }
             else {
                 return document.createElement(attrType || 'div');
             }
         })(attr.type);
-        console.log("createDom: element = " + node.id + "::" + elem.classList);
 
         elem.id = attr.id || '';
         if (attr.class) elem.classList.add(attr.class);
@@ -53,7 +50,8 @@ const createDom = (parent, json) => {
         }
         else if (node.isLastChild) {
             let last = stack.pop(); // restore parent
-            if (last) parent = last;
+            if (last)
+                parent = last;
         }
     };
 

@@ -10,7 +10,6 @@
         }, options );
 
         var self = this;
-        let ratio = settings.ratio;
 
         // 'this' is an array of objects that matches the given selector, e.g. 'split-box'
         this.each(function() {
@@ -26,6 +25,8 @@
             let two = divs.last().addClass('two').detach();
             let bar = $('<div>').addClass(settings.barClass ? settings.barClass : 'bar');
             $(this).append(bar, two);
+
+            box.attr('ratio', settings.ratio);
 
             // some handy definitions
             let boxLeft = box.offset().left;
@@ -47,7 +48,7 @@
                 two.height(box.height() - one.height() - bar.height()).width(box.width());
             }
 
-            box.attr('data-percent', settings.ratio);
+            box.attr('ratio', settings.ratio);
             box.trigger('ratio', settings.ratio);
 
             // logging
@@ -89,7 +90,7 @@
 
             const onMouseMove = function(evt) {
                 if (settings.horizontal) {
-                    let oneWidth = evt.clientX - boxLeft - barX;
+                    let oneWidth = evt.clientX - box.offset().left - barX;
                     let twoWidth = box.width() - oneWidth - bar.width();
                     if (twoWidth < 0) {
                         twoWidth = 0;
@@ -102,7 +103,7 @@
                     one.width(oneWidth);
                     two.width(twoWidth);
 
-                    ratio = one.width()/(box.width() - bar.width())
+                    box.attr('ratio', one.width()/(box.width() - bar.width()) );
                 }
                 else {
                     let oneHeight = evt.clientY - boxTop - barY;
@@ -118,11 +119,10 @@
                     one.height(oneHeight);
                     two.height(twoHeight);
 
-                    ratio = one.height()/(box.height() - bar.height())
+                    box.attr('ratio', one.height()/(box.height() - bar.height()) );
                 }
 
-                box.attr('data-percent', ratio);
-                box.trigger('ratio', ratio);
+                box.trigger('ratio', box.attr('ratio'));
 
                 // logging
                 if (__DEBUG__ && 0) {
@@ -155,9 +155,11 @@
         $(window).resize(function(evt) {
             self.each(function() {
                 let box = $(this);
-                let one = box.children('.one');
-                let two = box.children('.two');
-                let bar = box.children('.bar');
+                let divs = box.children();
+                let one = $(divs[0]);
+                let bar = $(divs[1]);
+                let two = $(divs[2]);
+                let ratio = box.attr('ratio');
 
                 if (settings.horizontal) {
                     one.width(Math.floor((box.width() - bar.width()) * ratio));
@@ -167,6 +169,7 @@
                     one.height(Math.floor((box.height() - bar.height()) * ratio));
                     two.height(box.height() - one.height() - bar.height());
                 }
+                box.trigger('ratio', ratio);
             });
         });
 
