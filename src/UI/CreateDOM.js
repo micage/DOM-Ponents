@@ -1,18 +1,53 @@
 import ObjectTree from "../Structures/ObjectTree";
 
-const dom = (parent, attr) => {
-    let elem = (typeof attr.type === "string" ?
-        document.createElement(attr.type || 'div') :
-        attr.type.Create() );
-    elem.id = attr.id || '';
-    if (attr.class) elem.classList.add(attr.class);
-    if (parent) parent.appendChild(elem);
-    return elem;
+const nonNode = [
+    'type', 'class', 'id', 'props'
+];
+
+let element = {
+    type: Function || String,
+    class: String,
+    id: String,
+    props: { ratio: 0.5 },
+    child_1: {},
+    child_n: {}
 };
 
-const nonNode = [
-    'type', 'class', 'id'
-];
+let skipDepth = 0;
+
+const createElement = (parent, node) => {
+    let content = node.data; // data contains the children of the current node
+    let type = content.type || 'div';
+
+    let filteredKeys = Object.keys(content).filter(key => { return ! nonNode.find( name => name === key ) }); // it's an array!!
+    let children = {};
+    filteredKeys.forEach((key)=>{ children[key] = content[key]; }); // so make it an object
+    node.hasChildren = !!filteredKeys.length; // overwrite, only has children if the filter leaves any
+
+    let props = content.props || {};
+    let elem;
+
+    if (typeof type === "function") {
+        // factory function
+        elem = (type)({
+            children, props
+        });
+        skipDepth = node.depth;
+    }
+    else if (typeof type === "object") {
+        debugger;
+        elem = null;
+    }
+    else {
+        elem = document.createElement(type);
+    }
+
+    if (content.id) elem.id = content.id;
+    if (content.class) elem.classList.add(content.class);
+    if (parent) parent.appendChild(elem);
+
+    return elem;
+};
 
 const createDom = (json) => {
     let objTree = new ObjectTree(json);
@@ -21,28 +56,23 @@ const createDom = (json) => {
 
     const DomCreator = (node) => {
 
-        // keys that are contained in nonNode are no elements
-        if ( nonNode.find( key => key === node.id ) ) { return; }
+        // keys that are contained in nonNode are reserved
+        let isReserved = !!nonNode.find( key => key === node.id ); // do not make an element out of it
+        if (isReserved) {
+            //console.log('skipped: ' + node.parent.class + '.' + node.id);
+            return;
+        }
 
-        let attr = node.data; // data contains the children of the current node
+        let elem;
+        if (skipDepth && node.depth > skipDepth) {
+            console.log('skipped: ' + node.id);
+        }
+        else {
+            skipDepth = 0;
+            elem = createElement(parent, node);
+        }
 
-        let elem = ( (attrType) => {
-            if (typeof attrType === "function") {
-                return (attrType)();
-            }
-            else {
-                return document.createElement(attrType || 'div');
-            }
-        })(attr.type);
-
-        elem.id = attr.id || '';
-        if (attr.class) elem.classList.add(attr.class);
-        if (parent) parent.appendChild(elem);
-
-        // keys that are contained in nonNode are no children
-        let filteredKeys = Object.keys(attr).filter(key => { return ! nonNode.find( name => name === key ) });
-
-        if (filteredKeys.length) {
+        if (node.hasChildren) {
             if (! node.isLastChild) {
                 stack.push(parent); // store parent
             }
@@ -55,7 +85,7 @@ const createDom = (json) => {
         }
     };
 
-    objTree.traverse(DomCreator);
+    objTree.traverse(DomCreator, true);
 
     console.log("createDom returned: " + parent.constructor.name);
 

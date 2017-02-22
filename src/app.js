@@ -19,7 +19,9 @@ import "./Util/helper.js";
 import ScrollView from "./Test/Layout/ScrollView";
 // import "./Test/TabBarTest";
 import createDOM from "./UI/CreateDOM";
+import text_01 from "raw-loader!./text_01.txt";
 
+// layout for upcoming design, yet unused
 let element = {
     type: '' || (() => {}),
     id: '',
@@ -32,26 +34,47 @@ let element = {
     }
 }
 
-let dom = createDOM({
-    body: {
-        id: 'micage_App', class: styles.app,
-        Header: { class: styles.header },
-        Content: { class: styles.content,
-            'sv-box': { class: styles.svBox,
-                sv1: { type: ScrollView, class: styles.ScrollView },
-                sv2: { type: ScrollView, class: styles.ScrollView },
-                sv3: { type: ScrollView, class: styles.ScrollView }
+let app = createDOM({
+    id: 'micage_App', class: styles.app,
+
+    Header: { id: 'Header', class: styles.header },
+    Content: { id: 'Content', class: styles.content,
+        svbox: { id:'sv-box', class: styles.svBox,
+            sv1: { id: 'sv1_special', type: ScrollView, class: styles.ScrollView,
+                inner: { id: 'sv1_view', class: styles.inner }
             },
-            test1: { id: 'test1', class: styles.test },
-            test2: { id: 'test2', class: styles.test }
+            // sv1: { type: ScrollView, class: styles.ScrollView },
+            sv2: { id: 'sv2', type: ScrollView, class: styles.ScrollView },
+            sv3: { id: 'sv3', type: ScrollView, class: styles.ScrollView }
         },
-        Footer: { class: styles.footer }
-    }
+        test1: { id: 'test1', class: styles.test },
+        test2: { id: 'test2', class: styles.test }
+    },
+    Footer: { id: 'Footer', class: styles.footer }
 });
+// let dom = createDOM({
+//     body: { id: 'micage_App', class: styles.app,
+//         Header: { id: 'Header', class: styles.header },
+//         Content: { id: 'Content', class: styles.content,
+//             'sv-box': { class: styles.svBox,
+//                 sv1: { id: 'special', type: ScrollView, class: styles.ScrollView,
+//                     inner: { id: 'special', class: styles.inner }
+//                 },
+//                 // sv1: { type: ScrollView, class: styles.ScrollView },
+//                 sv2: { type: ScrollView, class: styles.ScrollView },
+//                 sv3: { type: ScrollView, class: styles.ScrollView }
+//             },
+//             test1: { id: 'test1', class: styles.test },
+//             test2: { id: 'test2', class: styles.test }
+//         },
+//         Footer: { id: 'Footer', class: styles.footer }
+//     }
+// });
 
 // document.body is our app container
-document.body.appendChild(dom);
+document.body.appendChild(app);
 
+$('#test1').html(text_01);
 
 //==============================================================================
 

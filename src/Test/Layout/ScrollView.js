@@ -4,46 +4,47 @@ import createDOM from "../../UI/CreateDOM";
 
 // define DOM nodes as json
 let scrollView = {
-    self: {
-        class: styles.scrollView,
-        frame: {
-            class: styles.frame,
-            view: {
-                class: styles.view
-            }
-        },
-        v: {
-            class: styles.v,
-            v1: {
-                class: styles.one
-            },
-            v2: {
-                class: styles.two
-            }
-        },
-        h: {
-            class: styles.h,
-            h1: {
-                class: styles.one
-            },
-            h2: {
-                class: styles.two
-            }
-        },
-        corner: {
-            class: styles.corner
+    class: styles.scrollView,
+    frame: {
+        class: styles.frame,
+        view: {
+            class: styles.view
         }
+    },
+    v: {
+        class: styles.v,
+        v1: {
+            class: styles.one
+        },
+        v2: {
+            class: styles.two
+        }
+    },
+    h: {
+        class: styles.h,
+        h1: {
+            class: styles.one
+        },
+        h2: {
+            class: styles.two
+        }
+    },
+    corner: {
+        class: styles.corner
     }
 };
+
 let options = null;
 
-const Create = (_options) => {
+const Create = (args) => {
     options = Object.assign({
         horizontal: true,
         thumbSize: 30,
         ratio: 0.5,
         barClass: styles.bar
-    }, _options);
+    }, args.props);
+
+    var obj = Object.assign(scrollView.frame.view, args.children);
 
     let dom = createDOM(scrollView);
     return dom;
