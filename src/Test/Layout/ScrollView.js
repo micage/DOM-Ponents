@@ -3,31 +3,17 @@ import "../../UI/Splitter";
 import createDOM from "../../UI/CreateDOM";
 
 // define DOM nodes as json
-let scrollView = {
-    class: styles.scrollView,
-    frame: {
-        class: styles.frame,
-        view: {
-            class: styles.view
-        }
+let scrollView = { class: styles.scrollView,
+    frame: { class: styles.frame,
+        view: { class: styles.view }
     },
-    v: {
-        class: styles.v,
-        v1: {
-            class: styles.one
-        },
-        v2: {
-            class: styles.two
-        }
+    v: { class: styles.v,
+        v1: { class: styles.one },
+        v2: { class: styles.two }
     },
-    h: {
-        class: styles.h,
-        h1: {
-            class: styles.one
-        },
-        h2: {
-            class: styles.two
-        }
+    h: { class: styles.h,
+        h1: { class: styles.one },
+        h2: { class: styles.two }
     },
     corner: {
         class: styles.corner
@@ -44,9 +30,20 @@ const Create = (args) => {
         barClass: styles.bar
     }, args.props);
 
-    var obj = Object.assign(scrollView.frame.view, args.children);
-
     let dom = createDOM(scrollView);
+    let view = dom.children[0].children[0];
+
+    for (let k in args.children) {
+        let child = args.children[k];
+        let childDOM = createDOM(child)
+        view.appendChild(childDOM);
+    }
+
+    // if (Object.keys(args.children).length) {
+    //     let content = createDOM(args.children);
+    //     view.appendChild(content);
+    // }
+
     return dom;
 };
 

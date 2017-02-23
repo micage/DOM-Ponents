@@ -40,12 +40,15 @@ let app = createDOM({
     Header: { id: 'Header', class: styles.header },
     Content: { id: 'Content', class: styles.content,
         svbox: { id:'sv-box', class: styles.svBox,
-            sv1: { id: 'sv1_special', type: ScrollView, class: styles.ScrollView,
-                inner: { id: 'sv1_view', class: styles.inner }
+            sv1: { id: 'sv1', type: ScrollView, class: styles.ScrollView,
+                inner: { id: 'sv1_content', class: styles.inner }
             },
-            // sv1: { type: ScrollView, class: styles.ScrollView },
-            sv2: { id: 'sv2', type: ScrollView, class: styles.ScrollView },
-            sv3: { id: 'sv3', type: ScrollView, class: styles.ScrollView }
+            sv2: { id: 'sv2', type: ScrollView, class: styles.ScrollView,
+                xxx: { id: 'sv2_content', class: styles.inner2 }
+            },
+            sv3: { id: 'sv3', type: ScrollView, class: styles.ScrollView,
+                pic1: { type: 'img', props: { src: './color-wheel.svg', width: 1000, height: 1000 } }
+            }
         },
         test1: { id: 'test1', class: styles.test },
         test2: { id: 'test2', class: styles.test }

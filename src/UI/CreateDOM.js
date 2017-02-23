@@ -1,7 +1,7 @@
 import ObjectTree from "../Structures/ObjectTree";
 
 const nonNode = [
-    'type', 'class', 'id', 'props'
+    'type', 'class', 'id'
 ];
 
 let element = {
@@ -40,6 +40,7 @@ const createElement = (parent, node) => {
     }
     else {
         elem = document.createElement(type);
+        Object.assign(elem, props);
     }
 
     if (content.id) elem.id = content.id;
@@ -53,6 +54,7 @@ const createDom = (json) => {
     let objTree = new ObjectTree(json);
     let parent = null;
     let stack = [];
+    let result = null;
 
     const DomCreator = (node) => {
 
@@ -63,6 +65,10 @@ const createDom = (json) => {
             return;
         }
 
+        if (node.id === 'props') {
+            skipDepth = node.depth;
+        }
+
         let elem;
         if (skipDepth && node.depth > skipDepth) {
             console.log('skipped: ' + node.id);
@@ -71,6 +77,8 @@ const createDom = (json) => {
             skipDepth = 0;
             elem = createElement(parent, node);
         }
+
+        if (!result) result = elem;
 
         if (node.hasChildren) {
             if (! node.isLastChild) {
@@ -87,9 +95,9 @@ const createDom = (json) => {
 
     objTree.traverse(DomCreator, true);
 
-    console.log("createDom returned: " + parent.constructor.name);
+    console.log("createDom returned: " + result.constructor.name);
 
-    return parent;
+    return result;
 };
 
 export default createDom;
