@@ -5,6 +5,8 @@ class ObjectTree {
         this._json = json;
     }
 
+    get json() { return this._json; }
+
     _preOrder(obj, cb, node) {
         if (!obj || typeof obj !== "object") return;
 
@@ -13,19 +15,22 @@ class ObjectTree {
             if (node.doContinue === false) break; // callback returned false;
 
             var child = obj[keys[i]];
-            node.hasChildren = true;
+
+            node.parent = obj;
 
             if (Array.isArray(child)) {
+                node.hasChildren = !!child.length;
                 node.id = keys[i] + "[" + child.length + "]";
             }
-
             else if (child && typeof child === "object") {
                 node.id = keys[i];
                 if (Object.keys(child).length === 0) {
                     node.hasChildren = false;
                 }
+                else {
+                    node.children = child;
+                }
             }
-
             else {
                 node.hasChildren = false;
                 node.id = keys[i];
@@ -43,12 +48,23 @@ class ObjectTree {
         }
     }
 
-    traverse(visitor) {
+    traverse(visitor, doVisitRoot) {
         if (typeof this._json !== "object") return;
 
         let nodeInfo = {
-            depth: 0
+            depth: 0,
+            parent: {},
+            hasChildren: true,
+            isLastChild: true,
+            data: this._json
         };
+
+        if (doVisitRoot) {
+            if (visitor(nodeInfo) === false) {
+                return;
+            }
+        }
+
         this._preOrder(this._json, visitor, nodeInfo);
     }
 

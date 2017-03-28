@@ -1,61 +1,360 @@
+
+@body-bg-color: #345;
+@app-bg-color: hsl(20, 10%, 90%);
+@header-bg-color: firebrick; // hsl(20, 70%, 30%);
+@content-bg-color: hsl(20, 10%, 90%);
+@footer-bg-color: firebrick; // hsl(20, 70%, 30%);
+@ctrl-bg-color: hsl(230, 5%, 95%);
+@ctrl-border-color: hsl(230, 5%, 75%);
+@header-height: 150px;
+@footer-height: 150px;
+@transparent_01: hsla(0, 0%, 100%, 0.10);
+@transparent_01_hover: hsla(0, 0%, 100%, 0.20);
+@transparent_02: hsla(0, 0%, 100%, 0.40);
+@transparent_05: hsla(0, 0%, 100%, 0.60);
+
+:global(.clearfix:after) {
+    content: "";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0px;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 * {
     padding: 0px;
     margin: 0px;
 }
 
 body {
-    background-color: rgb(50, 50, 50);
+    background-color: @body-bg-color;
+    font-family: Tahoma;
+    font-size: 10pt;
+    height: 100vh;
 }
 
 .app {
+    // display: flex;
+    // flex-direction: column;
     width: 800px;
+    height: inherit;
     margin: 0 auto;
-    background-color: rgb(0,200,200);
-    > *  {
-        width: 100%;
-        float: left;
-    }
+    background-color: @app-bg-color;
     .header {
+        float: left;
+        width: inherit;
         height: 150px;
-        background-color: red;
+        padding: 0.1px;
+        background: @header-bg-color;
+        background-image: url('../www/lego1_cut.jpg'); // fallback
+        //background-image: url('/lego1.jpg'), linear-gradient(#eb01a5, #d13531); /* W3C */
+        .title {
+            background-color: rgba(140,150,150,.8);
+            font-size: 24pt;
+            color: hsl(230, 20%, 95%);
+            border: 2px solid hsl(0, 0%, 80%, 1);
+            border-radius: 10px;
+            margin: 20px;
+            padding: 20px;
+        }
     }
 
     .content {
-        background-color: lightgrey;
+        float: left;
+        width: inherit;
+        height: auto;
+        // margin-bottom: @header-height;
+        background-color: @content-bg-color;
     }
 
     .footer {
-        height: 150px;
-        background-color: green;
+        width: inherit;
+        height: 20px;
+        position: fixed;
+        bottom: 0px;
+        z-index: 1000;
+        background-color: @footer-bg-color;
+
+        -webkit-transition-duration: .5s;
+        transition-duration: .5s;
+
+        -webkit-transition-timing-function: cubic-bezier( 0.215, 0.610, 0.355, 1.000 );
+        transition-timing-function: cubic-bezier( 0.215, 0.610, 0.355, 1.000 );
+
+        -webkit-transition-property: -webkit-height;
+        transition-property: height;
+    }
+
+    .footer:hover {
+        height: @footer-height;
     }
 }
-.test {
-    // width: 100%;
-    border: 4px dashed black;
-    height: 100px;
-    margin: 100px;
-    background-color: hsl(230, 5%, 95%);
-}
-.svBox {
+
+.scrollViewBox {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .svBox {
+        // flex: 1 1 auto;
+        width: 200px;
+        margin: 20px 20px;
+        p {
+            width: inherit;
+            padding: 8px 4px 2px 2px;
+            // background-color: #eee;
+            line-height: 15px;
+            border-bottom: 1px solid @ctrl-border-color;
+        }
+        p:before {
+            width: 12px;
+            height: 12px;
+        }
+    }
+
+    .ScrollView:global(.scrolling), .ScrollView:hover {
+        :global {
+            .ScrollBar { visibility: visible; }
+            .ScrollBar:hover { background-color: @transparent_02; }
+        }
+    }
+    .ScrollView:global(.scrolling) :global(.ScrollBar) {
+        background-color: @transparent_02;
+        :global(.bar) { background-color: @transparent_05; }
+    }
+
+    .ScrollView {
+        // flex: 1;
+        width: inherit;
+        height: 150px;
+        border: 1px solid @ctrl-border-color;
+        border-radius: 6px;
+        overflow: hidden;
+
+        :global {
+            .ScrollBar {
+                visibility: hidden;
+                background-color: @transparent_01;
+                .one, .two {
+                    visibility: hidden;
+                }
+                .bar {
+                    background-color: @transparent_02;
+                    // border: 1.2pt solid grey; // kills it
+                }
+                .bar:hover {
+                    background-color: @transparent_05;
+                }
+            }
+            .ScrollBar.h {
+                .bar {
+                    width: 30px !important;
+                    cursor: ew-resize;
+                }
+            }
+            .ScrollBar.v {
+                .bar {
+                    height: 30px !important;
+                    cursor: ns-resize;
+                }
+            }
+        }
+
+        .inner {
+            overflow: hidden;
+            width: 1000px;
+            padding: 20px;
+        }
+        .inner2 {
+            // width: 2000px;
+            // height: 1500px;
+            background-image: url(/color-wheel.svg);
+            background-size: cover;
+        }
+        .svg {
+            width: 2500px;
+            height: 2500px;
+        }
+    }
 }
-.ScrollView {
-    flex: 1;
-    // flex-grow: initial;
-    margin: 20px 20px;
-    border: 2px solid grey;
-    width: 200px !important;
-    height: 150px !important;
+
+:global(#sliderGroup) {
+    border-color: green;
 }
-.inner {
-    width: 2000px;
-    height: 1500px;
-    background-image: url(/Arizona_free.jpg);
-    background-size: cover;
+
+.sliderBox {
+    margin-bottom: 8px;
+    height: 20px;
+    border: 1px dotted grey;
+    display: flex;
+    .label {
+        flex: 2;
+        padding-left: 4px;
+    }
+    .slider {
+        flex: 7;
+        background: linear-gradient(to right, green, yellow, red);
+        :global(.one) {
+            // background-color: gold !important;
+            visibility: hidden;
+        }
+        :global(.bar) {
+            width: 4px !important;
+            background-color: #777 !important;
+            cursor: ew-resize;
+        }
+        :global(.two) {
+            background-color: @ctrl-bg-color; //  !important
+            // visibility: hidden;
+        }
+    }
+    .value {
+        flex: 1;
+        border-left: 1px dotted grey;
+        text-align: right;
+        padding-right: 8px;
+    }
 }
-.inner2 {
-    width: 2000px;
-    height: 1500px;
-    background-image: url(/color-wheel.svg);
-    background-size: cover;
+
+.lvSlider {
+    height: 20px;
+
+    :global(.label) {
+        padding-left: 20px;
+    }
+    :global(.slider) {
+        background: linear-gradient(to right, green, yellow, red);
+    }
+    :global(.one) {
+        // background-color: gold !important;
+        visibility: hidden;
+    }
+    :global(.bar) {
+        width: 4px !important;
+        // border: 1px solid #555;
+        // border-radius: 50%;
+        background-color: #777 !important;
+        cursor: ew-resize;
+    }
+    :global(.two) {
+        background-color: @ctrl-bg-color; //  !important
+        // visibility: hidden;
+    }
+}
+
+.code {
+    height: inherit;
+    font-size: 9pt;
+    pre {
+        height: inherit;
+        box-shadow: none !important;
+        border-left-width: 0 !important;
+    }
+}
+
+.TabView {
+    // height: inherit;
+    :global(.ButtonBar) {
+        border-bottom: 1px solid lightgrey;
+        :global(.Button) {
+            padding: 2px 6px 3px;
+            font-size: 10pt;
+            color: grey;
+        }
+        :global(.Button.selected) {
+            font-weight: bold;
+            color: hsl(0, 0%, 30%);
+        }
+    }
+    :global(.Tabs) {
+        height: 100%;
+        :global(.Tab) {
+            height: 100%;
+            padding:20px;
+        }
+    }
+}
+
+:global(.SplitView) {
+    :global(.bar) {
+        background-color: #bbb;
+    }
+    :global(.bar:hover) {
+        background-color: #777;
+    }
+    :global(> .bar) {
+        background-color: #eee;
+    }
+    :global(> .bar:hover) {
+        background-color: #bbb;
+    }
+}
+@code-height: 300px;
+:global(.SplitView.h) {
+    height: @code-height;
+    // display: float;
+    // display:inline-block;
+    :global(.one), :global(.two) {
+        // min-width: 100px;
+        // float: left;
+    }
+    .code {
+        pre {
+            margin: 0;
+            // min-width: 100px;
+            // max-height: @code-height;
+        }
+    }
+    :global(.bar) {
+        width: 50px;
+    }
+    :global(> .bar) {
+        // float: left;
+        width: 8px;
+        cursor: ew-resize;
+    }
+}
+:global(.SplitView.v) {
+    height: 600px;
+    .code {
+        pre {
+            margin: 0;
+            max-height: none;
+        }
+    }
+    :global(> .bar) {
+        cursor: ns-resize;
+    }
+}
+
+// Splitview, last Tab
+.abcde {
+    height: inherit;
+    width: inherit;
+    .code {
+        font-size: 9pt;
+        pre {
+            box-shadow: none !important;
+            border-left-width: 0 !important;
+        }
+    }
+
+}
+
+#SplitViewNative {
+    > div {
+        float: left;
+    }
+    // :after {
+    //     content: '';
+    //     clear: both;
+    // }
 }

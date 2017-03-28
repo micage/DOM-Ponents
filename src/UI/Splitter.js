@@ -5,12 +5,39 @@
         var settings = $.extend({
             horizontal: true, // otherwise layout is vertical
             thumbSize: 4,
-            ratio: 0.5,
-            onSplit: function() {}
+            ratio: 0.5
         }, options );
 
-        var self = this;
+        const onresize = function() {
+            let box = $(this);
+            let divs = box.children();
+            let one = $(divs[0]);
+            let bar = $(divs[1]);
+            let two = $(divs[2]);
+            let ratio = parseFloat(box.attr('ratio'));
 
+            if (settings.horizontal) {
+                let boxHeight = box.height();
+                one.height(boxHeight);
+                bar.height(boxHeight);
+                two.height(boxHeight);
+                let boxWidth = box.width();
+                one.width(Math.floor((boxWidth - bar.width()) * ratio));
+                two.width(boxWidth - one.width() - bar.width());
+            }
+            else { // vertical
+                let boxWidth = box.width();
+                one.width(boxWidth);
+                bar.width(boxWidth);
+                two.width(boxWidth);
+                let boxHeight = box.height();
+                one.height(Math.floor((boxHeight - bar.height()) * ratio));
+                two.height(boxHeight - one.height() - bar.height());
+            }
+            box.trigger('ratio', ratio);
+        };
+
+        var self = this;
         // 'this' is an array of objects that matches the given selector, e.g. 'split-box'
         this.each(function() {
             // 'this' here is the actual DOM element that corresponds to the visited jquery object !!!
@@ -19,21 +46,16 @@
                 return;
             }
 
+            this.onresize = onresize.bind(this);
+
             // insert bar in between one and two
             let box = $(this);
             let one = divs.first().addClass('one');
             let two = divs.last().addClass('two').detach();
-            let bar = $('<div>').addClass(settings.barClass ? settings.barClass : 'bar');
+            let bar = $('<div>').addClass('bar');
             $(this).append(bar, two);
 
-            box.attr('ratio', settings.ratio);
-
-            // some handy definitions
-            let boxLeft = box.offset().left;
-            let boxTop = box.offset().top;
-
             if (settings.horizontal) {
-                // set inline-block style
                 $(this).children('div').each(function(i, o) {
                     $(o).css('float', 'left');
                 });
@@ -89,6 +111,9 @@
             });
 
             const onMouseMove = function(evt) {
+                self[0].dispatchEvent(new Event('ScrollStart', { "bubbles":true }));
+                // $(self).trigger('scrollStart');
+
                 if (settings.horizontal) {
                     let oneWidth = evt.clientX - box.offset().left - barX;
                     let twoWidth = box.width() - oneWidth - bar.width();
@@ -106,7 +131,7 @@
                     box.attr('ratio', one.width()/(box.width() - bar.width()) );
                 }
                 else {
-                    let oneHeight = evt.clientY - boxTop - barY;
+                    let oneHeight = evt.clientY - box.offset().top - barY;
                     let twoHeight = box.height() - oneHeight - bar.height();
                     if (twoHeight < 0) {
                         twoHeight = 0;
@@ -145,6 +170,8 @@
             };
 
             const onMouseUp = function(evt) {
+                self[0].dispatchEvent(new Event('ScrollStop', { "bubbles":true }));
+                // $(self).trigger('scrollStop');
                 document.body.style.cursor = cursorBackup;
                 window.removeEventListener('mousemove', onMouseMove);
                 window.removeEventListener('mouseup', onMouseUp);
@@ -152,25 +179,9 @@
 
         });
 
-        $(window).resize(function(evt) {
-            self.each(function() {
-                let box = $(this);
-                let divs = box.children();
-                let one = $(divs[0]);
-                let bar = $(divs[1]);
-                let two = $(divs[2]);
-                let ratio = box.attr('ratio');
 
-                if (settings.horizontal) {
-                    one.width(Math.floor((box.width() - bar.width()) * ratio));
-                    two.width(box.width() - one.width() - bar.width());
-                }
-                else {
-                    one.height(Math.floor((box.height() - bar.height()) * ratio));
-                    two.height(box.height() - one.height() - bar.height());
-                }
-                box.trigger('ratio', ratio);
-            });
+        $(window).resize(function(evt) {
+            self.each(onresize);
         });
 
         return this;

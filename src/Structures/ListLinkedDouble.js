@@ -221,25 +221,35 @@ class ListLinkedDouble {
         }
     }
 
-    /** calls function cb for each object in the list and
-    @param cb: (obj: any) => boolean;
-    @returns {*},
+    /** calls function cb for each object in the list and returns true for the
+    first element that fulfills the condition function otherwise false
+    @param cb: (obj: any) => any;
+    @returns boolean
     */
     some(cb) {
         for (var item = this._head; item; item = item.next) {
             if (cb(item.data)) {
-                return item.data;
+                return true;
             }
         }
+        return false;
+    }
+
+    contains(obj) {
+        for (var item = this._head; item; item = item.next) {
+            if (item.data === obj) return true;
+        }
+        return false;
     }
 
     /**
-    * @param cb: (obj: any) => boolean;
+    @param cb: (obj: any) => boolean;
+    @returns ListLinkedDouble,
     */
     filter(cb) {
         var list = new ListLinkedDouble();
         for (var item = this._head; item; item = item.next) {
-            if (cb(item.data)) {
+            if (cb(item.data) !== false ) {
                 list.tail = item.data;
             }
         }

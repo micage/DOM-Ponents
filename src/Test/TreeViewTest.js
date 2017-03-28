@@ -4,8 +4,8 @@
 import ObjectTree from "../Structures/ObjectTree";
 // import Console from "../UI/Console";
 import TreeView from "../UI/TreeView";
-import "./TreeView2Test.less";
-import Pug from "pug!./TreeView2Test.pug";
+import "./ExplorerView.less";
+import Pug from "pug-loader!./ExplorerView.pug";
 import { human, data1, afterfx } from "./TreeViewTestData";
 
 const __FILE = "TreeViewTest";

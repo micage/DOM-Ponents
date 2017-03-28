@@ -25,7 +25,6 @@ const _NODE_CLASS = '.tree-node';
 const NODE_LABEL_CLASS = 'tree-node-label';
 const _NODE_LABEL_CLASS = '.tree-node-label';
 
-
 /**
  *          htmlElement.classList.add('over');
  */

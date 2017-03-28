@@ -41,6 +41,8 @@ $('# ' + treeBoxId + ' .button-bar > a').click((ev) => {
     }
 });
 
+
+// https://maps.googleapis.com/maps/api/geocode/json?address=10 downing st, london
 let url1 = 'http://www.omdbapi.com/?plot=short&y=2001&s=Star&r=json',
     url2 = 'https://api.randomuser.me/',
     url3 = 'https://api.github.com/users/micage/repos',

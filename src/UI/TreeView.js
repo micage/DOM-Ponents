@@ -1,7 +1,7 @@
 /*eslint no-unused-vars: "off"*/
 
 // import 'jquery'; // provided by webpack.ProvidePlugin
-import '../../lib/font-awesome.css';
+import 'font-awesome/css/font-awesome.css';
 import './TreeView2.less';
 import 'font-awesome/css/font-awesome.css';
 

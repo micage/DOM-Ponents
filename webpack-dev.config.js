@@ -6,7 +6,7 @@ process.env.DEBUG = true;
 
 module.exports = {
     entry: [
-        './app.js'
+        './app2.js'
     ],
     context: path.join(__dirname, 'src'),
     devServer: {
@@ -67,9 +67,18 @@ module.exports = {
                             modules: true,
                             localIdentName: '[name]__[local]--[hash:base64:5]' } // BEM-Style
                     },
-                    { loader: "less-loader", options: { relativeUrls: false } },
+                    {
+                        loader: "less-loader",
+                        options: { relativeUrls: false }
+                    },
                 ],
-                exclude: "/\.(png|jpg|svg)?$/"
+                //exclude: "/\.(png|jpg|svg)?$/"
+            },
+            {
+                test: /\.(css)$/,
+                use: [
+                    "style-loader", "css-loader"
+                ]
             },
             {
                 test: /\.jsx?$/,
@@ -91,14 +100,14 @@ module.exports = {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "file-loader"
             },
-            // {
-            //     test: /\.(png|jpg)?$/,
-            //     loader: "file-loader"
-            // },
             {
-                test: /\.jpg/,
-                loader: "file-loader!url-loader?limit=10000&minetype=image/jpg"
+                test: /\.(png|jpg)?$/,
+                loader: "file-loader"
             },
+            // {
+            //     test: /\.jpg/,
+            //     loader: "file-loader!url-loader?limit=10000&minetype=image/jpg"
+            // },
             {
                 test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: "url-loader?limit=10000&mimetype=image/svg+xml"

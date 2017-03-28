@@ -1,9 +1,7 @@
-import {
-    ListLinkedDouble,
-    ListItemDouble
-} from "../Structures/ListLinkedDouble";
+import ListLinkedDouble from "../Structures/ListLinkedDouble";
+import ListItemDouble from "../Structures/ListItemDouble";
 
-import { XArray } from "../Structures/XArray";
+import XArray from "../Structures/XArray";
 import MArray from "../Structures/MArray";
 import Console from "../UI/Console";
 
@@ -14,39 +12,31 @@ let fruits = new XArray(
     //"Strawberry", "Pear", "Kiwi", "Melone",
 );
 
-const MakeItems =
-    (arr: Array<string>): Array<ListItemDouble> => MArray.from({length: arr.length},
-        (v: void, i: number): ListItemDouble => new ListItemDouble(arr[i])
-    );
-
-function listFromArray(arrayOfNames: Array<string>): ListLinkedDouble {
+function listFromArray(arrayOfNames) {
     let list = new ListLinkedDouble();
-    let items = MakeItems(arrayOfNames);
-    items.forEach((item: ListItemDouble) => { list.tail = item; });
-    Console.log("toString: " + list.toString());
+    fruits.forEach( fruit => { list.tail = fruit; } );
+    Console.log("List from XArray: " + list.toString());
     Console.log("should be: " + arrayOfNames.join(", ") + "\n\n");
     return list;
 }
 
-function findItemTest(list: ListLinkedDouble, itemName: string) {
-    let item = list.find(itemName);
-    Console.log("find: " + itemName + " -> "+ item.toString());
-    Console.log("should be: " + fruits.find((n: ListItemDouble): boolean => n===itemName) + "\n\n");
+function findItemTest(list, itemName) {
+    Console.log("contains " + itemName + ": " + fruits.some((n) => n===itemName));
+    let result = list.some((item) => itemName === item);
+    Console.log("should be: " + result + "\n\n");
 }
 
 function removeTest(list: ListLinkedDouble, itemName: string) {
-    let item = list.find(itemName);
     Console.log("remove: " + itemName);
     Console.log("from: " + list.toString());
-    list.remove(item);
+    list.remove(itemName);
     Console.log("results in: " + list.toString());
     fruits = fruits.without(itemName);
     Console.log("should be: " + fruits.join(", ") + "\n\n");
 }
 
 function insertTest(list: ListLinkedDouble, itemName: string) {
-    let item = new ListItemDouble(itemName);
-    list.insertBefore(item);
+    list.insertBefore(itemName);
     Console.log("insertBefore: " + itemName);
     Console.log("results in: " + list.toString());
     fruits = fruits.insertBefore(itemName);
@@ -56,8 +46,8 @@ function insertTest(list: ListLinkedDouble, itemName: string) {
 //======================================================================
 let fruitsList = listFromArray(fruits);
 
-
 findItemTest(fruitsList, "Apple");
+findItemTest(fruitsList, "Papaya");
 
 removeTest(fruitsList, "Mango");
 removeTest(fruitsList, "Cherry");

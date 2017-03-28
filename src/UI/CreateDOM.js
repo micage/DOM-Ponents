@@ -74,7 +74,7 @@ const createDom = (json) => {
             console.log('skipped: ' + node.id);
         }
         else {
-            skipDepth = 0;
+            skipDepth = 0; // reset skipping
             elem = createElement(parent, node);
         }
 

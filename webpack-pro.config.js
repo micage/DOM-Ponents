@@ -32,7 +32,7 @@ const config = {
         ]),
 
         new webpack.DefinePlugin({
-            __DEBUG__: process.env.DEBUG,
+            __DEBUG__: false,
             "process.env": {
                 NODE_ENV: JSON.stringify("production")
             }

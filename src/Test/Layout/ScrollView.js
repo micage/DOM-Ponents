@@ -1,9 +1,17 @@
 import styles from "./ScrollView.less";
 import "../../UI/Splitter";
 import createDOM from "../../UI/CreateDOM";
+import { Div } from "../../DOM/Element";
+
+let options = {
+    horizontal: true,
+    thumbSize: 30,
+    ratio: 0.5,
+    barClass: styles.bar
+};
 
 // define DOM nodes as json
-let scrollView = { class: styles.scrollView,
+let scrollView_old = { class: styles.scrollView,
     frame: { class: styles.frame,
         view: { class: styles.view }
     },
@@ -20,20 +28,13 @@ let scrollView = { class: styles.scrollView,
     }
 };
 
-let options = null;
-
-const Create = (args) => {
-    options = Object.assign({
-        horizontal: true,
-        thumbSize: 30,
-        ratio: 0.5,
-        barClass: styles.bar
-    }, args.props);
+const Create_old = (args) => {
+    let props = Object.assign(options, args.props);
 
     let dom = createDOM(scrollView);
     let view = dom.children[0].children[0];
 
-    for (let k in args.children) {
+    for (let k in props.children) {
         let child = args.children[k];
         let childDOM = createDOM(child)
         view.appendChild(childDOM);
@@ -45,6 +46,25 @@ const Create = (args) => {
     // }
 
     return dom;
+};
+
+let scrollView = Div({ class: styles.app, children: [
+    Div({ class: styles.header, children: [
+        Div({ class: styles.view })
+    ]}),
+    Div({ class: styles.v, children: [
+        Div({ class: styles.one }),
+        Div({ class: styles.two })
+    ]}),
+    Div({ class: styles.h, children: [
+        Div({ class: styles.one }),
+        Div({ class: styles.two })
+    ]}),
+    Div({ class: styles.corner })
+]};
+
+const Create = (args) => {
+    return scrollView;
 };
 
 // after document is ready

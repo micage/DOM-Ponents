@@ -5,11 +5,11 @@ import ObjectTree from "../Structures/ObjectTree";
 import Console from "../UI/Console";
 import TreeView2 from "../UI/TreeView2";
 import "./ExplorerView.less";
-import Pug from "pug!./ExplorerView.pug";
+import Pug from "pug-loader!./ExplorerView.pug";
 import { human, data1, afterfx } from "./TreeViewTestData";
 import "../UI/Splitter";
 
-const __FILE = "TreeView2Test";
+const __FILE = "ExplorerView";
 
 //==============================================================================
 // print tree to debug console
@@ -28,7 +28,7 @@ const NodePrinter = node => {
 // create a JSON traversor
 let obj = Object.assign({}, afterfx, human);
 let objectTree = new ObjectTree(obj);
-//objectTree.traverse(NodePrinter);
+objectTree.traverse(NodePrinter);
 
 //==============================================================================
 // HTML
