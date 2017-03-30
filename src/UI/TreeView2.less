@@ -24,23 +24,17 @@
 
     .mmm-treeview {
         cursor: default;
-        // display: inline-block;
-
-        > ul {
-            margin-left: -10px;
-        }
         ul {
             list-style-type: none;
         }
-        li.tree-node {
-            margin-left: 16px;
-        }
-        i.fa {
-            display: inline;
-            margin-right: 4px;
-            padding: 2px;
-            min-width: 10px;
-            text-align: center;
+        li {
+            i.fa {
+                float: left;
+                padding-right: 8px;
+                // padding: 2px;
+                min-width: 10px;
+                text-align: center;
+            }
         }
 
         .not-visible {
@@ -53,6 +47,11 @@
             background-color: rgb(200, 200, 220);
         }
         .tree-node-label {
+            display: block;
+            i.fa {
+            }
+        }
+        .tree-node-label:hover {
         }
         .tree-node-label.selected {
         }

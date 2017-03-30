@@ -1,4 +1,5 @@
-/*eslint no-unused-vars: "off"*/
+// TODO: get jquery out of the code, asap!
+
 
 // import 'jquery'; // provided by webpack.ProvidePlugin
 import './TreeView2.less';
@@ -24,6 +25,8 @@ const NODE_CLASS = 'tree-node';
 const _NODE_CLASS = '.tree-node';
 const NODE_LABEL_CLASS = 'tree-node-label';
 const _NODE_LABEL_CLASS = '.tree-node-label';
+
+const NODE_INDENTATION = 16; // pixels
 
 /**
  *          htmlElement.classList.add('over');
@@ -77,7 +80,7 @@ const _NODE_LABEL_CLASS = '.tree-node-label';
     Multi-Select option
 
     undo/redo
-*///
+*/
 
 /** Todo:
 reconstruct:
@@ -121,7 +124,7 @@ const _handleClickTree = function(ev) {
     // possible srcElement: tree, listitem, label, icon
 
     if ( clickedElement.hasClass(ICON_CLASS) ) {
-        this.toggle(clickedElement.parent()); // toggle expects a listitem
+        this.toggle(clickedElement.parent().parent()); // toggle expects a listitem
     }
     else if ( clickedElement.hasClass(NODE_LABEL_CLASS) ) {
         _onSelect.call(this, ev); // toggle expects a label, already in ev.target
@@ -308,8 +311,9 @@ const _handleDragLeave = function(ev) {
 };
 
 const _handleDrop = function(ev) {
-    // ev.target is a label
     // this._draggedNode is a label, it's parent is a list item
+    // ev.target is the drop target
+
     let $srcItem = $(this._draggedNode).parent(); // $('li.tree-node')
     let $dstItem;
 
@@ -367,7 +371,7 @@ const _onSelect = function(ev) { // ev.target = $('li > span')
 };
 
 const _createItem = function(node) {
-    let $item = $('<li>')
+    let $li = $('<li>')
         .data("node", node)
         // .attr("node-depth", node.depth)
         // .attr("role", 'item')
@@ -378,27 +382,41 @@ const _createItem = function(node) {
     let $span = $('<span>').addClass(NODE_LABEL_CLASS)
         .text(this._options.onLabel(node))
         .attr("draggable", 'true')
-        .appendTo($item);
+        .css("padding-left", (node.depth - 1) * NODE_INDENTATION)
+        .appendTo($li)
+        ;
 
-    return $item;
+    if(node.hasChildren) {
+        $('<i>')
+            .addClass(ICON_CLASS)
+            .addClass(ICON_COLLAPSED_CLASS)
+            .appendTo($span)
+            ;
+    }
+
+    return $li;
 };
 
-const _addItem = function($srcItem, $dstItem) {
-    let $ul = $dstItem.children('ul'); // get the group
+// swiss army man
 
-    if ($ul.length === 0) {
-        // destination item has no children, so create a group
-        $ul = $('<ul>')
+// $srcItem = drag source, $dstItem = drop target
+const _addItem = function($srcItem, $dstItem) {
+    let $dstGroup = $dstItem.children('ul'); // get the group element
+
+    // destination item has no children, so create a group
+    if ($dstGroup.length === 0) {
+        $dstGroup = $('<ul>')
             .attr('role', 'group')
             .appendTo($dstItem);
 
         // initially all parent nodes are collapsed
         $dstItem.addClass(NODE_COLLAPSED_CLASS);
 
+        // icon is child of label
         $('<i>')
             .addClass(ICON_CLASS)
             .addClass(ICON_COLLAPSED_CLASS)
-            .prependTo($dstItem);
+            .prependTo($dstItem.children('span'));
     }
 
     // target item is not collapsed so make the new child visible
@@ -406,7 +424,7 @@ const _addItem = function($srcItem, $dstItem) {
         $srcItem.toggleClass(NODE_INVISIBLE_CLASS);
     }
 
-    $srcItem.appendTo($ul);
+    $srcItem.appendTo($dstGroup);
 };
 
 const _init = function(rootNode, options) {
@@ -443,11 +461,6 @@ const _init = function(rootNode, options) {
             // initially all parent nodes are collapsed
             $li.addClass(NODE_COLLAPSED_CLASS);
 
-            $('<i>')
-                .addClass(ICON_CLASS)
-                .addClass(ICON_COLLAPSED_CLASS)
-                .prependTo($li);
-
             $ul = $('<ul>') // new parent
                 .attr('role', 'group')
                 .appendTo($li);
@@ -474,15 +487,19 @@ const _init = function(rootNode, options) {
     I will not juggle with WeakMap or closures. It has to be a
     language feature. In case of class (static) variables or private
     functions the closure mechanism works pretty well - although ugly.
-    Because each call to a private closure function has to be bound:
+    Because for each call to a private closure function the calling context
+    has to be bound:
         privateMethod.bind(this)(args)
-    That leads to the situation that the lion's share of the
-    implementation happens outside of the class. That's not
-    really good. Most of the time this feels like a workaround.
+    That leads to the situation where the lion's share of the
+    implementation happens outside of the class body. That's no good.
+    Most of the time this feels like a workaround.
+    What's the profit of having a class while it isn't?
+    To fool coders coming from real object-oriented languages by
+    making them feel comfortable while they are sitting on a powder cag.
 */
 class TreeView2 {
-    constructor($parent, rootNode, options) { // $parent = '[div.mmm-tree]'
-        this._$parent = $parent;
+    constructor(parent, rootNode, options) { // parent = 'div.mmm-tree'
+        this._$parent = $(parent);
         this._selectedItem = null;
         this._draggedNode = null;
         this._options = {
@@ -541,7 +558,7 @@ class TreeView2 {
     toggle($item) {
         $item.toggleClass(NODE_COLLAPSED_CLASS);
 
-        let $icon = $item.children('i.fa');
+        let $icon = $item.children('span').children('i.fa');
         $icon.toggleClass(ICON_EXPANDED_CLASS);
         $icon.toggleClass(ICON_COLLAPSED_CLASS);
 

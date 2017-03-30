@@ -1,4 +1,4 @@
-import "style-loader!css-loader!normalize.css";
+import "normalize.css";
 import styles from "./app.less";
 import ScrollView from "./DOM/ScrollView";
 import ScrollBar from "./DOM/ScrollBar";
@@ -7,6 +7,7 @@ import TabView from "./DOM/TabView";
 import Tab from "./DOM/Tab";
 import Code from "./DOM/Code";
 import SplitView from "./DOM/SplitView";
+import TreeView from "./DOM/TreeView";
 import { Div, Img, A, P, Pre, Span } from "./DOM/Elements";
 
 // import some text files
@@ -15,6 +16,23 @@ import text_01 from "raw-loader!../texts/text_01.html";
 import app_src0 from "!raw-loader!./app.js";
 import app_src1 from "!raw-loader!./DOM/ScrollView.js";
 import app_src2 from "!raw-loader!./DOM/LabeledValueSlider.js";
+
+// mocking data
+import { human, data1, afterfx } from "./Test/TreeViewTestData";
+
+/* TODO:
+    - TreeView:
+        onselect show something in the dataview
+        make drag and drop optional
+
+    - ScrollView:
+        make bar size proportional to visible/complete content
+
+    - SplitView:
+        fix ratio on start
+        if min-width is reached disable onratio
+
+*/
 
 //=============================================================================
 let code = "Tab({ title: 'ScrollBar Demo', children:[ \n\
@@ -107,17 +125,24 @@ let root = Div({ id: 'app', class: styles.app + ' clearfix', children: [
                 ]}),
                 Code({ src: app_src2, srcType: 'js', class: styles.code })
             ]}),
-            Tab({ buttonText: 'ScrollBar Demo', children:[
-                P({ innerText: 'Mainboard Configuration', children: [
-                    LabeledValueSlider({ class: styles.lvSlider, labelText: 'Core Voltage', min: 1.0, max: 1.4, val: 1.1, units: 'V' }),
-                    LabeledValueSlider({ class: styles.lvSlider, labelText: 'RAM Voltage', min: 1.8, max: 2.5, val: 2.0, units: 'V' })
-                ], style: { 'margin-bottom': '18px', 'line-height': '20px' } }),
-                P({ innerText:'Source for this Tab'}),
-                Code({ src: code, srcType: 'js', class: styles.code }),
-                P({ innerText:'Source for the LabeledValueSlider'}),
-                Code({ src: app_src2, srcType: 'js', class: styles.code }),
+            // Tab({ buttonText: 'ScrollBar Demo', children:[
+            //     P({ innerText: 'Mainboard Configuration', children: [
+            //         LabeledValueSlider({ class: styles.lvSlider, labelText: 'Core Voltage', min: 1.0, max: 1.4, val: 1.1, units: 'V' }),
+            //         LabeledValueSlider({ class: styles.lvSlider, labelText: 'RAM Voltage', min: 1.8, max: 2.5, val: 2.0, units: 'V' })
+            //     ], style: { 'margin-bottom': '18px', 'line-height': '20px' } }),
+            //     P({ innerText:'Source for this Tab'}),
+            //     Code({ src: code, srcType: 'js', class: styles.code }),
+            //     P({ innerText:'Source for the LabeledValueSlider'}),
+            //     Code({ src: app_src2, srcType: 'js', class: styles.code }),
+            // ]}),
+            Tab({ buttonText: 'TreeView Demo', id: 'TreeViewDemo', children:[
+                P({ innerText:'TreeView inside a SplitView, work in progress, drag and drop working'}),
+                SplitView({ horizontal: true, ratio: 0.2, children: [
+                    TreeView({ json: human }),
+                    Div({ innerHTML: text_01, class: 'dataview' })
+                ]})
             ]}),
-            Tab({ buttonText: 'SplitView Demo native', id: 'SplitViewNative', class: styles.SplitViewNative + ' clearfix', children:[
+            Tab({ buttonText: 'SplitView Demo native', id: 'SplitViewNativeDemo', class: styles.SplitViewNative + ' clearfix', children:[
                 P({ innerText: 'SplitView (native, horizontal)' }),
                 SplitView({ horizontal: true, children: [
                     Code({ src: app_src1, srcType: 'js', class: styles.code }),

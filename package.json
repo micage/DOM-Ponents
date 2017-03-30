@@ -56,6 +56,7 @@
   "scripts": {
     "and": "webpack --config webpack-pro.config.js --progress --colors -p && cordova run android",
     "dev": "webpack-dev-server --config webpack-dev.config.js --progress --colors --define process.env.NODE_ENV='development'",
+    "dev2": "webpack-dev-server --config webpack-dev2.config.js --progress --colors --define process.env.NODE_ENV='development'",
     "ios": "webpack --config webpack-pro.config.js --progress --colors -p && cordova run ios",
     "pro": "webpack --config webpack-pro.config.js --progress --colors -p --define process.env.NODE_ENV='production'",
     "start": "webpack-dev-server --config webpack-dev.config.js --progress --colors"

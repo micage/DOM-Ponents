@@ -43,49 +43,4 @@ $( () => {
     });
 });
 
-// experiment
-// $( () => {
-//     var target = document.querySelectorAll('.scrollBar');
-//
-//     // create an observer instance
-//     var observer = new MutationObserver(function(mutations) {
-//       mutations.forEach(function(mutation) {
-//         console.log(mutation.type);
-//       });
-//     });
-//
-//     // configuration of the observer:
-//     // var config = { attributes: true, childList: true, characterData: true };
-//
-//     // pass in the target node, as well as the observer options
-//     observer.observe(target, { attributes: true });
-//
-//     // later, you can stop observing
-//     // observer.disconnect();
-// });
-
-
-// $( () => {
-//     var scrollBar  = document.querySelector('.scrollBar');
-//     var previousValue = scrollBar.style.display;
-//
-//     var observer = new MutationObserver( function(mutations){
-//         mutations.forEach( function(mutation) {
-//             if (mutation.attributeName !== 'style') return;
-//             var currentValue = mutation.target.style.display;
-//             if (currentValue !== previousValue) {
-//                if (previousValue === "none" && currentValue !== "none") {
-//                  console.log("display none has just been removed!");
-//                }
-//
-//                previousValue = mutation.target.style.display;
-//             }
-//         });
-//     });
-//
-//     var config = { attributes: true, subtree: true, characterData: false };
-//     observer.observe(scrollBar, config);
-// });
-
-
 export default _Create;

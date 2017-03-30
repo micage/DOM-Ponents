@@ -13,7 +13,7 @@ const __FILE = "ExplorerView";
 
 //==============================================================================
 // print tree to debug console
-// tree visitor with stop condition
+// tree visitor with stop condition, return false and traversal stops
 const NodePrinter = node => {
     let tabs = Array.from({length: node.depth}, () => "+- ").join("");
 

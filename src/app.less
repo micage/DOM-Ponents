@@ -358,3 +358,34 @@ body {
     //     clear: both;
     // }
 }
+
+:global {
+    #TreeViewDemo {
+        background-color: hsl(230, 0%, 96%);
+        font-size: 11pt;
+        p {
+            margin-bottom: 10px;
+        }
+        .SplitView {
+            border: 1px solid hsl(0, 0, 80%);
+            height: 200px;
+            .mmm-treeview {
+                padding: 10px;
+                height: inherit;
+                overflow: auto;
+                background-color: hsl(100, 25%, 95%);
+                .selected {
+                    background-color: hsl(230, 65%, 90%);
+                }    
+                .tree-node-label:hover {
+                    background-color: hsl(130, 65%, 90%);
+                }    
+            }
+            .dataview {
+                height: inherit;
+                overflow: auto;
+                padding: 10px;
+            }
+        }
+    }
+}
