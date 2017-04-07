@@ -3,7 +3,7 @@
 @app-bg-color: hsl(20, 10%, 90%);
 @header-bg-color: firebrick; // hsl(20, 70%, 30%);
 @content-bg-color: hsl(20, 10%, 90%);
-@footer-bg-color: firebrick; // hsl(20, 70%, 30%);
+@footer-bg-color: #E85C42; // E85C42
 @ctrl-bg-color: hsl(230, 5%, 95%);
 @ctrl-border-color: hsl(230, 5%, 75%);
 @header-height: 150px;
@@ -123,12 +123,12 @@ body {
     .ScrollView:global(.scrolling), .ScrollView:hover {
         :global {
             .ScrollBar { visibility: visible; }
-            .ScrollBar:hover { background-color: @transparent_02; }
+            .ScrollBar:hover { background-color: #aaa; }
         }
     }
     .ScrollView:global(.scrolling) :global(.ScrollBar) {
-        background-color: @transparent_02;
-        :global(.bar) { background-color: @transparent_05; }
+        background-color: #aaa;
+        :global(.bar) { background-color: #eee; }
     }
 
     .ScrollView {
@@ -142,16 +142,16 @@ body {
         :global {
             .ScrollBar {
                 visibility: hidden;
-                background-color: @transparent_01;
+                background-color: #aaa;
                 .one, .two {
                     visibility: hidden;
                 }
                 .bar {
-                    background-color: @transparent_02;
+                    background-color: #eee;
                     // border: 1.2pt solid grey; // kills it
                 }
                 .bar:hover {
-                    background-color: @transparent_05;
+                    background-color: #fff;
                 }
             }
             .ScrollBar.h {
@@ -224,7 +224,7 @@ body {
     }
 }
 
-.lvSlider {
+.lvSliderH {
     height: 20px;
 
     :global(.label) {
@@ -247,6 +247,51 @@ body {
     :global(.two) {
         background-color: @ctrl-bg-color; //  !important
         // visibility: hidden;
+    }
+}
+
+.lvSliderV {
+    display: inline-flex;
+    flex-direction: column;
+    margin: 4px;
+    height: 200px;
+    width: 64px;
+    border: 2px solid grey;
+    border-radius: 6px;
+    overflow: hidden; 
+
+    > * {
+        display: block;
+    }
+
+    :global {
+        font-size: 8pt;
+        .label {
+            text-align: center;
+            padding:2px;
+            border-bottom: 2px solid grey;
+        }
+        .slider {
+            flex: 7;
+            width: 20px;
+            margin: auto;
+            background: linear-gradient(to top, green, yellow, red);
+            .one {
+                background-color: @ctrl-bg-color; //  !important
+            }
+            .bar {
+                height: 4px !important;
+                background-color: #777 !important;
+                cursor: ns-resize;
+            }
+            .two {
+            }
+        }
+        .value {
+            text-align: center;
+            padding:2px;
+            border-top: 2px solid grey;
+        }
     }
 }
 
@@ -290,21 +335,21 @@ body {
     :global(.bar:hover) {
         background-color: #777;
     }
-    :global(> .bar) {
+    > :global(.bar) {
         background-color: #eee;
     }
-    :global(> .bar:hover) {
+    > :global(.bar:hover) {
         background-color: #bbb;
     }
 }
+
 @code-height: 300px;
 :global(.SplitView.h) {
     height: @code-height;
     // display: float;
     // display:inline-block;
     :global(.one), :global(.two) {
-        // min-width: 100px;
-        // float: left;
+        background-color: inherit;
     }
     .code {
         pre {
@@ -316,12 +361,13 @@ body {
     :global(.bar) {
         width: 50px;
     }
-    :global(> .bar) {
+    > :global(.bar) {
         // float: left;
         width: 8px;
         cursor: ew-resize;
     }
 }
+
 :global(.SplitView.v) {
     height: 600px;
     .code {
@@ -330,7 +376,7 @@ body {
             max-height: none;
         }
     }
-    :global(> .bar) {
+    > :global(.bar) {
         cursor: ns-resize;
     }
 }
@@ -368,24 +414,37 @@ body {
         }
         .SplitView {
             border: 1px solid hsl(0, 0, 80%);
-            height: 200px;
+            height: 400px;
             .mmm-treeview {
                 padding: 10px;
                 height: inherit;
-                overflow: auto;
-                background-color: hsl(100, 25%, 95%);
                 .selected {
-                    background-color: hsl(230, 65%, 90%);
+                    // background-color: hsl(230, 65%, 90%);
                 }    
                 .tree-node-label:hover {
-                    background-color: hsl(130, 65%, 90%);
+                    background-color: hsl(130, 15%, 90%);
                 }    
             }
             .dataview {
                 height: inherit;
                 overflow: auto;
                 padding: 10px;
+                background-color: hsl(230, 0%, 96%);
             }
         }
     }
+
+    #VSliderDemo {
+
+        p {
+            margin-bottom: 10px;
+        }
+        p:first-child {
+            font-size: 12pt;
+        }
+        span {
+            color: hsl(0 ,0 ,15%);
+        }
+    }
 }
+

@@ -1,3 +1,5 @@
 platforms
 www
 plugins
+out
+.vscode

@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const buildPath = path.resolve(__dirname, '');
+const buildPath = path.resolve(__dirname, 'www');
 
 process.env.DEBUG = true;
 
@@ -10,13 +10,14 @@ module.exports = {
     ],
     context: path.join(__dirname, 'src'),
     devServer: {
+        // publicPath: 'www',
         contentBase: 'www', // Relative directory for base of server
-        host: '0.0.0.0', // Change to '0.0.0.0' for external facing server
+        host: 'localhost', // Change to '0.0.0.0' for external facing server
+        port: 3010, // Port Number
         hot: true, // Live-reload
         hotOnly: true,
         inline: true,
-        // noInfo: true,
-        port: 3010, // Port Number
+        noInfo: false,
     },
     devtool: 'source-map',
     output: {

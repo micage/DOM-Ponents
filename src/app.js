@@ -3,6 +3,7 @@ import styles from "./app.less";
 import ScrollView from "./DOM/ScrollView";
 import ScrollBar from "./DOM/ScrollBar";
 import LabeledValueSlider from "./DOM/LabeledValueSlider";
+import LabeledValueSliderV from "./DOM/LabeledValueSliderV";
 import TabView from "./DOM/TabView";
 import Tab from "./DOM/Tab";
 import Code from "./DOM/Code";
@@ -24,12 +25,14 @@ import { human, data1, afterfx } from "./Test/TreeViewTestData";
     - TreeView:
         onselect show something in the dataview
         make drag and drop optional
+        bug: hover highlight sometimes sticks on an item
+        make label editable
 
     - ScrollView:
+        improve default style
         make bar size proportional to visible/complete content
 
     - SplitView:
-        fix ratio on start
         if min-width is reached disable onratio
 
 */
@@ -46,7 +49,7 @@ let code = "Tab({ title: 'ScrollBar Demo', children:[ \n\
     Code({ src: app_src2, srcType: 'js', class: styles.code }), \n\
 ]})";
 
-let root = Div({ id: 'app', class: styles.app + ' clearfix', children: [
+let root = Div({ id: 'app', class: styles.app, children: [
     Div({ id: 'header', class: styles.header, children: [
         Div({ class: styles.title, innerText: 'Taming the DOM with Web(pack)-Components', children: [
             P({ innerText: 'A new approach to make web development easy. Or at least easier.', style: {'font-size': '12pt'} })
@@ -54,7 +57,9 @@ let root = Div({ id: 'app', class: styles.app + ' clearfix', children: [
     ]}),
     Div({ id: 'content', class: styles.content + ' clearfix', children: [
         TabView({ class: styles.TabView, children:[
-            Tab({ buttonText: 'App.js', id: 'appInfo', test: 'test', children:[
+            Tab({ id: 'appInfo', 
+                buttonText: 'App.js', 
+                children:[
                 P({ innerText: 'App.js' }),
                 P({ innerHTML: AppInfoText }),
                 Code({ src: app_src0, srcType: 'js', class: styles.code, style: { 'height': '400px' } })
@@ -107,49 +112,64 @@ let root = Div({ id: 'app', class: styles.app + ' clearfix', children: [
                 ]}),
                 Code({ class: styles.code, src: app_src1, srcType: 'js', style: { 'height': '200px' } })
             ]}),
-            Tab({ buttonText: 'LabeledValueSlider Demo', children:[
+            Tab({ id: 'HorizontalSliders', 
+                buttonText: 'Horizontal Sliders', 
+                children:[
                 P({ innerText: 'Some LabeledValueSlider in action' }),
                 Div({ id: 'sliderGroup', class: '', children: [
                     P({ children: [
-                        LabeledValueSlider({ class: styles.lvSlider, labelText: 'View Angle', min: -180, max: 180, val: 3.0, units: '°' }),
-                        LabeledValueSlider({ class: styles.lvSlider, labelText: 'Field Of View', min: 20, max: 90, val: 45.0, units: '°' }),
+                        LabeledValueSlider({ class: styles.lvSliderH, labelText: 'View Angle', min: -180, max: 180, val: 3.0, units: '°' }),
+                        LabeledValueSlider({ class: styles.lvSliderH, labelText: 'Field Of View', min: 20, max: 90, val: 45.0, units: '°' }),
                     ], style: { 'margin-top': '8px'} }),
                     P({ children: [
-                        LabeledValueSlider({ class: styles.lvSlider, labelText: 'Earth', min: -80, max: 60, val: 12.6, units: '℃' }),
-                        LabeledValueSlider({ class: styles.lvSlider, labelText: 'Mars', min: -120, max: 120, val: 52.6, units: '℃' }),
+                        LabeledValueSlider({ class: styles.lvSliderH, labelText: 'Earth', min: -80, max: 60, val: 12.6, units: '℃' }),
+                        LabeledValueSlider({ class: styles.lvSliderH, labelText: 'Mars', min: -120, max: 120, val: 52.6, units: '℃' }),
                     ], style: { 'margin-top': '8px'} }),
                     P({ children: [
-                        LabeledValueSlider({ class: styles.lvSlider, labelText: 'Core Voltage', min: 1.0, max: 1.4, val: 1.1, units: 'V' }),
-                        LabeledValueSlider({ class: styles.lvSlider, labelText: 'RAM Voltage', min: 1.8, max: 2.5, val: 2.0, units: 'V' })
+                        LabeledValueSlider({ class: styles.lvSliderH, labelText: 'Core Voltage', min: 1.0, max: 1.4, val: 1.1, units: 'V' }),
+                        LabeledValueSlider({ class: styles.lvSliderH, labelText: 'RAM Voltage', min: 1.8, max: 2.5, val: 2.0, units: 'V' })
                     ], style: { 'margin-top': '8px'} })
                 ]}),
                 Code({ src: app_src2, srcType: 'js', class: styles.code })
             ]}),
-            // Tab({ buttonText: 'ScrollBar Demo', children:[
-            //     P({ innerText: 'Mainboard Configuration', children: [
-            //         LabeledValueSlider({ class: styles.lvSlider, labelText: 'Core Voltage', min: 1.0, max: 1.4, val: 1.1, units: 'V' }),
-            //         LabeledValueSlider({ class: styles.lvSlider, labelText: 'RAM Voltage', min: 1.8, max: 2.5, val: 2.0, units: 'V' })
-            //     ], style: { 'margin-bottom': '18px', 'line-height': '20px' } }),
-            //     P({ innerText:'Source for this Tab'}),
-            //     Code({ src: code, srcType: 'js', class: styles.code }),
-            //     P({ innerText:'Source for the LabeledValueSlider'}),
-            //     Code({ src: app_src2, srcType: 'js', class: styles.code }),
-            // ]}),
-            Tab({ buttonText: 'TreeView Demo', id: 'TreeViewDemo', children:[
+            Tab({ id: 'VSliderDemo', buttonText: 'Vertical Sliders', children:[
+                P({ innerText: 'Frequencies Example' }),
+                P({ innerText: 'Some vertical slider components. Useful for e.g. keyframe animation or audio filtering' }),
+                P({ children: [
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 1', min: 1.0, max: 2.0, val: 1.1, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 2', min: 2.0, max: 3.0, val: 2.6, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 3', min: 3.0, max: 4.0, val: 3.3, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 4', min: 4.0, max: 5.0, val: 4.05, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 5', min: 5.0, max: 6.0, val: 5.15, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 6', min: 6.0, max: 7.0, val: 6.2, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 7', min: 7.0, max: 8.0, val: 7.3, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 8', min: 8.0, max: 9.0, val: 8.7, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 9', min: 9.0, max: 10.0, val: 9.3, units: 'MHz' }),
+                    LabeledValueSliderV({ class: styles.lvSliderV, labelText: 'Group 10', min: 30.0, max: 50.0, val: 42.0, units: 'MHz' })
+                ]})
+            ]}),
+            Tab({ id: 'TreeViewDemo', 
+                buttonText: 'TreeView', 
+                children:[
                 P({ innerText:'TreeView inside a SplitView, work in progress, drag and drop working'}),
                 SplitView({ horizontal: true, ratio: 0.2, children: [
                     TreeView({ json: human }),
                     Div({ innerHTML: text_01, class: 'dataview' })
                 ]})
             ]}),
-            Tab({ buttonText: 'SplitView Demo native', id: 'SplitViewNativeDemo', class: styles.SplitViewNative + ' clearfix', children:[
-                P({ innerText: 'SplitView (native, horizontal)' }),
+            Tab({ id: 'SplitViewNativeDemo', 
+                buttonText: 'SplitView 1', 
+                class: styles.SplitViewNative + ' clearfix', 
+                children:[
+                P({ innerText: 'SplitView (native scrollbars, horizontal)' }),
                 SplitView({ horizontal: true, children: [
                     Code({ src: app_src1, srcType: 'js', class: styles.code }),
                     Code({ src: app_src2, srcType: 'js', class: styles.code })
                 ]}),
             ]}),
-            Tab({ buttonText: 'SplitView Demo', children:[
+            Tab({ id: 'SplitView2Demo', 
+                buttonText: 'SplitView 2', 
+                children:[
                 P({ innerText: 'SplitView (horizontal)' }),
                 SplitView({ horizontal: true, children: [
                     ScrollView({ class: styles.abcde, options: { scrollX: 0.0, scrollY: 0.0 }, children: [
@@ -160,7 +180,9 @@ let root = Div({ id: 'app', class: styles.app + ' clearfix', children: [
                     ]}),
                 ]}),
             ]}),
-            Tab({ buttonText: 'SplitView v', children:[
+            Tab({ id: 'SplitView3Demo', 
+                buttonText: 'SplitView 3', 
+                children:[
                 P({ innerText: 'SplitView (vertical)' }),
                 SplitView({ horizontal: false, children: [
                     ScrollView({ class: styles.abcde, options: { scrollX: 0.0, scrollY: 0.0 }, children: [

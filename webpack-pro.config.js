@@ -55,6 +55,12 @@ const config = {
                 exclude: "/\.(png|jpg|svg)?$/"
             },
             {
+                test: /\.(css)$/,
+                use: [
+                    "style-loader", "css-loader"
+                ]
+            },
+            {
                 test: /\.jsx?$/,
                 // includes: [path.join(__dirname, '')],
                 loader: 'babel-loader',

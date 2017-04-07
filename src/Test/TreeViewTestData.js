@@ -68,7 +68,8 @@ let human = {
                 }
             }
         }
-    }
+    },
+    eof: 1
 };
 
 let data1 = {

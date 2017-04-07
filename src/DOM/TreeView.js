@@ -1,4 +1,4 @@
-import TreeView from "../UI/TreeView2";
+import TreeView from "../UI/TreeView4";
 import ObjectTree from "../Structures/ObjectTree";
 import { Div } from "../DOM/Elements";
 

@@ -1,7 +1,11 @@
 import "../UI/Splitter";
 import { Div } from "./Elements";
 
-let resizeEvent = new Event('resize');
+
+window.addEventListener("load", function (event) {
+    console.log("All resources finished loading!");
+});
+
 
 const _Create = (args) => {
 
@@ -9,9 +13,8 @@ const _Create = (args) => {
 
     const onresize = function(evt) {
         console.log('Resizing SplitView ' + evt.target.className);
-        let me = evt.target;
-        if (me.children.length) {
-            let view = me.children.item(0);
+        if (this.length) {
+            let view = this.children.item(0);
             if (view.onresize instanceof Function) {
                 view.dispatchEvent(new Event('resize'));
             }
@@ -30,7 +33,7 @@ const _Create = (args) => {
     let two = {
         class: "two",
         style: {
-            // 'display': 'inline-block',
+            'overflow': 'hidden',
         },
         onresize
     };
@@ -44,6 +47,7 @@ const _Create = (args) => {
 
     let payload = {
         horizontal: args.horizontal === false ? false : true,
+        ratio: args.ratio || 0.5,
         children: [
             Div(one),
             Div(two)
@@ -51,6 +55,12 @@ const _Create = (args) => {
         style: {
             // 'width': '100%',
             // 'min-height': '40px'
+        },
+        onshow: function (evt) {
+            console.log('SplitView loaded');
+        },
+        onratio: function($$, ratio) {
+            console.log(this.className + '.onratio');            
         }
     };
 
@@ -66,6 +76,10 @@ const _Create = (args) => {
         console.log('Resizing SplitView.');
     };
 
+    self.addEventListener('ratio', function(evt) {
+        console.log('SplitView ratio');        
+    });
+
     return self;
 };
 
@@ -77,63 +91,19 @@ $( () => {
             horizontal: this.horizontal === false ? false : true,
             ratio: this.ratio === undefined ? 0.5 : this.ratio
         };
-        $(this) // is a SplitViews
-            .on('ratio', function(evt, ratio) {
-                args.ratio = ratio;
-                if (this.onScroll) this.onScroll(args);
+        $(this) // is a SplitView
+            // .on('ratio', function(evt, ratio) {
+            //     args.ratio = ratio;
+            //     if (this.onScroll) this.onScroll(args);
 
-                this.children.item(0).dispatchEvent(new Event('resize'));
-                this.children.item(2).dispatchEvent(new Event('resize'));
+            //     this.children.item(0).dispatchEvent(new Event('resize'));
+            //     this.children.item(2).dispatchEvent(new Event('resize'));
 
-                return false;
-            })
+            //     return false;
+            // })
             .split(args);
     });
 });
-
-// experiment
-// $( () => {
-//     var target = document.querySelectorAll('.scrollBar');
-//
-//     // create an observer instance
-//     var observer = new MutationObserver(function(mutations) {
-//       mutations.forEach(function(mutation) {
-//         console.log(mutation.type);
-//       });
-//     });
-//
-//     // configuration of the observer:
-//     // var config = { attributes: true, childList: true, characterData: true };
-//
-//     // pass in the target node, as well as the observer options
-//     observer.observe(target, { attributes: true });
-//
-//     // later, you can stop observing
-//     // observer.disconnect();
-// });
-
-
-// $( () => {
-//     var scrollBar  = document.querySelector('.scrollBar');
-//     var previousValue = scrollBar.style.display;
-//
-//     var observer = new MutationObserver( function(mutations){
-//         mutations.forEach( function(mutation) {
-//             if (mutation.attributeName !== 'style') return;
-//             var currentValue = mutation.target.style.display;
-//             if (currentValue !== previousValue) {
-//                if (previousValue === "none" && currentValue !== "none") {
-//                  console.log("display none has just been removed!");
-//                }
-//
-//                previousValue = mutation.target.style.display;
-//             }
-//         });
-//     });
-//
-//     var config = { attributes: true, subtree: true, characterData: false };
-//     observer.observe(scrollBar, config);
-// });
 
 
 export default _Create;

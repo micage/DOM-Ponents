@@ -73,25 +73,6 @@
             box.attr('ratio', settings.ratio);
             box.trigger('ratio', settings.ratio);
 
-            // logging
-            if (__DEBUG__ && 0) {
-                $('.out')
-                    .append( $('<li class="clientX">').append( $('<span>').text('clientX: ') ).append( $('<span class="value">') ) )
-                    .append( $('<li class="barX">').append( $('<span>').text('barX: ') ).append( $('<span class="value">') ) )
-                    .append( $('<li class="barY">').append( $('<span>').text('barY: ') ).append( $('<span class="value">') ) )
-                    .append( $('<li class="w-box">').append( $('<span>').text('box.width: ') ).append( $('<span class="value">').text(box.width())) )
-                    .append( $('<li class="h-box">').append( $('<span>').text('box.height: ') ).append( $('<span class="value">').text(box.height())) )
-                    .append( $('<li class="iw-box">').append( $('<span>').text('box.iwidth: ') ).append( $('<span class="value">').text(box.innerWidth())) )
-                    .append( $('<li class="o-box">').append( $('<span>').text('box.offset: ') ).append( $('<span class="value">').text(box.offset().left)) )
-                    .append( $('<li class="w-one">').append( $('<span>').text('one.width: ') ).append( $('<span class="value">').text(one.width())) )
-                    .append( $('<li class="o-one">').append( $('<span>').text('one.offset: ') ).append( $('<span class="value">').text(one.offset().left)) )
-                    .append( $('<li class="w-two">').append( $('<span>').text('two.width: ') ).append( $('<span class="value">').text(two.width())) )
-                    .append( $('<li class="o-two">').append( $('<span>').text('two.offset: ') ).append( $('<span class="value">').text(two.offset().left)) )
-                    .append( $('<li class="w-bar">').append( $('<span>').text('bar.width: ') ).append( $('<span class="value">').text(bar.width())) )
-                    .append( $('<li class="o-bar">').append( $('<span>').text('bar.offset: ') ).append( $('<span class="value">').text(bar.offset().left)) )
-                ;
-            }
-
             let target = null;
             let cursorBackup = document.body.style.cursor;
             let barX = 0, barY = 0;
@@ -149,20 +130,6 @@
 
                 box.trigger('ratio', box.attr('ratio'));
 
-                // logging
-                if (__DEBUG__ && 0) {
-                    $('.out .clientX .value').text(evt.clientX);
-                    $('.out .w-box .value').text(box.width());
-                    $('.out .iw-box .value').text(box.innerWidth());
-                    $('.out .o-box .value').text(box.offset().left);
-                    $('.out .w-one .value').text(one.width());
-                    $('.out .o-one .value').text(one.offset().left);
-                    $('.out .w-two .value').text(two.width());
-                    $('.out .o-two .value').text(two.offset().left);
-                    $('.out .w-bar .value').text(bar.width());
-                    $('.out .o-bar .value').text(bar.offset().left);
-                }
-
                 // cancel event
                 evt.preventDefault();
                 evt.stopPropagation();
@@ -178,7 +145,6 @@
             };
 
         });
-
 
         $(window).resize(function(evt) {
             self.each(onresize);
