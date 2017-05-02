@@ -93,7 +93,7 @@
 
             const onMouseMove = function(evt) {
                 self[0].dispatchEvent(new Event('ScrollStart', { "bubbles":true }));
-                // $(self).trigger('scrollStart');
+                // $(self).trigger('ScrollStart');
 
                 if (settings.horizontal) {
                     let oneWidth = evt.clientX - box.offset().left - barX;

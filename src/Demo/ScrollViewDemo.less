@@ -1,0 +1,105 @@
+// colors
+@import "./app.less";
+
+.sectionTitle {
+    margin: 10px 0;
+    font-size: 12pt;
+}
+
+.scrollViews {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    .scrollViewBox {
+        // flex: 1 1 auto;
+        width: 200px;
+        margin: 20px 20px;
+        p {
+            width: inherit;
+            padding: 8px 4px 2px 2px;
+            // background-color: #eee;
+            line-height: 15px;
+            border-bottom: 1px solid @ctrl-border-color;
+        }
+        p:before {
+            width: 12px;
+            height: 12px;
+        }
+    }
+
+    .ScrollView:global(.scrolling), .ScrollView:hover {
+        :global {
+            .ScrollBar { visibility: visible; }
+            .ScrollBar:hover { background-color: #aaa; }
+        }
+    }
+    .ScrollView:global(.scrolling) :global(.ScrollBar) {
+        background-color: #aaa;
+        :global(.bar) { background-color: #eee; }
+    }
+
+    .ScrollView {
+        // flex: 1;
+        width: inherit;
+        height: 150px;
+        border: 1px solid @ctrl-border-color;
+        border-radius: 6px;
+        overflow: hidden;
+
+        :global {
+            .ScrollBar {
+                visibility: hidden;
+                background-color: #aaa;
+                .one, .two {
+                    visibility: hidden;
+                }
+                .bar {
+                    background-color: #eee;
+                    // border: 1.2pt solid grey; // kills it
+                }
+                .bar:hover {
+                    background-color: #fff;
+                }
+            }
+            .ScrollBar.h {
+                .bar {
+                    width: 30px !important;
+                    cursor: ew-resize;
+                }
+            }
+            .ScrollBar.v {
+                .bar {
+                    height: 30px !important;
+                    cursor: ns-resize;
+                }
+            }
+        }
+    }
+}
+
+.inner {
+    overflow: hidden;
+    width: 1000px;
+    padding: 20px;
+}
+.inner2 {
+    // width: 2000px;
+    // height: 1500px;
+    background-image: url(/color-wheel.svg);
+    background-size: cover;
+}
+.svg {
+    width: 1500px;
+    height: 1500px;
+}
+.imgBox {
+    margin: 10px 0;
+    overflow: hidden;
+}
+

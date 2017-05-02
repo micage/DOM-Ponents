@@ -6,14 +6,14 @@ process.env.DEBUG = true;
 
 module.exports = {
     entry: [
-        './app.js'
+        './app2.js'
     ],
     context: path.join(__dirname, 'src'),
     devServer: {
         // publicPath: 'www',
         contentBase: 'www', // Relative directory for base of server
         host: 'localhost', // Change to '0.0.0.0' for external facing server
-        port: 3010, // Port Number
+        port: 3012, // Port Number
         hot: true, // Live-reload
         hotOnly: true,
         inline: true,

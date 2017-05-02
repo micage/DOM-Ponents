@@ -1,0 +1,58 @@
+@import "./app.less";
+
+#VSliderDemo {
+    p {
+        margin-bottom: 10px;
+    }
+    p:first-child {
+        font-size: 12pt;
+    }
+    span {
+        color: hsl(0, 0, 15%);
+    }
+}
+
+.lvSliderV {
+    display: inline-flex;
+    flex-direction: column;
+    margin: 4px;
+    height: 200px;
+    width: 64px;
+    border: 2px solid grey;
+    border-radius: 6px;
+    overflow: hidden; 
+
+    > * {
+        display: block;
+    }
+
+    :global {
+        font-size: 8pt;
+        .label {
+            text-align: center;
+            padding:2px;
+            border-bottom: 2px solid grey;
+        }
+        .slider {
+            flex: 7;
+            width: 20px;
+            margin: auto;
+            background: linear-gradient(to top, green, yellow, red);
+            .one {
+                background-color: @ctrl-bg-color; //  !important
+            }
+            .bar {
+                height: 4px !important;
+                background-color: #777 !important;
+                cursor: ns-resize;
+            }
+            .two {
+            }
+        }
+        .value {
+            text-align: center;
+            padding:2px;
+            border-top: 2px solid grey;
+        }
+    }
+}

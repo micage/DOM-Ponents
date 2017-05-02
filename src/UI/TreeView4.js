@@ -267,7 +267,12 @@ const _createItem = function(node) {
     span.icon = icon; // for faster access
     if(node.hasChildren) {
         icon.classList.add(ICON_COLLAPSED_CLASS);
-    }
+    } 
+    // else {
+    //     li.data = node.data;
+    // }
+
+    li.data = node.data;
 
     return li;
 };
@@ -388,7 +393,7 @@ const _init = function(rootNode, options) {
     To fool coders coming from real object-oriented languages by
     making them feel comfortable while they are sitting on a powder cag.
 */
-class TreeView3 {
+class TreeView4 {
     constructor(parent, rootNode, options) { // parent = 'div.mmm-tree'
         this._$parent = $(parent);
         this._parent = parent;
@@ -468,9 +473,9 @@ class TreeView3 {
         let $sel = $(this._selectedItem);
         if (this._selectedItem) {
             let arr = $sel.parents(_NODE_CLASS).map(function() {
-                return $(this).find(' > .tree-node-label').text();
+                return $(this).children('.tree-node-label').text();
             });
-            return arr.get().reverse().join('.');
+            return arr.get().reverse().join('/');
         }
         return '/';
     }
@@ -527,11 +532,11 @@ class TreeView3 {
 }
 
 //======================================================================
-module.exports = TreeView3;
+module.exports = TreeView4;
 
 //======================================================================
 if (typeof window !== 'undefined') {
     Object.assign(window.MICAGE = window.MICAGE || {}, {
-        TreeView3
+        TreeView4
     });
 }

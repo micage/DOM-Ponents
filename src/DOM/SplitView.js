@@ -1,9 +1,16 @@
 import "../UI/Splitter";
 import { Div } from "./Elements";
 
+/* TODO
+- make thumb size proportional to visible/total ratio
+- click on left/right or above/below of bar -> change ratio
+- bug: split bar is vanishing is ratio gets to zero
+
+*/
+
 
 window.addEventListener("load", function (event) {
-    console.log("All resources finished loading!");
+    console.log("SplitView: all resources finished loading!");
 });
 
 
@@ -26,6 +33,7 @@ const _Create = (args) => {
         class: "one",
         style: {
             // 'display': 'inline-block',
+            'overflow': 'hidden',
         },
         onresize
     };
@@ -46,21 +54,18 @@ const _Create = (args) => {
     }
 
     let payload = {
+        class: args.class,
         horizontal: args.horizontal === false ? false : true,
         ratio: args.ratio || 0.5,
         children: [
             Div(one),
             Div(two)
         ],
-        style: {
-            // 'width': '100%',
-            // 'min-height': '40px'
-        },
         onshow: function (evt) {
             console.log('SplitView loaded');
         },
-        onratio: function($$, ratio) {
-            console.log(this.className + '.onratio');            
+        onratio: function($evt, ratio) {
+            // console.log(this.className + '.onratio ' + ratio);            
         }
     };
 
@@ -87,21 +92,14 @@ $( () => {
     let splitViews = $('.SplitView');
 
     splitViews.each(function () {
-        let args = {
+        $(this) // is a SplitView
+        .split({
             horizontal: this.horizontal === false ? false : true,
             ratio: this.ratio === undefined ? 0.5 : this.ratio
-        };
-        $(this) // is a SplitView
-            // .on('ratio', function(evt, ratio) {
-            //     args.ratio = ratio;
-            //     if (this.onScroll) this.onScroll(args);
-
-            //     this.children.item(0).dispatchEvent(new Event('resize'));
-            //     this.children.item(2).dispatchEvent(new Event('resize'));
-
-            //     return false;
-            // })
-            .split(args);
+        });
+        this.children.item(1).style.cursor = this.horizontal === false ? 
+            "ns-resize" : 
+            "ew-resize";
     });
 });
 

@@ -12,7 +12,7 @@ const Element = {
 export
 const Create = (args) => {
     let elem = document.createElement(args.Type);
-    if(__DEBUG__) console.log("create: " + args.Type + (args.id ? "#" + args.id : "") + (args.class ? "." + args.class : "") );
+    if(__DEBUG__&&0) console.log("create: " + args.Type + (args.id ? "#" + args.id : "") + (args.class ? "." + args.class : "") );
 
     if (args.class) {
         let list = args.class.split(' ');
@@ -32,7 +32,7 @@ const Create = (args) => {
 
     if (args.children) {
         args.children.forEach( child => {
-            if (child instanceof HTMLElement) {
+            if (child instanceof HTMLElement || child instanceof SVGElement) {
                 elem.appendChild(child);
             }
             else {
