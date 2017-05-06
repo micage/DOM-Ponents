@@ -7,16 +7,14 @@ import AppInfoText from "raw-loader!./texts/AppInfo.html";
 import src_app from "!raw-loader!../app.js";
 
 // styles
-import styles from "./AppDemo.less"
+import styles from "./IntroDemo.less"
 
 
 const _Create = (args) => {
     let payload = Object.assign({}, args);
 
     let self = [
-        P({ innerText: 'App.js' }),
-        P({ innerHTML: AppInfoText }),
-        Code({ src: src_app, srcType: 'js', class: styles.code })
+        Div({ class: styles.essay, innerHTML: AppInfoText }),
     ];            
 
     self.Type = "AppDemo";

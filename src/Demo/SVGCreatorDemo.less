@@ -3,17 +3,29 @@
 @import "./app.less";
 
 .SVGRoot1 {
-    width: 100vh;
+    width: 100%;
     height: 100px;
 }
 
-.circle {
+.SVGRoot2 {
+    width: 100%;
+    height: 200px;
+}
+
+.circle, rect {
     fill: white;
     stroke: #777;
     stroke-width: 1.5;
 }
-.circle:hover {
+.circle:hover, rect:hover {
     stroke: orange;
     stroke-width: 4;
     transform: translateY(-2px);
+}
+
+.c_path1 {
+    fill: #fed;
+    stroke: #333;
+    stroke-width: 0.5;
+    transform: scale(3);
 }

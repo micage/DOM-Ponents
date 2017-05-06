@@ -9,6 +9,20 @@ const Element = {
     children: [] // of HTMLElement
 };
 
+const Appendchildren = (node, children) => {
+    if (Array.isArray(children) && children.length) {
+        for (let i = 0; i < children.length; i++) {
+            let child = children[i];
+            node.appendChild(child);
+        }
+    }
+    else {
+        if (children) {
+            console.log('children is not an Array: ' + JSON.stringify(children));
+        }
+    }
+};
+
 export
 const Create = (args) => {
     let elem = document.createElement(args.Type);
@@ -30,16 +44,7 @@ const Create = (args) => {
         }
     }
 
-    if (args.children) {
-        args.children.forEach( child => {
-            if (child instanceof HTMLElement || child instanceof SVGElement) {
-                elem.appendChild(child);
-            }
-            else {
-                throw new TypeError('AppendChild failed for: ' + JSON.stringify(args));
-            }
-        });
-    }
+    Appendchildren(elem, args.children);
 
     return elem;
 };

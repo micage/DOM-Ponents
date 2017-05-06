@@ -8,7 +8,7 @@ const _Create = (args) => {
 
     // a TreeView has no children, so ignore them if present
     if (payload.children) console.log('TreeView: children ignored');
-    payload.children = [];
+    delete payload.children;
 
     if (!payload.json) {
         payload.json = { "empty": "tree" };

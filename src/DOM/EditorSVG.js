@@ -21,19 +21,31 @@ const _Create = (args) => {
         payload.src = "<svg></svg>";
     }
 
-    parseString(payload.src, {
-        mergeAttr: true,
-        explicitArray: false,
-        validator: (xpath, currentValue, newValue) => {
-            return newValue;
+    parseString(
+        payload.src, {
+            mergeAttr: true,
+            explicitArray: false,
+            validator: (xpath, currentValue, newValue) => {
+                return newValue;
+            }
+        },
+        function (err, result) {
+            payload.json = result;
+            console.dir(result);
         }
-    },
-    function (err, result) {
-        payload.json = result;
-        console.dir(result);
+    );
+
+    let view = Div({
+        innerHTML: payload.src, 
+        class: 'dataview',
+        onclick: (evt) => {
+            let path = evt.path[0];
+            console.log("map clicked: " + path.id);
+            let r = Math.floor(Math.random() * 360);
+            path.style.fill = "hsl(" + r + ", 90%, 70%)";
+        }
     });
 
-    let view = Div({ innerHTML: payload.src, class: 'dataview' });
     let svgTree = TreeView({ json: payload.json, onSelect: onSelect });
 
     let self = SplitView({

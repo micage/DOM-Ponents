@@ -1,3 +1,93 @@
-This is the code that produced the website you are looking at.
+<p>"Divide et impera", the world is at war.</p>
 
-<p style="margin:10px 50px;">Heinz ist <b>der</b> Dude.</p>
+<p>
+    <b>T</b>his time a war against increasing complexity.
+    Our brains designed for hunting in the wild and collecting berries are only capable of processing 
+    a certain amount of interconnectivity. That's the reason why all devices commonly used 
+    have simple interfaces. Take for example a Hifi-Amplifier: it has a big knob for the volume and some 
+    far smaller buttons (for advanced users :)). Because that is what an amplifier should do: amplipfy
+    a signal by an amount that you can control with that knob. Stand-alone it's totally useless, 
+    so we connect it with 
+    other devices via cables. These devices are following the same design principle: a simple 
+    user interface (the knobs, sliders, buttons and perhaps some LED's) hiding the electrical 
+    complexity inside. This makes it possible for people who never studied Electrical Engineering 
+    to use this little wonders of science and hear music.
+</p>
+
+<p>
+    <b>T</b>he days when a website was made of say a dozen of HTML-files and some accompanying scripts are gone.
+    A modern site is made of large code bases with thousands of files. And it's made and maintained by large teams.
+    So the key seems to be modularization and information hiding. That's' what enables us to build larger systems,
+    hierarchies of modules connected via interfaces. 
+</p>
+<p>
+    <b>T</b>he development of growing complexity is also reflected
+    in the development of computer languages: e.g. from Assembler to C, from C to C++, from C++ to ...
+    It hadn't been possible to maintain codebases above 50.000 lines in assembler. Also C had an upper limit.
+    Microsoft developed the Component Object Model (COM) in the early 90-ties. And they were maintaining a huge
+    codebase with it: among others Windows. Consisting of millions of lines of code. 
+    Today it's still living. I mean COM ;). 
+    Large parts of the Mozilla applications (e.g. Firefox) are written with COM. They call it XPCOM. 
+    The main idea behind COM is that components communicate exclusively via interfaces. 
+    The implementation of the component is completely hidden. In my eyes that's the crucial part, 
+    a prerequisite to reach a certain amount of application size/complexity.<br><br>
+
+    If someone can change something inside a component without using interface methods the component will 
+    likely get into an undefined state. In other words: break, collapse, error.
+    All connected components will have problems to. The only way to prevent changing the inner live of a component is
+    to force by design that <b>you can only use a component by calling interface methods</b>.
+</p>
+    
+<p><b>T</b>he bigger the code bases are growing and the bigger the teams that are working on it the 
+    more important it gets to apply clear design guide lines. Clear separation of tasks by modularization 
+    combined with a declaration that specifies how a module is connected to others. 
+    Without those guide lines famous Applications like Operating systems (Linux, OS X, Windows),
+    Web Browsers or creative applications like 3D-Studio-Max, Photoshop, and all the other large software 
+    projects would not exist.<br><br>
+    
+    Which brings me to the next paragraph and the jungle of the 'modern' web.
+</p>
+
+<p><b>S</b>o, the technology to write large applications has been developed. But why is it not used for developing
+    web applications? Good question. I think it's due to the fact that the internet in the early days was just a 
+    collection of texts saved on university or other government servers. HTML was just there to connect these texts 
+    by hyperlinks.
+    Combining it with a script engine was a step forward but still not an application development platform for a long time.
+    That's why Flash was such a success. Was. So, there were to worlds. The one of large application development.
+    And the world of Internet scripters. Hardly any contact between them. But this has changed. Dramatically. 
+    Now mobile and internet companies are increasingly adapting concepts from the large software project guys.
+    Browers has become platforms. Operating systems inside an operating system. But still there is this 
+    attitude and relics from the scripting world. So, no compiler. No access to platform libraries. All scripts.
+    But this is changing rapidly, too.
+</p>
+<p>
+    <b>A</b>pplying the modularization and information hiding manifest to current web standards is hard. Namely
+    HTML5, Javascript a.k.a. ECMAScript and CSS3 allows us to manipulate everything from everywhere. 
+    There are thousands of ways to bring the same content to a website. And also ten-thousand ways to fail.
+    No encapsulation or modularization whatsoever. 
+    And the task at hand is not to plan a mars mission or doing differential geometry. 
+    Most of the time it's about managing rectangular regions filled with text or graphics. 
+    So why do we need a university degree to use it? Good question.
+</p>
+<p><b>Enemy N°1</b>: Global variables, global states. Everyone can change them all the time (e.g. window, 
+document, Object.prototype)
+</p>
+<p><b>Enemy N°2</b>: No Type checking. Good for rapid testing, not good for large projects.
+</p>
+<p>
+    <b>Enemy N°3</b>: DOM-Tree is huge and complex. Web Design is not. The property collection of 
+    DOM-Elements reads like a telephone book. Some properties are supported others not. 
+    Some are added by browser vendors. Some functions are deprecated, but still working.
+    Other functions are new and each vendor handles it differently. The DOM can be manipulated from certain 
+    places, by dynamically adding or removing nodes, changing properties from HTML, CSS or Javascript. 
+    Too bad if nodes depend on eachother. 
+    Last but not least an event system that traverses the DOM-Tree. Everytime from everywhere you can add or remove 
+    event handlers for each and every DOM-Node. No ownership required. All this summed up gives a nice mixture.
+    And there is a word for it: Chaos!
+</p>
+<p><b>T</b>he solution: Webpack.
+</p>
+
+<p style="margin: 20px 0 0 0;">best regards</p>
+<p style="margin: 0 0 25px 0;">micage</p>
+

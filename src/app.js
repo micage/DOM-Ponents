@@ -20,12 +20,13 @@ import app_src2 from "!raw-loader!./DOM/LabeledValueSlider.js";
 
 // demo components
 import ScrollViewDemo from "./Demo/ScrollViewDemo";
-import AppDemo from "./Demo/AppDemo";
+import IntroDemo from "./Demo/IntroDemo";
 import VSliderDemo from "./Demo/VSliderDemo";
 import HSliderDemo from "./Demo/HSliderDemo";
 import TreeViewDemo from "./Demo/TreeViewDemo";
 import SplitViewNativeDemo from "./Demo/SplitViewNativeDemo";
 import SVGCreatorDemo from "./Demo/SVGCreatorDemo";
+import CustomElementsDemo from "./Demo/CustomElementsDemo";
 
 /* TODO:
     - TreeView:
@@ -54,14 +55,11 @@ let root = Div({ id: 'app', class: styles.app, children: [
     Div({ id: 'content', class: styles.content + ' clearfix', children: [
         TabView({ class: styles.TabView, children:[
              // no arguments for the demo components, they are unique!
-            Tab({ 
-                id: 'appInfo', 
-                buttonText: 'App.js', 
-                children: [
-                P({ innerText: 'App.js' }),
-                P({ innerHTML: AppInfoText }),
-                Code({ src: app_src0, srcType: 'js', class: styles.code, style: { 'height': '400px' } })
-            ]}),
+            Tab({
+                id: 'IntroDemo',
+                buttonText: 'Intro',
+                children: IntroDemo()
+            }),
             Tab({
                 id: 'ScrollViewDemo', 
                 buttonText: 'ScrollView Demo', 
@@ -105,7 +103,11 @@ let root = Div({ id: 'app', class: styles.app, children: [
             Tab({
                 buttonText: 'Dynamic SVG', 
                 children: SVGCreatorDemo()
-            })
+            }),
+            Tab({
+                buttonText: 'Custom Elements',
+                children: CustomElementsDemo()
+            }),
             // Tab({ id: 'SplitView2Demo', 
             //     buttonText: 'SplitView 2', 
             //     children:[
