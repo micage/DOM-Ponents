@@ -13,10 +13,14 @@ const config = {
     },
     plugins: [
         // Minify the bundle
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: true,
+        //         verbose: true
+        //     },
+        // }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
+            compress: true
         }),
 
         new webpack.ProvidePlugin({

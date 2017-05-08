@@ -39,7 +39,7 @@ const _Create = (args) => {
         innerHTML: payload.src, 
         class: 'dataview',
         onclick: (evt) => {
-            let path = evt.path[0];
+            let path = evt.target;
             console.log("map clicked: " + path.id);
             let r = Math.floor(Math.random() * 360);
             path.style.fill = "hsl(" + r + ", 90%, 70%)";

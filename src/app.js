@@ -1,3 +1,6 @@
+let ua = navigator.userAgent;
+console.log(`ua: ${ua}`);
+
 import "normalize.css";
 import styles from "./app.less";
 // import ScrollView from "./DOM/ScrollView";
@@ -56,16 +59,6 @@ let root = Div({ id: 'app', class: styles.app, children: [
         TabView({ class: styles.TabView, children:[
              // no arguments for the demo components, they are unique!
             Tab({
-                id: 'IntroDemo',
-                buttonText: 'Intro',
-                children: IntroDemo()
-            }),
-            Tab({
-                id: 'ScrollViewDemo', 
-                buttonText: 'ScrollView Demo', 
-                children: ScrollViewDemo()
-            }),
-            Tab({
                 id: 'HSliderDemo', 
                 buttonText: 'Horizontal Sliders', 
                 children: HSliderDemo()
@@ -74,6 +67,11 @@ let root = Div({ id: 'app', class: styles.app, children: [
                 id: 'VSliderDemo', 
                 buttonText: 'Vertical Sliders', 
                 children: VSliderDemo()
+            }),
+            Tab({
+                id: 'ScrollViewDemo',
+                buttonText: 'ScrollView Demo',
+                children: ScrollViewDemo()
             }),
             Tab({
                 id: 'TreeViewDemo1', 
@@ -85,11 +83,11 @@ let root = Div({ id: 'app', class: styles.app, children: [
                 buttonText: 'TreeView 2',
                 children: TreeViewDemo()
             }),
-            Tab({
-                id: 'SplitViewNativeDemo_new', 
-                buttonText: 'SplitView Native',
-                children: SplitViewNativeDemo()
-            }),
+            // Tab({
+            //     id: 'SplitViewNativeDemo_new', 
+            //     buttonText: 'SplitView Native',
+            //     children: SplitViewNativeDemo()
+            // }),
             Tab({ id: 'SplitViewNativeDemo', 
                 buttonText: 'SplitView 1', 
                 class: styles.SplitViewNative + ' clearfix', 
@@ -108,7 +106,12 @@ let root = Div({ id: 'app', class: styles.app, children: [
                 buttonText: 'Custom Elements',
                 children: CustomElementsDemo()
             }),
-            // Tab({ id: 'SplitView2Demo', 
+            Tab({
+                id: 'IntroDemo',
+                buttonText: 'Manifest',
+                children: IntroDemo()
+            }),
+           // Tab({ id: 'SplitView2Demo', 
             //     buttonText: 'SplitView 2', 
             //     children:[
             //     P({ innerText: 'SplitView (horizontal)' }),

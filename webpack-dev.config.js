@@ -48,7 +48,9 @@ module.exports = {
             }
         }),
 
-        new webpack.NamedModulesPlugin()
+        new webpack.NamedModulesPlugin(),
+
+        new webpack.IgnorePlugin(/vertx/)
 
     ],
     module: {

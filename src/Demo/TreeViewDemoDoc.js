@@ -24,7 +24,8 @@ const text1d = "\
      some SVG-editors out there. And although the idea is very appealing, once I can control the \
      complete SVG-tree to write editor functionality like adding, removing nodes, changing properties \
      and so on, it would consume a lot of time, presumably a couple of months.\
-     But I always wanted to write my version of After Effects (<3) for the web. Seriously.\
+     But wouldn't it be great to have a full-flegded, drag and drop capable SVG-Editor online?\
+     SVG-Animations included?\
 ";
 const text2 = "The content of the SVG-File displayed on the right side of the tree:";
 

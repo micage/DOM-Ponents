@@ -4,21 +4,19 @@
     <b>T</b>his time a war against increasing complexity.
     Our brains designed for hunting in the wild and collecting berries are only capable of processing 
     a certain amount of interconnectivity. That's the reason why all devices commonly used 
-    have simple interfaces. Take for example a Hifi-Amplifier: it has a big knob for the volume and some 
-    far smaller buttons (for advanced users :)). Because that is what an amplifier should do: amplipfy
-    a signal by an amount that you can control with that knob. Stand-alone it's totally useless, 
+    have simple interfaces. Taking for example a Hifi-Amplifier: it has a big knob for the volume and some 
+    far smaller buttons (for the advanced users :)). Because that is what an amplifier should do: amplipfy
+    a signal by an amount you can control with that knob. Stand-alone it's hardly of any use, 
     so we connect it with 
     other devices via cables. These devices are following the same design principle: a simple 
     user interface (the knobs, sliders, buttons and perhaps some LED's) hiding the electrical 
     complexity inside. This makes it possible for people who never studied Electrical Engineering 
     to use this little wonders of science and hear music.
 </p>
-
 <p>
-    <b>T</b>he days when a website was made of say a dozen of HTML-files and some accompanying scripts are gone.
-    A modern site is made of large code bases with thousands of files. And it's made and maintained by large teams.
-    So the key seems to be modularization and information hiding. That's' what enables us to build larger systems,
-    hierarchies of modules connected via interfaces. 
+    <b>T</b>he days when a website was made of say a dozen of HTML-files and some accompanying scripts 
+    are gone. A modern site is made of large code bases with thousands of files. And it's made and 
+    maintained by large teams.
 </p>
 <p>
     <b>T</b>he development of growing complexity is also reflected
@@ -30,64 +28,165 @@
     Large parts of the Mozilla applications (e.g. Firefox) are written with COM. They call it XPCOM. 
     The main idea behind COM is that components communicate exclusively via interfaces. 
     The implementation of the component is completely hidden. In my eyes that's the crucial part, 
-    a prerequisite to reach a certain amount of application size/complexity.<br><br>
-
-    If someone can change something inside a component without using interface methods the component will 
-    likely get into an undefined state. In other words: break, collapse, error.
-    All connected components will have problems to. The only way to prevent changing the inner live of a component is
-    to force by design that <b>you can only use a component by calling interface methods</b>.
+    a prerequisite to reach a certain amount of application size/complexity.
 </p>
-    
-<p><b>T</b>he bigger the code bases are growing and the bigger the teams that are working on it the 
+<p>
+    <span class="fat">Modularization and encapsulation (information hiding)</span>
+</p>
+<p>
+    <b>T</b>he bigger the code bases are growing and the bigger the teams that are working on it the 
     more important it gets to apply clear design guide lines. Clear separation of tasks by modularization 
     combined with a declaration that specifies how a module is connected to others. 
-    Without those guide lines famous Applications like Operating systems (Linux, OS X, Windows),
-    Web Browsers or creative applications like 3D-Studio-Max, Photoshop, and all the other large software 
+    Without those guide lines famous software projects like Operating systems (Linux, OS X, Windows),
+    Web Browsers or creative applications like 3D-Studio-Max, Photoshop and all the other large software 
     projects would not exist.<br><br>
     
     Which brings me to the next paragraph and the jungle of the 'modern' web.
 </p>
-
-<p><b>S</b>o, the technology to write large applications has been developed. But why is it not used for developing
-    web applications? Good question. I think it's due to the fact that the internet in the early days was just a 
-    collection of texts saved on university or other government servers. HTML was just there to connect these texts 
-    by hyperlinks.
-    Combining it with a script engine was a step forward but still not an application development platform for a long time.
-    That's why Flash was such a success. Was. So, there were to worlds. The one of large application development.
-    And the world of Internet scripters. Hardly any contact between them. But this has changed. Dramatically. 
-    Now mobile and internet companies are increasingly adapting concepts from the large software project guys.
-    Browers has become platforms. Operating systems inside an operating system. But still there is this 
-    attitude and relics from the scripting world. So, no compiler. No access to platform libraries. All scripts.
-    But this is changing rapidly, too.
+<p>
+    <b>T</b>he technology to write large applications had been developed in the 90ties. But why can't we 
+    use it for developing web applications? Good question. One reason lies in the fact that websites
+    and the codebases from which they are made of haven't been big enough to justify the use of
+    software engineering techniques and tools. Another could be historical: that the internet 
+    in the early days was just a collection of texts saved on university or other government servers. 
+    HTML was just there to connect these texts by hyperlinks. A XML-based description of a page-layout.
+    The web just a collection of pages. Not apps.
+    Combining it with a script engine, to modify properties based on events was a step forward but still 
+    not an application development platform. That's why Flash has been such a success. 
 </p>
 <p>
-    <b>A</b>pplying the modularization and information hiding manifest to current web standards is hard. Namely
-    HTML5, Javascript a.k.a. ECMAScript and CSS3 allows us to manipulate everything from everywhere. 
-    There are thousands of ways to bring the same content to a website. And also ten-thousand ways to fail.
-    No encapsulation or modularization whatsoever. 
-    And the task at hand is not to plan a mars mission or doing differential geometry. 
-    Most of the time it's about managing rectangular regions filled with text or graphics. 
-    So why do we need a university degree to use it? Good question.
+    So, there were two worlds. The one of large application developers and the world of Internet script 
+    ninjas and communication designers. Hardly any contact between them. Doing websites has been more
+    like designing a magazine. But this is changing. A lot. 
+    Now mobile and internet companies are increasingly adapting concepts from the large software project 
+    guys. Browers have become platforms, Operating Systems inside an Operating System. But still there 
+    is this attitude from the old scripting days. So, no compiler, hidden types, no access to browser 
+    platform libraries. All scripts. But this is changing (-> TypeScript, -> flowtype).
 </p>
-<p><b>Enemy N°1</b>: Global variables, global states. Everyone can change them all the time (e.g. window, 
-document, Object.prototype)
+<p>
+    <b>A</b>pplying the modularization and information hiding (encapsulation) manifest to current web 
+    standards is still hard. Namely HTML5, Javascript a.k.a. ECMAScript and CSS3 allows us to manipulate 
+    everything from everywhere. There are thousands of ways to bring the same content to a website. 
+    And also ten-thousand ways to fail. No encapsulation or modularization whatsoever. 
 </p>
-<p><b>Enemy N°2</b>: No Type checking. Good for rapid testing, not good for large projects.
+<p>
+    What could a component be? Let's take a button. It has a clear functionality. It has to react on
+    mouse, keyboard or tap events and trigger an action. It has a parent HTMLElement. It has styles
+    and with it comes position and size.  
+</p>
+<p>
+    <b>Enemy N°1</b>: Global variables, global states. Everyone can change them all the time (e.g. window, 
+    document, prototypes of Javascript's built-in objects, global styles)<br><br>
+
+    If someone can change something inside a component (someone always will do) without using interface 
+    methods the component will likely get into an undefined state. In other words: break, collapse, error. 
+    All connected components will have problems to. The only way to prevent changing the inner live of 
+    a component is to force by design that 
+    <span class="fat">you can only use a component by calling interface methods</span>.
+</p>
+<p>
+    As a consequence no component should be allowed to change the global state. Boom!
+    So, no write access to document or window, no changing of built-in prototypes, no change of global 
+    styles from inside a component. But then, how can we modify the DOM?
+    The goal has to be that a component is only allowed to change it's own properties. Usage of 
+    functions like document.createElement() or HTMLElement.remove() should be restricted.
+    It should however be allowed to read properties of the surrounding DOM-tree.
+    This would demand an encapsulation of the DOM-API itself. That is a big call.
+    As a first step we could agree to not modify elements outside of our own scope.
+    So encapsulation by code convention. Additionally a parser could check module code for
+    existance of functions calls that potentially could modify the DOM.
+</p>
+<p>
+    <b>Enemy N°2</b>: No Type checking. Good for rapid testing, not good for large projects. 
+    A C++ compiler would mostly stop you from doing silly things. Sometimes it even reveals 
+    errors in your software design concept. Which is great.
+    Not so a Javascript interpreter, it tolerates a lot of errors silently. Incomplete objects 
+    with undefined or not existing properties, assignments between incompatible types,
+    function calls with missing or to much parameters. Also typos. The interpreter patiently 
+    accepts it. Using 'strict' helps a bit, but cannot change the overall situation.
+    It has to do with the way an interpreter works: it mainly detects errors in the code segement 
+    which it currently processes. Errors in unprocessed code paths are not detected. But can 
+    crash your site if a certain condition occurs that runs over a code segment that you haven't 
+    tested.
 </p>
 <p>
     <b>Enemy N°3</b>: DOM-Tree is huge and complex. Web Design is not. The property collection of 
     DOM-Elements reads like a telephone book. Some properties are supported others not. 
     Some are added by browser vendors. Some functions are deprecated, but still working.
-    Other functions are new and each vendor handles it differently. The DOM can be manipulated from certain 
-    places, by dynamically adding or removing nodes, changing properties from HTML, CSS or Javascript. 
-    Too bad if nodes depend on eachother. 
-    Last but not least an event system that traverses the DOM-Tree. Everytime from everywhere you can add or remove 
-    event handlers for each and every DOM-Node. No ownership required. All this summed up gives a nice mixture.
-    And there is a word for it: Chaos!
+    Other functions are new and each vendor handles it differently. The DOM can be manipulated from 
+    certain places, by dynamically adding or removing nodes, changing properties from HTML, CSS or 
+    Javascript. Too bad if nodes depend on eachother. 
+    Last but not least an event system that traverses the DOM-Tree. Everytime from everywhere you 
+    can add or remove event handlers for each and every DOM-Node. Neither ownership nor context required. 
+    All this summed up gives a nice chaotic mixture.
 </p>
-<p><b>T</b>he solution: Webpack.
+<p>
+    <b>The solution</b> (kind of): Using a framework. Using a somewhat standardized framework
+    gives us safety. If it's working for others, it should work for us to, right? But how many
+    companies can compare themselves to google or facebook? Having the same needs?
+    Remember Flash and Actionscript? Or maybe Silverlight?
+    Who would have thought that the days of Flash were counted so abruptly? 
+    Surely not Adobe and also thousands of Flash-driven companies.
+    If e.g. Angular or React gets a major design overhaul, you have to follow. Although nothing 
+    changed in your codebase, just to be up-to-date. Every coder has to learn the new stuff and 
+    make the related changes to the depending code. And run all testinh again.
+    If the companies that releases these frameworks decide to take money for it, you have to pay.
+    Ok, that is unlikely to happen, but if they decide to abandon the project in favor of something
+    really new and great, they can do it. Maybe you cannot.
+</p>
+<p>
+    So, what if we decide not to use one of the major, popular frameworks?
+    To put all stakes on the web standards: Javascript, CSS3, HTML5. No proprietary framework.<br> 
+    Proclame that we don't need a huge framework to display our texts and images and do 
+    database manipulation.
+</p>
+<p>
+    There are some good recipes and tools one can adopt that can assist us on that path:<br><br>
+
+    <b>1. Tools</b>: Node with npm, Webpack with linters and transpilers, a good Web-IDE<br><br>
+
+    <b>2. Modular Design</b>: Web-Components, Modular-CSS, Custom Elements, Shadow-DOM, HTML-Templates<br><br>
+
+    <b>3. Version Control</b>: Mandatory. E.g. Git (github.com)<br><br>
+
+    <b>4. Exhaustive Tests</b>: Let' not overrate test driven development. Test the app/site itself. 
+    There is no garantee that if our tests, written in e.g. Karma, run without errors our site runs 
+    fine, too.  "Don't set a fox to keep the geese!". 
+    Writing a comprehensive test for a tree class for example is not a trivial task. This takes a lot 
+    of time. And the complexity of the test code is comparable to the code itself. As a consequence 
+    tests are often shortcutted, slimmed. Merely testing a couple of conditions and not each 
+    possible state a class can run into (which can get quite a few -> combinatorial explosion).
+    Also there could be errors in the testing code as well.
+</p>
+<p>
+    <b>Conclusion</b>: The language features of ES6, CSS3 (CSS4 is comming) and HTML5 should have 
+    all you will ever need. But they have to be combined with at least two main design principles: 
+    Modularization and Encapsulation. Modularization naturally includes another famous rule: DRY, 
+    Don't repeat yourself! Also the KISS-rule (Keep it ssimple!). Base Modules have to be as simple 
+    as possible. This increases the chances for successful reuse of code by combining it with other 
+    modules. Then, in the end our projects become module/component trees (Similar to the DOM itself).
+    From my first experiences I can tell, that it's crucial to write the base components with great
+    care. They will be the building blocks for all other components. If something is not right
+    with them, these quirks will influence and dampen any further development. A good component is one
+    that is simple to use and to understand and easily combined with other components.
+</p>
+<p>
+    <b>T</b> his site is my humble attempt to tame the DOM, with the above written in mind.
+    It's neither meant to be a replacement for a framwork nor is it a framework.
+    I just wanted to see how far I can get without a framework. And if it's possible to write
+    components that can be plugged into the DOM making as few assumptions as possible. In particular
+    no framwork dependencies.
+</p>
+<p>
+    I used JQuery a bit, but decided to remove it from future code. It does not make the code clearer.
+    It also seems to have it's own messaging and data-binding system. Unnessacarily.
+    For conversion from XML to JSON (to feed the TreeView) I used xml2js. That's it, the rest is all 
+    pure Javascript (ES6).
+</p>
+<p>
+    More to come. All work in progress. All experimental. Still learning something new every day.
 </p>
 
-<p style="margin: 20px 0 0 0;">best regards</p>
-<p style="margin: 0 0 25px 0;">micage</p>
+<p>best regards<br>micage</p>
+
 
