@@ -14,7 +14,8 @@ const _Create = (args) => {
     let payload = Object.assign({}, args);
 
     let self = [
-        P({ class: styles.sectionTitle, innerText: 'Examples of ScrollViews' }),
+        P({ class: styles.sectionHeader, innerText: 'Examples of ScrollViews' }),
+        P({ class: styles.p1, innerText: "It's using two ScrollBar components."}),
         Div({
             class: styles.scrollViews, children: [
                 Div({
@@ -94,8 +95,9 @@ const _Create = (args) => {
                 }),
             ]
         }),
-        P({ class: styles.sectionTitle, innerText: 'The source code for this tab' }),
+        P({ class: styles.sectionHeader, innerText: 'The source code for this tab' }),
         Code({ class: styles.code, src: app_src1, srcType: 'js' }),
+        P({ class: styles.sectionHeader, innerText: 'Schematic view of the ScrollView component' }),
         Div({
             class: styles.imgBox, children: [
                 Img({ src: './ScrollView_opt.svg' })

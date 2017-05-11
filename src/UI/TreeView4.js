@@ -374,7 +374,7 @@ const _init = function(rootNode, options) {
     }
 
     // mimick a click to select root
-    _onSelect.call(this, { target: null });
+    _onSelect.call(this, { target: this._parent });
 };
 
 /** Note on ES6 class concept

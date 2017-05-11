@@ -29,3 +29,24 @@
     stroke-width: 0.5;
     transform: scale(3);
 }
+.c_path2 {
+    fill: #fe3;
+    stroke: orange;
+    stroke-width: 1.5;
+    transform: scale(2) translate(200px, 40px) rotate(120deg);
+}
+.c_path1:hover, .c_path2:hover {
+    stroke-width: 1.5;
+    stroke-dasharray: 5 5;
+    stroke-dashoffset: 0;
+    animation-name: myAnimation;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes myAnimation {
+    from {stroke-dashoffset: 0;}
+    to {stroke-dashoffset: 10;}
+}
+

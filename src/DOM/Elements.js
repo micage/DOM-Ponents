@@ -1,7 +1,7 @@
 
 // wrapper for document.createElement
 
-const Element = {
+const _Element = {
     id: String,
     class: String,
     type: String,
@@ -9,7 +9,8 @@ const Element = {
     children: [] // of HTMLElement
 };
 
-const Appendchildren = (node, children) => {
+export
+const AppendChildren = (node, children) => {
     if (Array.isArray(children) && children.length) {
         for (let i = 0; i < children.length; i++) {
             let child = children[i];
@@ -24,27 +25,46 @@ const Appendchildren = (node, children) => {
 };
 
 export
+const ApplyStyle = (node, style) => {
+    if (style && typeof style === "object") {
+        Object.keys(style).forEach(rule => {
+            node.style[rule] = style[rule];
+        });
+    }
+    else if (style) {
+        console.log('Cannot apply style to element ' + node.toString());
+    }
+};
+
+export
+const AddClasses = (node, classStr) => {
+    if (classStr && typeof classStr === "string") {
+        let list = classStr.split(' ');
+        list.forEach(_class => { node.classList.add(_class); });
+    }
+};
+
+const CopyProps = (elem, props) => {
+    if (props && typeof props === "object") {
+        Object.keys(props).forEach(prop => {
+            if (prop !== "class" && prop !== 'children' && prop !== 'style') {
+                elem[prop] = props[prop];
+            }
+        });
+    }
+    else if (props) {
+        console.log('Cannot copy properties to element ' + elem.toString());
+    }
+};
+
 const Create = (args) => {
     let elem = document.createElement(args.Type);
-    if(__DEBUG__&&0) console.log("create: " + args.Type + (args.id ? "#" + args.id : "") + (args.class ? "." + args.class : "") );
+    if(__DEBUG__ && 0) console.log("create: " + args.Type + (args.id ? "#" + args.id : "") + (args.class ? "." + args.class : "") );
 
-    if (args.class) {
-        let list = args.class.split(' ');
-        list.forEach( c => { elem.classList.add(c); });
-    }
-
-    for (let key in args) {
-        if (key === 'style') {
-            for (let style in args.style) {
-                elem.style[style] = args.style[style];
-            }
-        }
-        else if (key !== "class" && key !== 'children') {
-            elem[key] = args[key];
-        }
-    }
-
-    Appendchildren(elem, args.children);
+    AddClasses(elem, args.class);
+    ApplyStyle(elem, args.style);
+    AppendChildren(elem, args.children);
+    CopyProps(elem, args);
 
     return elem;
 };

@@ -7,7 +7,7 @@ const _Create = (args) => {
     let payload = Object.assign({}, args);
 
     const onSelect = (item, itemOld) => {
-        if (item) {
+        if (item && item.parentElement) {
             let text = item.parentElement.data;
             console.log('selected: ' + text);
             view.innerHTML =  text;    

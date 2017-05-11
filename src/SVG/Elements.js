@@ -1,24 +1,11 @@
+import {
+    ApplyStyle,
+    AppendChildren,
+    AddClasses
+} from "../DOM/Elements";
 
 const svgNS = "http://www.w3.org/2000/svg";
 const svgLink = "http://www.w3.org/1999/xlink";
-
-const AddClasses = (node, classStr) => {
-    if (classStr) {
-        let classArr = classStr.split(" ");
-        classArr.forEach(str => {
-            node.classList.add(str);
-        });
-    }
-}
-
-const Appendchildren = (node, children) => {
-    if (Array.isArray(children) && children.length) {
-        for (let i = 0; i < children.length; i++) {
-            let child = children[i];
-            node.appendChild(child);
-        }
-    }
-};
 
 const SVG = (args) => {
     let svgDoc = document.createElementNS(svgNS, 'svg');
@@ -26,70 +13,84 @@ const SVG = (args) => {
     svgDoc.setAttribute('id', args.id);
 
     AddClasses(svgDoc, args.class);
-    Appendchildren(svgDoc, args.children);
+    AppendChildren(svgDoc, args.children);
 
     return svgDoc;
 };
 
-const Group = (args) => {
-    let self = document.createElementNS(svgNS, "g");
-    self.Type = "g";
-
-    Appendchildren(self, args.children);
-
-    return self; 
+const CopyProps = (elem, props) => {
+    if (props && typeof props === "object") {
+        Object.keys(props).forEach(prop => {
+            let isAttr = props.attr && props.attr.some(entry => entry === prop);
+            if (prop !== "class" && 
+                prop !== 'children' &&
+                prop !== 'style' &&
+                !isAttr
+            ) {
+                elem[prop] = props[prop];
+            }
+        });
+    }
+    else if (props) {
+        console.log('Cannot copy properties to element ' + elem.toString());
+    }
 };
 
-const CircleStr = (args) => {
-    return "<circle " + 
-        "id=" + args.id + 
-        "r=" + args.r + 
-        "cx=" + args.cx +
-        "cy=" + args.cy
-        + ">";
+const Create = (args) => {
+    let elem = document.createElementNS(svgNS, args.Type);
+
+    AddClasses(elem, args.class);
+    ApplyStyle(elem, args.style);
+    AppendChildren(elem, args.children);
+    CopyProps(elem, args);
+
+    return elem;
+};
+
+const Group = (args) => {
+    if (!args || typeof args !== "object") args = {};
+    args.Type = "g";
+    return Create(args);
 };
 
 const Circle = (args) => {
-    let self = document.createElementNS(svgNS, "circle");
-    self.id = args.id;
+
+    args.Type = "circle";
+    args.attr = ["cx", "cy", "r"]
+    let self = Create(args);
 
     self.setAttribute("cx", args.cx || 10);
     self.setAttribute("cy", args.cy || 10);
     self.setAttribute("r", args.r || 10);
 
-    AddClasses(self, args.class);
-    self.Type = "circle";
-
-    return self; 
+    return self;
 };
 
 const Rect = (args) => {
-    let self = document.createElementNS(svgNS, "rect");
-    self.id = args.id;
+    args.Type = "rect";
+    args.attr = ["x", "y", "rx", "ry", "width", "height"]
+    let self = Create(args);
 
+    // set read only props as attributes
     self.setAttribute("width", args.width || 10);
     self.setAttribute("height", args.height || 10);
     self.setAttribute("x", args.x || 10);
     self.setAttribute("y", args.y || 10);
-    self.setAttribute("ry", args.ry || 4);
+    if (args.rx) self.setAttribute("rx", args.rx);
+    if (args.ry) self.setAttribute("ry", args.ry || 0);
 
-    AddClasses(self, args.class);
-    self.Type = "rect";
-
-    return self; 
+    return self;
 };
 
 const Path = (args) => {
-    let self = document.createElementNS(svgNS, "path");
-    self.id = args.id;
+    args.Type = "path";
+    args.attr = ["d", "transform"]
+    let self = Create(args);
     
     self.setAttribute("d", args.d || "m 10,10 l 20,20");
     if (args.transform) {
         self.setAttribute("transform", args.transform);
     }
-    
-    AddClasses(self, args.class);
-    self.Type = "SVGPath";
 
     return self; 
 };

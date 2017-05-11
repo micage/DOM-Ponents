@@ -1,5 +1,16 @@
 "use strict";
 
+const NodePrinter = (node, breakCondition) => {
+    let tabs = Array.from({ length: node.depth }, () => ".  ").join("");
+    if (breakCondition && breakCondition()) return false; // stops traversal if condition fits
+    let str = "";
+    if (!(node.data instanceof Object)) {
+        str = " -> " + node.data;
+    }
+    console.log(tabs + node.id + str);
+};
+
+
 class ObjectTree {
     constructor(json) {
         this._json = json;
@@ -18,14 +29,12 @@ class ObjectTree {
             if (Array.isArray(child)) {
                 node.id = keys[i] + "[" + child.length + "]";
             }
-
             else if (child && typeof child === "object") {
                 node.id = keys[i];
                 if (Object.keys(child).length === 0) {
                     node.hasChildren = false;
                 }
             }
-
             else {
                 node.hasChildren = false;
                 node.id = keys[i];
@@ -56,4 +65,4 @@ class ObjectTree {
 
 //module.exports = ObjectTree;
 
-export default ObjectTree;
+export { ObjectTree as default, NodePrinter };

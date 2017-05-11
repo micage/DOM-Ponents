@@ -7,12 +7,13 @@ import "./Util/helper.js";
 // import "./Test/FlagTreeTest.js";
 // import "./Test/ContainerTest.js";
 // import "./Test/ExplorerView.js";
-//import "./Test/TreeViewTest.js";
-import "./Test/TreeViewTest_new.js";
+// import "./Test/TreeViewTest.js";
+// import "./Test/TreeViewTest_new.js";
 // import "./Test/LinearAlgebraTest.js";
 // import "./babel-transform-test.js";
 // import "./Test/Layout/ValueSlider";
 // import "./Test/Layout/ScrollBar";
+import "./Test/TreeConverter";
 
 //=============================================================================
 

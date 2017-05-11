@@ -12,7 +12,7 @@ const _Create = (args) => {
     let payload = Object.assign({}, args);
 
     let self = [
-        P({ innerText: 'Some LabeledValueSlider in action' }),
+        P({ class: styles.sectionHeader, innerText: 'An arrangement of 6 LabeledValueSlider components' }),
         Div({
             id: 'sliderGroup', class: '', children: [
                 P({
@@ -35,6 +35,7 @@ const _Create = (args) => {
                 })
             ]
         }),
+        P({ class: styles.sectionHeader, innerText: 'Content of LabeledValueSlider.js' }),
         Code({ src: app_src2, srcType: 'js', class: styles.code })
     ];
 

@@ -1,44 +1,40 @@
 @import "./app.less";
 
-:global{
-    #TreeViewDemo1, #TreeViewDemo2 {
-        background-color: hsl(230, 0%, 96%);
-        p {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
+#TreeViewDemo1, #TreeViewDemo2 {
+    background-color: hsl(230, 0%, 96%);
+}
 
-        .SplitView {
-            border: 1px solid hsl(0, 0, 80%);
-            height: 300px;
-            .mmm-treeview {
-                padding: 10px;
-                height: inherit;
-                .selected {
-                    // background-color: hsl(230, 65%, 90%);
-                }    
-                .tree-node-label:hover {
-                    background-color: hsl(130, 15%, 90%);
-                }    
-            }
-            .dataview {
-                height: inherit;
-                overflow: auto;
-                background-color: hsl(230, 0%, 96%);
-                svg {
-                    width: 600px;
-                    height: 400px;
-                    #path8972 {
-                        fill: pink;
-                    }
+:global{
+    .SplitView {
+        border: 1px solid hsl(0, 0, 80%);
+        height: 300px;
+        .mmm-treeview {
+            padding: 10px;
+            height: inherit;
+            .selected {
+                // background-color: hsl(230, 65%, 90%);
+            }    
+            .tree-node-label:hover {
+                background-color: hsl(130, 15%, 90%);
+            }    
+        }
+        .dataview {
+            height: inherit;
+            overflow: auto;
+            background-color: hsl(230, 0%, 96%);
+            svg {
+                width: 600px;
+                height: 400px;
+                #path8972 {
+                    fill: pink;
                 }
             }
-            .one {
-                background-color: whitesmoke;
-            }
-            .bar {
-                background-color: #B4B4B4;
-            }
+        }
+        .one {
+            background-color: whitesmoke;
+        }
+        .bar {
+            background-color: #B4B4B4;
         }
     }
 }

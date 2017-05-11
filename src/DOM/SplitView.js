@@ -16,8 +16,6 @@ window.addEventListener("load", function (event) {
 
 const _Create = (args) => {
 
-    let children = Array.isArray(args.children) ? args.children : [];
-
     const onresize = function(evt) {
         console.log('Resizing SplitView ' + evt.target.className);
         if (this.length) {
@@ -33,7 +31,7 @@ const _Create = (args) => {
         class: "one",
         style: {
             // 'display': 'inline-block',
-            'overflow': 'hidden',
+            'overflow-x': 'hidden',
         },
         onresize
     };
@@ -41,20 +39,35 @@ const _Create = (args) => {
     let two = {
         class: "two",
         style: {
-            'overflow': 'hidden',
+            'overflow-x': 'hidden',
         },
         onresize
     };
 
+    let children = Array.isArray(args.children) ? args.children : [];
     if (children.length >= 1) {
         one.children = [ args.children[0] ];
+    }
+    else {
+        one.children = [Div({ innerText: "empty" })];
     }
     if (children.length >= 2) {
         two.children = [ args.children[1] ];
     }
+    else {
+        two.children = [ Div({ innerText: "empty" }) ];
+    }
+
+    // default styles
+    let defaultStyle = {
+        'min-height': '100px',
+        'min-width': '100px'
+    };
+    Object.assign(defaultStyle, args.style);
 
     let payload = {
         class: args.class,
+        style: defaultStyle,
         horizontal: args.horizontal === false ? false : true,
         ratio: args.ratio || 0.5,
         children: [
@@ -97,9 +110,11 @@ $( () => {
             horizontal: this.horizontal === false ? false : true,
             ratio: this.ratio === undefined ? 0.5 : this.ratio
         });
-        this.children.item(1).style.cursor = this.horizontal === false ? 
+        let barStyle = this.children.item(1).style;
+        barStyle.cursor = this.horizontal === false ? 
             "ns-resize" : 
             "ew-resize";
+        barStyle['background-color'] = '#ccd';
     });
 });
 

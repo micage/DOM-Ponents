@@ -7,6 +7,7 @@ feature: write a collapsable Code component
 import { Img, P } from "../DOM/Elements";
 import Code from "../DOM/Code";
 import EditorSVG from "../DOM/EditorSVG";
+import CollapsableSection from "../DOM/CollapsableSection";
 
 // styles
 import styles from "./TreeViewDemo.less"
@@ -26,17 +27,38 @@ const _Create = (args) => {
     let payload = Object.assign({}, args);
 
     let self = [
-        P({ innerText: text1 }),
-        P({ innerText: text1a }),
-        P({ innerText: text1b }),
-        P({ innerText: text1c }),
-        P({ innerText: text1d }),
-        EditorSVG({ src: svg_Eberswalder }),
-        P({ innerText: text2 }),
-        Code({ class: styles.code, src: svg_Eberswalder, srcType: 'js', style: { 'height': '300px' } }),
-        P({ innerText: text3 }),
-        Code({ class: styles.code, src: srcEditorSVG, srcType: 'js', style: { 'height': '300px' } }),
-        // Img({ class: styles.svgImage, src: "Eberswalder5.svg" })
+        CollapsableSection({
+            initiallyClosed: false,
+            title: "The editor in early alpha stage",
+            children: [
+                P({ class: styles.p1, innerText: "On the left you can see the raw format of nodes that came out of the conversion from XML to SVG via xml2js. On the right the SVG content is directly inserted into the DOM as innerHTML of the SplitViews right panel, which leads to a nice display of pathes. Node: try to click on them! Next version will have a toolbar and and a status bar component." }),
+                EditorSVG({ src: svg_Eberswalder }),
+            ]
+        }),
+        CollapsableSection({
+            initiallyClosed: true,
+            title: text1,
+            children: [
+                P({ class: styles.p1, innerText: text1a }),
+                P({ class: styles.p1, innerText: text1b }),
+                P({ class: styles.p1, innerText: text1c }),
+                P({ class: styles.p1, innerText: text1d }),
+            ]
+        }),
+        CollapsableSection({
+            initiallyClosed: true,
+            title: text2,
+            children: [
+                Code({ class: styles.code, src: svg_Eberswalder, srcType: 'js', style: { 'height': '300px' } }),
+            ]
+        }),
+        CollapsableSection({
+            initiallyClosed: true,
+            title: text3,
+            children: [
+                Code({ class: styles.code, src: svg_Eberswalder, srcType: 'js', style: { 'height': '300px' } }),
+            ]
+        }),
     ];
 
     self.Type = "TreeViewDemo";

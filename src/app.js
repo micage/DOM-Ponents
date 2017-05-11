@@ -30,6 +30,7 @@ import TreeViewDemo from "./Demo/TreeViewDemo";
 import SplitViewNativeDemo from "./Demo/SplitViewNativeDemo";
 import SVGCreatorDemo from "./Demo/SVGCreatorDemo";
 import CustomElementsDemo from "./Demo/CustomElementsDemo";
+import CollapsablesDemo from "./Demo/CollapsablesDemo";
 
 /* TODO:
     - TreeView:
@@ -52,65 +53,69 @@ import CustomElementsDemo from "./Demo/CustomElementsDemo";
 let root = Div({ id: 'app', class: styles.app, children: [
     Div({ id: 'header', class: styles.header, children: [
         Div({ class: styles.title, innerText: 'Taming the DOM with Web(pack)-Components', children: [
-            P({ innerText: 'A new approach to make web development easy. Or at least easier.', style: {'font-size': '12pt'} })
+            P({ innerText: 'Yet another approach to make web development easy. Or at least easier.', style: {'font-size': '12pt'} })
         ] }),
     ]}),
     Div({ id: 'content', class: styles.content + ' clearfix', children: [
         TabView({ class: styles.TabView, children:[
              // no arguments for the demo components, they are unique!
             Tab({
-                id: 'HSliderDemo', 
-                buttonText: 'Horizontal Sliders', 
-                children: HSliderDemo()
-            }),
-            Tab({
-                id: 'VSliderDemo', 
-                buttonText: 'Vertical Sliders', 
-                children: VSliderDemo()
-            }),
-            Tab({
-                id: 'ScrollViewDemo',
+                id: 'ScrollView',
                 buttonText: 'ScrollView Demo',
                 children: ScrollViewDemo()
             }),
             Tab({
-                id: 'TreeViewDemo1', 
-                buttonText: 'TreeView 1',
-                children: TreeViewDemo()
+                id: 'Horizontal Slider', 
+                buttonText: 'Horizontal Sliders', 
+                children: HSliderDemo()
             }),
             Tab({
-                id: 'TreeViewDemo2', 
-                buttonText: 'TreeView 2',
+                id: 'Vertical Slider', 
+                buttonText: 'Vertical Sliders', 
+                children: VSliderDemo()
+            }),
+            Tab({
+                id: 'TreeView', 
+                buttonText: 'TreeView',
                 children: TreeViewDemo()
             }),
             // Tab({
-            //     id: 'SplitViewNativeDemo_new', 
-            //     buttonText: 'SplitView Native',
-            //     children: SplitViewNativeDemo()
+            //     id: 'TreeViewDemo2', 
+            //     buttonText: 'TreeView 2',
+            //     children: TreeViewDemo()
             // }),
-            Tab({ id: 'SplitViewNativeDemo', 
-                buttonText: 'SplitView 1', 
-                class: styles.SplitViewNative + ' clearfix', 
-                children:[
-                P({ innerText: 'SplitView (native scrollbars, horizontal)' }),
-                SplitView({ horizontal: true, children: [
-                    Code({ src: app_src1, srcType: 'js', class: styles.code }),
-                    Code({ src: app_src2, srcType: 'js', class: styles.code })
-                ]}),
-            ]}),
             Tab({
-                buttonText: 'Dynamic SVG', 
-                children: SVGCreatorDemo()
+                id: 'SplitViewNativeDemo_new', 
+                buttonText: 'SplitView',
+                children: SplitViewNativeDemo()
             }),
+            // Tab({ id: 'SplitViewNativeDemo', 
+            //     buttonText: 'SplitView 1', 
+            //     class: styles.SplitViewNative + ' clearfix', 
+            //     children:[
+            //     P({ innerText: 'SplitView (native scrollbars, horizontal)' }),
+            //     SplitView({ horizontal: true, children: [
+            //         Code({ src: app_src1, srcType: 'js', class: styles.code }),
+            //         Code({ src: app_src2, srcType: 'js', class: styles.code })
+            //     ]}),
+            // ]}),
+            // Tab({
+            //     buttonText: 'Dynamic SVG', 
+            //     children: SVGCreatorDemo()
+            // }),
+            // Tab({
+            //     buttonText: 'Custom Elements',
+            //     children: CustomElementsDemo()
+            // }),
             Tab({
-                buttonText: 'Custom Elements',
-                children: CustomElementsDemo()
+                buttonText: 'Collapsables',
+                children: CollapsablesDemo()
             }),
-            Tab({
-                id: 'IntroDemo',
-                buttonText: 'Manifest',
-                children: IntroDemo()
-            }),
+            // Tab({
+            //     id: 'IntroDemo',
+            //     buttonText: 'Component Manifest',
+            //     children: IntroDemo()
+            // }),
            // Tab({ id: 'SplitView2Demo', 
             //     buttonText: 'SplitView 2', 
             //     children:[
@@ -157,6 +162,7 @@ console.log('jQuery included: ' + (typeof $ === 'function' ? "true" : "false"));
 if (module.hot) {
     module.hot.accept();
     module.hot.dispose(function() {
-        document.location = document.location; // reload page
+        //document.body.remove(root);
+        //document.location = document.location; // reload page
     });
 }

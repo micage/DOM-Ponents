@@ -19,5 +19,5 @@ npm run pro
 
 ## Authors
 
-* **Michael Gehricke**
+* **Michael Gehricke** *
 
