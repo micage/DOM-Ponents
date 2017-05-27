@@ -1,0 +1,117 @@
+<svg width="800" height="500" color-interpolation="auto" color-rendering="auto" fill="#000000" font-family="Dialog" font-size="12px" image-rendering="auto" shape-rendering="auto" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" text-rendering="auto" version="1.1" xmlns="http://www.w3.org/2000/svg">
+ <defs id="genericDefs">
+  <clipPath id="clipPath2-7-3">
+   <path d="m-104-92h578v499h-578z"/>
+  </clipPath>
+ </defs>
+ <g transform="translate(0,1)">
+  <defs>
+   <clipPath id="clipPath2">
+    <path d="m-104-92h578v499h-578z"/>
+   </clipPath>
+  </defs>
+  <rect y="-1" width="800" height="500" fill="#fff" stroke="none"/>
+  <g shape-rendering="geometricPrecision" stroke-linecap="butt" stroke-miterlimit="1.45">
+   <g transform="translate(104,92)">
+    <rect x="240" y="180" width="32" height="32" clip-path="url(#clipPath2)" fill="none"/>
+   </g>
+   <g transform="translate(104,92)">
+    <rect transform="translate(0 -7.6171)" x="241" y="67.188" width="30" height="76.208" clip-path="url(#clipPath2)" fill="#90d4ef"/>
+    <rect x="240" width="32" height="180" clip-path="url(#clipPath2)" fill="none"/>
+   </g>
+   <g transform="translate(104,92)">
+    <rect y="180" width="240" height="32" clip-path="url(#clipPath2)" fill="none"/>
+    <rect transform="translate(-14.302)" x="134.67" y="181" width="49.968" height="30" clip-path="url(#clipPath2)" fill="#90d4ef"/>
+   </g>
+   <g transform="translate(104,92)" font-family="sans-serif" text-rendering="geometricPrecision">
+    <rect width="240" height="180" clip-path="url(#clipPath2)" fill="#fff" stroke="#000" stroke-miterlimit="1.45"/>
+    <text x="23.997499" y="34.835201" clip-path="url(#clipPath2)" fill="#000000" stroke="none" xml:space="preserve">Scrollable View</text>
+    <g transform="translate(69.144 -18.265)">
+     <path d="m61.089 110.63.3626-33.001" clip-path="url(#clipPath2)" fill="none"/>
+     <path d="m61.54 69.625-5.1316 11.944 5.0327-2.9449 4.9667 3.0548z" clip-path="url(#clipPath2)" stroke="none"/>
+     <path d="m65.045 114.67 34.001.3656" clip-path="url(#clipPath2)" fill="none"/>
+     <circle cx="61.045" cy="114.62" r="4" clip-path="url(#clipPath2)" fill="none"/>
+     <path d="m107.05 115.12-11.946-5.1287 2.946 5.032-3.0535 4.9674z" clip-path="url(#clipPath2)" stroke="none"/>
+     <path d="m57.045 114.67-33.001.3626" clip-path="url(#clipPath2)" fill="none"/>
+     <path d="m16.045 115.12 12.054 4.8678-3.0548-4.9667 2.9449-5.0326z" clip-path="url(#clipPath2)" stroke="none"/>
+     <path d="m61.088 118.62.3656 34.001" clip-path="url(#clipPath2)" fill="none"/>
+     <path d="m61.54 160.62 4.8707-12.053-4.9674 3.0535-5.032-2.946z" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+   </g>
+  </g>
+  <g transform="translate(104,92)" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-linecap="butt" stroke-miterlimit="1.45" text-rendering="geometricPrecision">
+   <g>
+    <rect x="299.6" y="261.62" width="54.32" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" shape-rendering="geometricPrecision" stroke="#000" stroke-linecap="butt" stroke-miterlimit="1.45"/>
+    <text x="306.94171" y="281.15479" clip-path="url(#clipPath2)" font-family="sans-serif" shape-rendering="geometricPrecision" stroke="none" stroke-linecap="butt" stroke-miterlimit="1.45" text-rendering="geometricPrecision" xml:space="preserve">Corner</text>
+    <path d="m313.58 261.6-38.256-43.589" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m270.04 212 4.1576 12.317 1.779-5.553 5.7369-1.0433z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="-6.9323" y="362" width="69.515" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" stroke="#000"/>
+    <path d="m62.599 377h148.54v-156.97" clip-path="url(#clipPath2)" fill="none"/>
+    <text x="15.7228" y="381.53519" clip-path="url(#clipPath2)" font-family="sans-serif" font-size="12px" stroke="none" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan x="15.7228" y="381.53519">After</tspan></text>
+    <path d="m211.13 212.03-5 12 5-3 5 3z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="-6.9323" y="332" width="69.515" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" stroke="#000"/>
+    <text x="7.2062001" y="351.53519" clip-path="url(#clipPath2)" stroke="none" xml:space="preserve">Thumb</text>
+    <path d="m62.552 347h97.099v-128" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m159.65 211-5 12 5-3 5 3z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="-6.9323" y="302" width="69.515" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" stroke="#000"/>
+    <text transform="translate(-10)" x="16.097799" y="321.53519" clip-path="url(#clipPath2)" font-family="sans-serif" font-size="12px" stroke="none" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan x="16.097799" y="321.53519">Before</tspan></text>
+    <path d="m62.592 317h21.342v-97.007" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m83.934 211.99-5 12 5-3 5 3z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="-31.732" y="272" width="94.315" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" stroke="#000"/>
+    <text x="-0.71719998" y="291.53519" clip-path="url(#clipPath2)" stroke="none" xml:space="preserve">Track</text>
+    <path d="m-31.747 287h-56.319v-91h80.022" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m-.043 196-12-5 3 5-3 5z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="-62.937" y="242" width="125.52" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#e6f6f2"/>
+    <text x="-57.959301" y="261.53519" clip-path="url(#clipPath2)" stroke="none" xml:space="preserve">Horizontal Scrollbar</text>
+    <path d="m-.1771 242v-22.576" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m-.1771 211.43-5 12 5-3 5 3z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="355.6" y="120" width="69.515" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" stroke="#000"/>
+    <text transform="translate(-4)" x="378.2551" y="139.5352" clip-path="url(#clipPath2)" font-family="sans-serif" font-size="12px" stroke="none" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan x="378.2551" y="139.5352">After</tspan></text>
+    <path d="m355.61 135h-50.074l-27.231 21.3" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m272 161.23 12.532-3.4552-5.4436-2.0899-.7176-5.7866z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="355.6" y="60" width="69.515" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" stroke="#000"/>
+    <text transform="translate(-8.1954)" x="378.6301" y="79.535202" clip-path="url(#clipPath2)" font-family="sans-serif" font-size="12px" stroke="none" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve"><tspan x="378.6301" y="79.535202">Before</tspan></text>
+    <path d="m355.62 75h-54.083l-24.619-31.899" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m272.03 36.768 3.3735 12.555 2.1253-5.4299 5.7912-.6799z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="355.6" y="90" width="69.515" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" stroke="#000"/>
+    <text x="369.73849" y="109.5352" clip-path="url(#clipPath2)" stroke="none" xml:space="preserve">Thumb</text>
+    <path d="m355.62 105.08-76.62.1663" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m271 105.26 12.011 4.9739-3.0108-4.9935 2.9891-5.0065z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="330.8" y="30" width="94.315" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#fff" stroke="#000"/>
+    <text x="361.815" y="49.535198" clip-path="url(#clipPath2)" stroke="none" xml:space="preserve">Track</text>
+    <path d="m425.09 45h32.445v-63.712h-201.53v10.712" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m256 0 5-12-5 3-5-3z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+   <g>
+    <rect x="299.6" width="125.52" height="30" rx="4" ry="4" clip-path="url(#clipPath2)" fill="#e6f6f2" shape-rendering="geometricPrecision" stroke="#000" stroke-linecap="butt" stroke-miterlimit="1.45"/>
+    <text x="313.17749" y="19.5352" clip-path="url(#clipPath2-7-3)" font-family="sans-serif" shape-rendering="geometricPrecision" stroke="none" stroke-linecap="butt" stroke-miterlimit="1.45" text-rendering="geometricPrecision" xml:space="preserve">Vertical Scrollbar</text>
+    <path d="m299.57 5.0444-17.445-2.7662" clip-path="url(#clipPath2)" fill="none"/>
+    <path d="m274.22 1.0253 11.069 6.8176-2.1799-5.4081 3.746-4.4685z" clip-path="url(#clipPath2)" stroke="none"/>
+   </g>
+  </g>
+  <g transform="translate(104,92)">
+   <rect x="-85" y="-76.321" width="543.72" height="30" clip-path="url(#clipPath2)" fill="#e6f6f2" stroke="#000"/>
+   <text x="-73.495697" y="-56.7854" clip-path="url(#clipPath2)" font-family="sans-serif" font-size="16px" font-weight="bold" stroke="none" writing-mode="lr" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal" xml:space="preserve">The ScrollView Component</text>
+  </g>
+  <text x="392.8519" y="494.36612" fill="#333333" font-family="sans-serif" font-size="12px" letter-spacing="0px" stroke="none" word-spacing="0px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="392.8519" y="494.36612">Diagram created with yEd and InkScape by Michael Gehricke 2017
+      </tspan></text>
+ </g>
+</svg>

@@ -1,3 +1,4 @@
+import * as __ from "../Util/ParamCheck";
 import {
     ApplyStyle,
     AppendChildren,
@@ -7,68 +8,77 @@ import {
 const svgNS = "http://www.w3.org/2000/svg";
 const svgLink = "http://www.w3.org/1999/xlink";
 
-const SVG = (args) => {
-    let svgDoc = document.createElementNS(svgNS, 'svg');
-    svgDoc.setAttribute('xmlns:xlink', svgLink);
-    svgDoc.setAttribute('id', args.id);
-
-    AddClasses(svgDoc, args.class);
-    AppendChildren(svgDoc, args.children);
-
-    return svgDoc;
-};
-
+/**
+ * Since props are applied as attributes we cannot use DOM/Elements.CopyProps
+ * have to guard against copying props that are attributes which are read-only
+ * like e.g. cx for a circle
+ * @param {SVGElement} elem 
+ * @param {Object} props 
+ */
 const CopyProps = (elem, props) => {
-    if (props && typeof props === "object") {
-        Object.keys(props).forEach(prop => {
-            let isAttr = props.attr && props.attr.some(entry => entry === prop);
-            if (prop !== "class" && 
-                prop !== 'children' &&
-                prop !== 'style' &&
-                !isAttr
-            ) {
-                elem[prop] = props[prop];
-            }
-        });
+    if (__DEBUG__) {
+        if (!(elem instanceof SVGElement)) throw Error("args is not an Object");
+        if (!__.checkObject(props)) throw Error("args is not an Object");
     }
-    else if (props) {
-        console.log('Cannot copy properties to element ' + elem.toString());
-    }
+    Object.keys(props).forEach(prop => {
+        let isAttr = props.attr && props.attr.some(entry => entry === prop);
+        if (!isAttr) {
+            elem[prop] = props[prop];
+        }
+    });
 };
 
 const Create = (args) => {
     let elem = document.createElementNS(svgNS, args.Type);
 
-    AddClasses(elem, args.class);
-    ApplyStyle(elem, args.style);
-    AppendChildren(elem, args.children);
+    if (args.class) AddClasses(elem, args.class); delete args.class;
+    if (args.style) ApplyStyle(elem, args.style); delete args.style;
+    if (args.children) AppendChildren(elem, args.children); delete args.children;
     CopyProps(elem, args);
 
     return elem;
 };
 
+const SVG = (args) => {
+    if (!__.checkObject(args)) args = {};
+
+    args.Type = "svg";
+    args.attr = ["xmlns:xlink"]
+    let self = Create(args);
+
+    self.setAttribute('xmlns:xlink', svgLink);
+
+    return self;
+};
+
 const Group = (args) => {
-    if (!args || typeof args !== "object") args = {};
+    if (!__.checkObject(args)) args = {};
     args.Type = "g";
     return Create(args);
 };
 
 const Circle = (args) => {
-
+    if (!__.checkObject(args)) args = {};
+    if (__.checkArray(args.children)) delete args.children; // no children allowed
+    
     args.Type = "circle";
     args.attr = ["cx", "cy", "r"]
     let self = Create(args);
 
-    self.setAttribute("cx", args.cx || 10);
-    self.setAttribute("cy", args.cy || 10);
-    self.setAttribute("r", args.r || 10);
+    // set read only props as attributes
+    self.setAttribute("cx", __.checkNumber(args.cx) ? args.cx : 10);
+    self.setAttribute("cy", __.checkNumber(args.cx) ? args.cy : 10);
+    self.setAttribute("r", __.checkNumber(args.r) ? args.cy : 10);
 
     return self;
 };
 
 const Rect = (args) => {
+    if (!__.checkObject(args)) args = {};
+    if (__.checkArray(args.children)) delete args.children; // no children allowed
+    
     args.Type = "rect";
-    args.attr = ["x", "y", "rx", "ry", "width", "height"]
+    args.attr = ["x", "y", "rx", "ry", "width", "height"];
     let self = Create(args);
 
     // set read only props as attributes
@@ -76,13 +86,16 @@ const Rect = (args) => {
     self.setAttribute("height", args.height || 10);
     self.setAttribute("x", args.x || 10);
     self.setAttribute("y", args.y || 10);
-    if (args.rx) self.setAttribute("rx", args.rx);
-    if (args.ry) self.setAttribute("ry", args.ry || 0);
+    self.setAttribute("rx", args.rx || 0);
+    self.setAttribute("ry", args.ry || 0);
 
     return self;
 };
 
 const Path = (args) => {
+    if (!__.checkObject(args)) args = {};
+    if (__.checkArray(args.children)) delete args.children; // no children allowed
+    
     args.Type = "path";
     args.attr = ["d", "transform"]
     let self = Create(args);

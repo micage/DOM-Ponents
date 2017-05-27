@@ -12,7 +12,7 @@ module.exports = {
     devServer: {
         // publicPath: 'www',
         contentBase: 'www', // Relative directory for base of server
-        host: 'localhost', // Change to '0.0.0.0' for external facing server
+        host: '0.0.0.0', // Change to '0.0.0.0' for external facing server
         port: 3012, // Port Number
         hot: true, // Live-reload
         hotOnly: true,

@@ -47,12 +47,13 @@
     "url": "git://github.com/micage/__no_repository.git"
   },
   "scripts": {
+    "start": "webpack-dev-server --config webpack-dev.config.js --progress --colors",
     "and": "webpack --config webpack-pro.config.js --progress --colors -p && cordova run android",
+    "ios": "webpack --config webpack-pro.config.js --progress --colors -p && cordova run ios",
     "dev": "webpack-dev-server --config webpack-dev.config.js --progress --colors --define process.env.NODE_ENV='development'",
     "dev2": "webpack-dev-server --config webpack-dev2.config.js --progress --colors --define process.env.NODE_ENV='development'",
-    "ios": "webpack --config webpack-pro.config.js --progress --colors -p && cordova run ios",
     "pro": "webpack --config webpack-pro.config.js --progress --colors -p --define process.env.NODE_ENV='production'",
-    "start": "webpack-dev-server --config webpack-dev.config.js --progress --colors"
+    "pro2": "webpack --config webpack-pro2.config.js --progress --colors -p --define process.env.NODE_ENV='production'"
   },
   "version": "1.0.4"
 }

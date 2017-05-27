@@ -34,10 +34,10 @@ const _Create = (args) => {
 
     self.Type = "TreeViewSVG";
 
-    // self.addEventListener('ScrollStart', function(evt) {
+    // self.addEventListener('mgScrollStart', function(evt) {
     // });
     //
-    // self.addEventListener('ScrollStop', function(evt) {
+    // self.addEventListener('mgScrollStop', function(evt) {
     // });
 
     return self;

@@ -99,9 +99,9 @@ class ListLinkedDouble {
     }
 
     /** insert A before B, if called without A,
-        B will be inserted at the lists' end
-        @param A: any
-        @param B: any
+        B will be inserted at the end of the list
+        @param {any} A - to be inserted 
+        @param {any=} B - already in the list
     */
     insertBefore(A, B) {
         if (!A) {
@@ -143,8 +143,8 @@ class ListLinkedDouble {
 
     /** insert B after A, if called without A,
         B will be inserted at the lists' end
-        @param B: any
-        @param A: any
+        @param {any} B - to be inserted
+        @param {any=} A - already in the list
     */
     insertAfter(B, A) {
         if (!B) {
@@ -278,12 +278,8 @@ class ListLinkedDouble {
 }
 
 //==============================================================================
-if (module.hot) {
-    module.hot.accept();
-}
-
-//==============================================================================
 module.exports = ListLinkedDouble;
+
 if (typeof window !== 'undefined') Object.assign(window.MICAGE = window.MICAGE || {}, {
     ListLinkedDouble
 });

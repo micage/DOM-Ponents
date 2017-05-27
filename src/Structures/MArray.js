@@ -1,28 +1,28 @@
 "use strict";
 
 class MArray extends Array {
-    constructor(...args: Array<T>) {
+    constructor(...args) {
         super(...args);
     }
-    get head(): T {
+    get head() {
         return this[0];
     }
-    set head(item: T) {
+    set head(item) {
         this.insertBefore(item);
     }
 
-    get tail(): T {
+    get tail() {
         return this[this.length - 1];
     }
-    set tail(item: T) {
+    set tail(item) {
         this.insertAfter(item);
     }
 
-    without(item: T): Array<T> {
-        return this.filter((v: T): boolean => v !== item);
+    without(item) {
+        return this.filter((v) => v !== item);
     }
 
-    insertBefore(item: T, at: T): Array<T> {
+    insertBefore(item, at) {
         let index = this.indexOf(at);
         if (index < 0) {
             index = 0;
@@ -33,7 +33,7 @@ class MArray extends Array {
         return this;
     }
 
-    insertAfter(item: T, at: T): Array<T> {
+    insertAfter(item, at) {
         let index = this.indexOf(at);
         if (index < 0) {
             index = this.length;
@@ -46,4 +46,4 @@ class MArray extends Array {
 }
 
 export default MArray;
-Object.assign(window.MICAGE = window.MICAGE || {}, {MArray});
+

@@ -9,11 +9,6 @@ import { Div } from "./Elements";
 */
 
 
-window.addEventListener("load", function (event) {
-    console.log("SplitView: all resources finished loading!");
-});
-
-
 const _Create = (args) => {
 
     const onresize = function(evt) {
@@ -30,7 +25,6 @@ const _Create = (args) => {
     let one = {
         class: "one",
         style: {
-            // 'display': 'inline-block',
             'overflow-x': 'hidden',
         },
         onresize

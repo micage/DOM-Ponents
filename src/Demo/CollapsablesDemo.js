@@ -5,40 +5,37 @@ import CollapsableSection from "../DOM/CollapsableSection";
 import { Div, P, Img } from "../DOM/Elements";
 import Code from "../DOM/Code";
 
-
+// raw imports
 import srcSelf from "!raw-loader!./CollapsablesDemo";
 import srcCollapsableSection from "!raw-loader!../DOM/CollapsableSection";
-// import svgScrollView from "!raw-loader!../../www/ScrollView_opt.svg";
 import svgEberswalder from "!raw-loader!../../www/Eberswalder5.svg";
 
 import styles from "./CollapsablesDemo.less";
-
-// let store = []; // holds all modifications to the DOM
 
 const _Create = (args) => {
 
     let self = [
         CollapsableSection({ 
-            initiallyClosed: false,
+            isInitiallyClosed: false,
             title: " Some really interesting code. Watch out!",
             children: [
                 Code({ class: styles.code, src: srcSelf, srcType: 'js' })
             ]
         }),
         CollapsableSection({
-            initiallyClosed: true,
+            isInitiallyClosed: true,
             title: "The world is my oyster.",
             children: [
                 P({ innerText: srcCollapsableSection })
         ]}),
         CollapsableSection({
-            initiallyClosed: true,
+            isInitiallyClosed: true,
             title: "One of these thrilling technical diagrams.",
             children: [
                 Img({ class: styles.svgImg, src: './ScrollView_opt.svg' })
         ]}),
         CollapsableSection({
-            initiallyClosed: true,
+            isInitiallyClosed: true,
             title: "Berlin, Berlin!",
             children: [
                 Div({
@@ -48,21 +45,7 @@ const _Create = (args) => {
         ]})
     ];
 
-    // store.push(self);
-
     return self;
-}
-
-//=============================================================================
-// HMR
-if (module.hot) {
-    module.hot.accept();
-    // reverse changes made to the DOM
-    module.hot.dispose(function () {
-        store.forEach(entry => {
-            entry.forEach(element => element.parentElement.remove(element));
-        })
-    });
 }
 
 export default _Create;

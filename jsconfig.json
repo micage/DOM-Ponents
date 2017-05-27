@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "checkJs": true
+    },
+    "exclude": [
+        "node_modules",
+        "www",
+        "www2",
+        "plugins",
+        "assets",
+        "hooks",
+        "platforms",
+        "lib"
+    ]
+}

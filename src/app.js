@@ -59,6 +59,7 @@ let root = Div({ id: 'app', class: styles.app, children: [
     Div({ id: 'content', class: styles.content + ' clearfix', children: [
         TabView({ class: styles.TabView, children:[
              // no arguments for the demo components, they are unique!
+             // they are directly returning an array of children (Elements)
             Tab({
                 id: 'ScrollView',
                 buttonText: 'ScrollView Demo',
@@ -99,10 +100,10 @@ let root = Div({ id: 'app', class: styles.app, children: [
             //         Code({ src: app_src2, srcType: 'js', class: styles.code })
             //     ]}),
             // ]}),
-            // Tab({
-            //     buttonText: 'Dynamic SVG', 
-            //     children: SVGCreatorDemo()
-            // }),
+            Tab({
+                buttonText: 'Dynamic SVG', 
+                children: SVGCreatorDemo()
+            }),
             // Tab({
             //     buttonText: 'Custom Elements',
             //     children: CustomElementsDemo()
@@ -116,7 +117,7 @@ let root = Div({ id: 'app', class: styles.app, children: [
             //     buttonText: 'Component Manifest',
             //     children: IntroDemo()
             // }),
-           // Tab({ id: 'SplitView2Demo', 
+            // Tab({ id: 'SplitView2Demo', 
             //     buttonText: 'SplitView 2', 
             //     children:[
             //     P({ innerText: 'SplitView (horizontal)' }),

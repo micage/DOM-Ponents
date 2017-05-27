@@ -80,7 +80,7 @@ class ListItemDouble {
         let result;
         do {
             result = cb(item);
-            if (!(typeof result === "boolean")) {
+            if (typeof result !== "boolean") {
                 result = true;
             }
             item = item._next;
@@ -102,11 +102,6 @@ class ListItemDouble {
         } while (item && result);
     }
 
-}
-
-//==============================================================================
-if (module.hot) {
-    module.hot.accept();
 }
 
 //==============================================================================

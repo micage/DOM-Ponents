@@ -237,41 +237,38 @@ const _onSelect = function(ev) { // ev.target = $('li > span')
     let prevSelectedItem = this._selectedItem;
     $(this._selectedItem).toggleClass(NODE_SELECTED_CLASS);
     this._selectedItem = ev.target;
+
     if (this._selectedItem) {
         $(this._selectedItem).toggleClass(NODE_SELECTED_CLASS);
-    }
 
-    let cb = this._options.onSelect;
-    if (typeof cb === 'function') {
-        cb.bind(this)(this._selectedItem, prevSelectedItem);
+        let cb = this._options.onSelect;
+        if (typeof cb === 'function') {
+            cb.bind(this)(this._selectedItem, prevSelectedItem);
+        }
     }
 };
 
 const _createItem = function(node) {
-    let li = document.createElement('li');
-    li.classList.add(NODE_CLASS);
-    li.classList.add(NODE_INVISIBLE_CLASS);
-    li.nodeDepth = node.depth;
+    let icon = document.createElement('i');
+    icon.classList.add(ICON_CLASS);
+    if (!! node.numChildren) {
+        icon.classList.add(ICON_COLLAPSED_CLASS);
+    }
 
     let span = document.createElement('span');
     span.classList.add(NODE_LABEL_CLASS);
     span.textContent = this._options.onLabel(node);
     span.setAttribute('draggable', 'true');
     span.style.paddingLeft = (node.depth - 1) * NODE_INDENTATION + 'px';
-    li.appendChild(span);
-    li.label = span; // for faster access
-
-    let icon = document.createElement('i');
-    icon.classList.add(ICON_CLASS);
     span.appendChild(icon);
     span.icon = icon; // for faster access
-    if(node.hasChildren) {
-        icon.classList.add(ICON_COLLAPSED_CLASS);
-    } 
-    // else {
-    //     li.data = node.data;
-    // }
 
+    let li = document.createElement('li');
+    li.classList.add(NODE_CLASS);
+    li.classList.add(NODE_INVISIBLE_CLASS);
+    li.appendChild(span);
+    li.label = span; // for faster access
+    li.nodeDepth = node.depth;
     li.data = node.data;
 
     return li;
@@ -298,9 +295,7 @@ const _addItem = function(srcItem, dstItem) {
 
     // destination item has no children, so create a group
     if ($dstGroup.length === 0) {
-        $dstGroup = $('<ul>')
-            .attr('role', 'group')
-            .appendTo($(dstItem));
+        $dstGroup = $('<ul>').appendTo($(dstItem));
 
         // initially all parent nodes are collapsed
         dstItem.classList.add(NODE_COLLAPSED_CLASS);
@@ -334,25 +329,49 @@ const _init = function(rootNode, options) {
 
     // create root list as child of $parent
     let ul = document.createElement('ul');
-    ul.setAttribute('role', 'group');
     this._parent.appendChild(ul);
 
     // init stack with root list
     let _stack = [ ul ];
+    let skipLevel = 1000;
 
     // visitor of node hierarchy
     const createULorLI = function(node) {
 
+        // check nodes to process, copy unprocessed nodes to node.data
+        let children = node.data; // weird
+        let childKeys = Object.keys(children);
+        childKeys.forEach(child => {
+            let _node = {
+                id: child,               
+            }
+            let doProcessChild = options.doNode(_node);
+            if (!doProcessChild) {
+                node.data[child] = children[child];
+                node.numChildren--;
+            }
+        });
+
+        if (node.depth > skipLevel) {
+            return;
+        }
+        else {
+            if (! options.doNode(node)) {
+                skipLevel = node.depth;
+                return;
+            }
+            skipLevel = 1000;
+        }
+
         let li = _createItem.bind(this)(node);
         ul.appendChild(li);
 
-        if (node.hasChildren) {
+        if (!! node.numChildren) {
             if (! node.isLastChild) {
                 _stack.push(ul); // save parent
             }
 
             ul = document.createElement('ul');
-            ul.setAttribute('role', 'group');
             li.appendChild(ul);
 
             // initially all parent nodes are collapsed
@@ -369,7 +388,7 @@ const _init = function(rootNode, options) {
 
     // make children of root visible
     for (let i = 0; i < ul.childNodes.length; i++) {
-        let child = ul.childNodes.item(i);
+        let child = ul.children.item(i);
         child.classList.toggle(NODE_INVISIBLE_CLASS);
     }
 
@@ -399,11 +418,25 @@ class TreeView4 {
         this._parent = parent;
         this._selectedItem = null;
         this._draggedNode = null;
-        this._options = {
-            onLabel: (node) => node.id || 'unknown',
-            onSelect: (node) => {}
-        };
-        Object.assign(this._options, options);
+
+        this._options = {};
+        if (!options.onLabel || typeof options.onLabel !== "function") {
+            this._options.onLabel = (node) => node.id || 'unknown';
+        } else {
+            this._options.onLabel = options.onLabel;
+        }
+
+        if (!options.onSelect || typeof options.onSelect !== "function") {
+            this._options.onSelect = (node) => node.id || 'unknown';
+        } else {
+            this._options.onSelect = options.onSelect;
+        }
+
+        if (!options.doNode || typeof options.doNode !== "function") {
+            this._options.doNode = (node) => true;
+        } else {
+            this._options.doNode = options.doNode;
+        }
 
         _init.bind(this)(rootNode, this._options);
     }
@@ -494,17 +527,17 @@ class TreeView4 {
     // Todo: more sophisticated find like find('Human.Head')
     find(labelText) {
         let found = null;
-        this.traverse(($li) => {
-            let $lbl = $li.children('span');
+        this.traverse((li) => {
+            let $lbl = $(li).children('span');
             if($lbl.text() === labelText) {
-                found = { $item: $li, $label: $lbl };
+                found = { $item: li, $label: $lbl };
                 return false; // stop further traversal
             }
         });
         return found;
     }
 
-    select(labelText) {
+    select(labelText, scrollTarget) {
         let found = this.find(labelText);
         if (found) {
             // call the click handler
@@ -523,16 +556,17 @@ class TreeView4 {
             tv._parent.scrollTop = 0; // reset scroll view
             let y0 = this._parent.offsetTop;
             let y1 = this.selected.offsetTop;
-            Console.log('mmm-tree offset.top: ' + y0);
-            Console.log('selected offset.top: ' + y1);
-            this._parent.scrollTop = y1 - y0;
+            // Console.log('mmm-tree offset.top: ' + y0);
+            // Console.log('selected offset.top: ' + y1);
+            // this._parent.scrollTop = y1 - y0;
+            scrollTarget.scrollTop = y1 - y0;
         }
     }
 
 }
 
 //======================================================================
-module.exports = TreeView4;
+export default TreeView4;
 
 //======================================================================
 if (typeof window !== 'undefined') {

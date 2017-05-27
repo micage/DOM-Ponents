@@ -1,4 +1,15 @@
-:global(.scrollBar .bar) {
-    min-width: 2px;
-    min-height: 2px;
+.scrollBar-h {
+    > :nth-child(2) {
+        background-color: #ccd;
+        min-width: 4px;
+        cursor: ew-resize;
+    }
+}
+
+.scrollBar-v {
+    > :nth-child(2) {
+        background-color: #ccd;
+        min-height: 4px;
+        cursor: ns-resize;
+    }
 }

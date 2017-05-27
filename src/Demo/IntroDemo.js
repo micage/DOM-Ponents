@@ -17,8 +17,6 @@ const _Create = (args) => {
         Div({ class: styles.essay, innerHTML: AppInfoText }),
     ];            
 
-    self.Type = "AppDemo";
-
     return self;
 };
 

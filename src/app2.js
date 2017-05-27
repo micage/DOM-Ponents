@@ -13,7 +13,7 @@ import "./Util/helper.js";
 // import "./babel-transform-test.js";
 // import "./Test/Layout/ValueSlider";
 // import "./Test/Layout/ScrollBar";
-import "./Test/TreeConverter";
+import "./Demo/TreeConverterDemo";
 
 //=============================================================================
 
@@ -27,7 +27,4 @@ import "./Test/TreeConverter";
 // HMR
 if (module.hot) {
     module.hot.accept();
-    module.hot.dispose(function() {
-        document.location = document.location; // reload page
-    });
 }

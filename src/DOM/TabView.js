@@ -32,10 +32,8 @@ const _Create = (args) => {
         views.push(view);
 
         // create a button for each tab as child of button bar
-        let aButton = {
+        let button = Button({
             innerText: tab.buttonText || "tab#" + i,
-            style: {
-            },
             target: view,
             onclick: (evt) => {
                 let button = evt.target;
@@ -49,9 +47,8 @@ const _Create = (args) => {
                 // $(window).trigger('resize'); // really necessary?
                 $(button.target).trigger('resize');
             }
-        };
-        let button = Button(aButton);
-        if (i == 0) { button_0 = button; } // store the first button
+        });
+        //if (i === 0) { button_0 = button; } // store the first button
         buttons.push(button);
     }
 
@@ -62,7 +59,7 @@ const _Create = (args) => {
     ];
 
     // mimick a click on the first Tab's buttton to show it
-    button_0.click();
+    buttons[0].click();
 
     let self = Div(payload);
     self.Type = 'TabView';

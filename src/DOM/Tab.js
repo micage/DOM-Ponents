@@ -1,7 +1,3 @@
-import styles from "./ScrollBar.less";
-import "../UI/Splitter";
-import { Div, Span } from "./Elements";
-
 /**
  * Tab is a child of TabView
  * a Tab is not already a HTMLElement but a template to create one

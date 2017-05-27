@@ -1,6 +1,11 @@
 // CollapsableSection.js
 
+/*  TODO:
+clean up the style mess!
+*/
+
 import { Div, P } from "./Elements";
+// @ts-ignore - next line
 import styles from "./CollapsableSection.less"
 /*
 .sectionHeader {
@@ -18,37 +23,32 @@ let styleP = {
     "margin-top": "20px",
     "margin-bottom": "10px",
     "font-size": "14pt",
-    "background-color": "hsl(214, 20%, 80%)",
     "padding": "3px 3px 3px 12px",
-    "border-width": "1px",
-    "border-style": "solid",
-    "border-color": "transparent",
-    "border-radius": "4px",
 
     "-webkit-user-select":" none",
     "-moz-user-select":" none",
     "-khtml-user-select":" none",
     "-ms-user-select":" none",
     "user-select":" none",
+
+    "background-color": "hsl(220, 50%, 90%)",
+    "color": "#222",
     "cursor": "default"
 };
 let stylePEnter = {
-    "background-color": "hsl(214, 10%, 90%)",
-    "border-width": "1px",
-    "border-style": "solid",
-    "border-color": "#556",
+    "background-color": "hsl(220, 50%, 60%)",
+    "color": "#eee",
     "cursor": "pointer"
 };
 let stylePLeave = {
-    "background-color": "hsl(214, 20%, 80%)",
-    "border-color": "transparent",
+    "background-color": "hsl(220, 50%, 90%)",
+    "color": "#222",
     "cursor": "default"
 };
 
 let styleContent = {
     "display": "block",
-    "max-height": "300px",
-    "overflow": "auto"
+    //"overflow-x": "auto"
 };
 let styleContentVisible = {
     "display": "block"
@@ -76,7 +76,7 @@ const _Create = (args) => {
     }
 
     let header = P({ innerText: args.title, style: styleP });
-    if (args.initiallyClosed === undefined) args.initiallyClosed = false;
+    if (args.isInitiallyClosed === undefined) args.isInitiallyClosed = false;
     
     header.onclick = (evt) => {
         let p = evt.target;
@@ -100,12 +100,13 @@ const _Create = (args) => {
         })
     }
     let content = Div({
+        class: args.class,
         style: styleContent,
         children: args.children
      });
     header.Content = content;
 
-    args.initiallyClosed ?
+    args.isInitiallyClosed ?
         Object.assign(content.style, styleContentHidden) :
         Object.assign(content.style, styleContentVisible);
 
@@ -115,10 +116,6 @@ const _Create = (args) => {
 
     return self;
 };
-
-if (module.hot) {
-    module.hot.accept();
-}
 
 export default _Create;
 

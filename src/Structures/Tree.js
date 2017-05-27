@@ -1,14 +1,4 @@
-"use strict";
 import ListItemDouble from "./ListItemDouble";
-
-type TreeVisitorType = (tree: Tree) => boolean;
-type TreeInfoType = {
-    doContinue: boolean,
-    hasChildren: boolean,
-    isLastChild: boolean,
-    depth: number
-};
-
 
 /** The Tree class represents a node in a tree of key value pairs
  *  here called 'id' and 'data'.
@@ -29,19 +19,19 @@ class Tree extends ListItemDouble {
     /** checks if we are last child of our parent
      *  @returns {boolean}
      */
-    isLastChild(): boolean {
+    isLastChild() {
         return this._next === null;
     }
 
     /** checks if we children -> we are parent
      *  @returns {boolean}
      */
-    hasChildren(): boolean {
+    hasChildren() {
         return this._firstChild !== null;
     }
 
     /** @param parent {Tree} */
-    setParent(parent: Tree) {
+    setParent(parent) {
         if (this._parent) {
             // unlink us from old parent and our siblings
             this.vanish();
@@ -50,17 +40,17 @@ class Tree extends ListItemDouble {
     }
 
     /** @returns {Tree} */
-    getParent(): Tree {
+    getParent() {
         return this._parent;
     }
 
     /** @returns {Tree} */
-    getFirstChild(): Tree {
+    getFirstChild() {
         return this._firstChild;
     }
 
     /** @param item {Tree} */
-    addChild(item: Tree) {
+    addChild(item) {
         if (!this._firstChild) {
             this._firstChild = this._lastChild = item;
         }
@@ -109,9 +99,9 @@ class Tree extends ListItemDouble {
     }
 
     /** Iterates through the children of this node
-     *  @param cb {(node: Tree) => boolean}
+     *  @param {node => boolean} cb
      */
-    forChildren(cb: (node: Tree) => boolean ) {
+    forChildren(cb) {
         for(var child = this._firstChild; child; child = child.next) {
             let result = cb(child);
             if (typeof result === "boolean" && result === false) {
@@ -120,8 +110,7 @@ class Tree extends ListItemDouble {
         }
     }
 
-    _preOrder(visitor: TreeVisitorType, info: TreeInfoType) {
-
+    _preOrder(visitor, info) {
         for(let child = this._firstChild; child; child = child.next) {
             if (info.doContinue === false) {
                 break;
@@ -142,11 +131,11 @@ class Tree extends ListItemDouble {
     }
 
     traverse(
-        visitor: TreeVisitorType,
-        doVisitRoot: boolean = true,
+        visitor,
+        doVisitRoot = true,
         mode = "preorder"
     ){
-        let info: TreeInfoType = {
+        let info = {
             id: "root",
             depth: 0,
             doContinue: true,
@@ -175,8 +164,4 @@ class Tree extends ListItemDouble {
 
 }
 
-
-module.exports = { Tree };
-if (typeof window !== 'undefined') {
-    Object.assign(window.MICAGE = window.MICAGE || {}, module.exports);
-}
+export default Tree;

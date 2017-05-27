@@ -1,46 +1,41 @@
-import styles from "./ScrollBar.less";
-import "../UI/Splitter";
+import { checkBoolean, checkObject } from "../Util/ParamCheck";
+// import "../UI/Splitter";
+import { split } from "../DOM/Split";
 import { Div } from "./Elements";
+
+// @ts-ignore
+import styles from "./ScrollBar.less";
+
+/* TODO
+restore mgMount set by user, otherwise it will not be called
+*/
+
+//==================================================================
+const _TypeH = styles["scrollBar-h"];
+const _TypeV = styles["scrollBar-v"];
 
 const _Create = (args) => {
 
-    let payload = {
-        children: [
-            Div({ class: "one"}),
-            Div({ class: "two" }),
-    ]};
-    Object.assign(payload, args);
+    args.children = [
+        Div({ class: "one" }),
+        Div({ class: "two" }),
+    ];
 
-    let self = Div(payload);
-    self.classList.add("ScrollBar");
-    self.classList.add(args.horizontal === false ? "v" : "h");
+    // this listener has to be added to the creation args (!)
+    if (!checkObject(args.listenTo)) args.listenTo = {};
+    args.listenTo.mgMount = onMount;
 
-    // self.addEventListener('ScrollStart', function(evt) {
-    // });
-    //
-    // self.addEventListener('ScrollStop', function(evt) {
-    // });
+    let self = Div(args);
+    if (!checkBoolean(args.horizontal)) args.horizontal = true;
+    self.classList.add(args.horizontal ? _TypeH : _TypeV);
+    self.Type = "ScrollBar";
+
+    function onMount(ev) {
+        console.log(`ScrollBar: ${ev.type} ${ev.target.className}`);
+        split(self, args);
+    };
 
     return self;
 };
-
-$( () => {
-    let scrollBar = $('.ScrollBar');
-
-    scrollBar.each(function () {
-        let args = {
-            horizontal: this.horizontal === false ? false : true
-            , ratio: this.ratio === undefined ? 0.5 : this.ratio
-        };
-        $(this)
-            .on('ratio', function(evt, ratio) {
-                args.ratio = ratio;
-                if (this.onScroll) this.onScroll(args);
-
-                return false; // consume event
-            })
-            .split(args);
-    });
-});
 
 export default _Create;

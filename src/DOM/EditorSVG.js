@@ -23,7 +23,6 @@ const _Create = (args) => {
 
     parseString(
         payload.src, {
-            mergeAttr: true,
             explicitArray: false,
             validator: (xpath, currentValue, newValue) => {
                 return newValue;

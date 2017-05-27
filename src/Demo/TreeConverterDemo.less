@@ -1,0 +1,58 @@
+@import "./app.less";
+
+@scrollBarHeight: 24px;
+@buttonWidth: 24px;
+
+.csection {
+    :global(p) {
+        padding-left: 10px !important;
+    }
+    .toolBar {
+        height: @scrollBarHeight;
+        border: 1px solid #aaa;
+        margin-bottom: 4px;
+        > * {
+            display: inline-block;
+            box-sizing: border-box;
+            vertical-align: top;
+            // position: relative;
+            border: 1px  solid #888;
+            line-height: @scrollBarHeight;
+            user-select: none;
+            cursor: default;
+            height: inherit;
+            top: -1px;
+        }
+        .button {
+            text-align: center;
+            width: @buttonWidth;
+        }
+        .scrollBar {
+            top: -1px;
+            :nth-child(2) { // thumb
+                background-color: #8c9;
+                cursor: ew-resize;
+                width: 10px !important;
+            }
+            width: 160px;
+        }
+        .ctrlText {
+            padding: 0 3px;
+        }
+        .l050 { width:  50px; }
+        .l100 { width: 100px; }
+        .l200 { width: 200px; }
+        .l400 { width: 400px; }
+        .full { width: 800px; }
+    }
+
+    .splitView {
+        display: block;
+        height: 300px;
+        font-family: sans-serif;
+        :nth-child(3) { // right panel
+            overflow: hidden;
+        }
+    }
+}
+

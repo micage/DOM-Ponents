@@ -4,17 +4,20 @@
 import { Img, P } from "../DOM/Elements";
 import { SVG, Group, Circle, Rect, Path } from "../SVG/Elements";
 import Code from "../DOM/Code";
+import CollapsableSection from "../DOM/CollapsableSection";
 
 // styles
 import styles from "./SVGCreatorDemo.less";
 
 // raw import of the source code
-import srcCode from "!raw-loader!./SVGCreatorDemo";
+import srcSVGCreatorDemo from "!raw-loader!./SVGCreatorDemo";
 
 
 const changeColor = (evt) => {
-    let r = Math.floor(Math.random() * 360);
-    evt.target.style.fill = "hsl(" + r + ", 90%, 70%)";
+    let h = Math.floor(Math.random() * 360);     //   0 < h < 360
+    let s = 50 + Math.floor(Math.random() * 40); //  50 < s <  90
+    let l = 60 + Math.floor(Math.random() * 35); //  50 < l <  95
+    evt.target.style.fill = `hsl(${h}, ${s}%, ${l}%)`;
 };
 
 const text0 = "Dynamic SVG";
@@ -65,17 +68,31 @@ const _Create = (args) => {
     let payload = Object.assign({}, args);
 
     let self = [
-        P({ class: styles.sectionHeader, innerText: text0 }),
-        SVG({ class: styles.SVGRoot1, children: [
-            Group({ id: "circles", children: circles }),
-            Group({ id: "rects", children: rects })
-        ]}),
-        P({ class: styles.sectionHeader, innerText: text1 }),
-        Code({ src: srcCode, srcType: 'js', class: styles.code }),
-        P({ class: styles.sectionHeader, innerText: text2 }),
-        P({ class: styles.p1, innerText: text2a }),
-        SVG({
-            class: styles.SVGRoot2, children: [ path1, path2, path3 ]
+        CollapsableSection({
+            title: text0,
+            children: [
+                SVG({
+                    class: styles.SVGRoot1, children: [
+                        Group({ id: "circles", children: circles }),
+                        Group({ id: "rects", children: rects })
+                    ]
+                }),
+            ]
+        }),
+        CollapsableSection({
+            title: text1,
+            children: [
+                Code({ src: srcSVGCreatorDemo, srcType: 'js', class: styles.code }),
+            ]
+        }),
+        CollapsableSection({
+            title: text2,
+            children: [
+                P({ class: styles.p1, innerText: text2a }),
+                SVG({
+                    class: styles.SVGRoot2, children: [path1, path2, path3]
+                }),
+            ]
         }),
     ];
 

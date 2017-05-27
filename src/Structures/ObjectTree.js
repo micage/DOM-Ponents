@@ -1,4 +1,5 @@
 "use strict";
+import * as __ from "../Util/ParamCheck";
 
 const NodePrinter = (node, breakCondition) => {
     let tabs = Array.from({ length: node.depth }, () => ".  ").join("");
@@ -12,40 +13,45 @@ const NodePrinter = (node, breakCondition) => {
 
 
 class ObjectTree {
-    constructor(json) {
+    constructor(json, options) {
         this._json = json;
     }
 
     _preOrder(obj, cb, node) {
         if (!obj || typeof obj !== "object") return;
+        // if (!__.checkObject(obj)) {
+        //     return;
+        // }
 
         let keys = Object.keys(obj);
         for (var i = 0; i < keys.length; i++) {
             if (node.doContinue === false) break; // callback returned false;
 
-            var child = obj[keys[i]];
-            node.hasChildren = true;
+            let key = keys[i];
+            var child = obj[key];
+            // node.hasChildren = true;
+            node.hasChildren = !!Object.keys(child).length;
+            node.numChildren = Object.keys(child).length;
 
             if (Array.isArray(child)) {
-                node.id = keys[i] + "[" + child.length + "]";
+                node.id = key + "[" + child.length + "]";
             }
             else if (child && typeof child === "object") {
-                node.id = keys[i];
-                if (Object.keys(child).length === 0) {
-                    node.hasChildren = false;
-                }
+                node.id = key;
+                // node.hasChildren = !!Object.keys(child).length;
+                // node.numChildren = Object.keys(child).length;
             }
             else {
                 node.hasChildren = false;
-                node.id = keys[i];
+                node.numChildren = 0;
+                node.id = key;
             }
 
             node.data = child;
-
             node.isLastChild = i === keys.length - 1;
             node.depth++;
 
-            node.doContinue = cb(node); // call visitor
+            cb(node); // call visitor, node is changed by callee
             this._preOrder(child, cb, node); // -> recursion
 
             node.depth--;

@@ -23,16 +23,18 @@ const _Create = (args) => {
         self, // parent
         new ObjectTree(payload.json),
         { // options
-            onSelect: payload.onSelect
+            doNode: payload.doNode,
+            onSelect: payload.onSelect,
+            onLabel: payload.onLabel
         }
     );
 
     self.Type = "TreeView";
 
-    // self.addEventListener('ScrollStart', function(evt) {
+    // self.addEventListener('mgScrollStart', function(evt) {
     // });
     //
-    // self.addEventListener('ScrollStop', function(evt) {
+    // self.addEventListener('mgScrollStop', function(evt) {
     // });
 
     return self;

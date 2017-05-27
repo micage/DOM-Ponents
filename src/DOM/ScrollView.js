@@ -43,11 +43,11 @@ const Create = (args) => {
     });
 
     // to know if we are in scrolling state, can apply css depending on the 'scrolling' class
-    self.addEventListener('ScrollStart', function(evt) {
+    self.addEventListener('mgScrollStart', function(evt) {
         self.classList.add('scrolling');
     });
 
-    self.addEventListener('ScrollStop', function(evt) {
+    self.addEventListener('mgScrollStop', function(evt) {
         self.classList.remove('scrolling');
     });
 
@@ -55,15 +55,3 @@ const Create = (args) => {
 };
 
 export default Create;
-
-
-
-//==============================================================================
-// Hot-Module-Replacement
-if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(function() {
-        // revoke the side effect
-        $('.' + styles.scrollView).remove();
-    });
-}

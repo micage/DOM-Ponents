@@ -1,18 +1,4 @@
 
-const Debug = {
-    CheckType: function(str, type, line) {
-        "use strict";
-        if (typeof str !== type) {
-            throw new TypeError("MICAGE: " + str + " is not a " + type);
-        }
-    },
-    CheckArray: function(arr) {
-        if (! Array.isArray(arr)) {
-            throw new TypeError("MICAGE: not an Array ");
-        }
-    }
-};
-
 const Node = function(name) {
     var self = { getClass: () => "Node" },
         _name = name,
@@ -26,7 +12,6 @@ const Node = function(name) {
     self.__defineGetter__("children", function() { return _children; });
     self.__defineGetter__("name", function() { return _name; });
     self.__defineSetter__("name", function(name) {
-        MICAGE.Debug.CheckType(name, "string");
         _name = name;
     });
 
@@ -34,7 +19,6 @@ const Node = function(name) {
     @param f {object} existing frame to be added as child
     */
     self.add = function(name) {
-        MICAGE.Debug.CheckType(name, "string");
         var node = Node(name);
         node._parent = this; // mmm: circular dependency, will this leak?
         node._index = _children.push(node);
@@ -46,7 +30,6 @@ const Node = function(name) {
     */
     self.addMore = function(nameArray) {
         var added = [];
-        MICAGE.Debug.CheckArray(nameArray);
         nameArray.forEach(function(name) {
             added.push(self.add(name));
         });
@@ -58,7 +41,6 @@ const Node = function(name) {
     @return {object} returns Node with that name
     */
     self.get = function(name) {
-        MICAGE.Debug.CheckType(name, "string");
         var foundNode;
         var hasName = function(node, i) {
             if(name === node.name) {
@@ -78,7 +60,6 @@ const Node = function(name) {
     @return true, if node was deleted
     */
     self.remove = function(name) {
-        MICAGE.Debug.CheckType(name, "string");
         var foundNode = self.get(name);
         if (foundNode) {
             // mmm: break circular dependency before deleting node? has to be done recursively.
@@ -153,9 +134,4 @@ const Node = function(name) {
     return self;
 };
 
-const Test = function() {
-    console.log("Running Test2");
-};
-
-module.exports = { Debug, Node, Test };
-Object.assign(window.MICAGE = window.MICAGE || {}, module.exports);
+module.exports = Node;

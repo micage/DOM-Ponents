@@ -1,0 +1,88 @@
+@scrollBarHeight: 24px;
+@buttonWidth: 24px;
+
+.toolBar {
+    height: @scrollBarHeight;
+    border: 1px solid #aaa;
+    margin-bottom: 4px;
+    > * {
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: top;
+        border: 1px  solid #888;
+        line-height: @scrollBarHeight - 4px;
+        user-select: none;
+        cursor: default;
+        height: inherit;
+    }
+    .button {
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+        width: @buttonWidth;
+        text-align: center;
+        border-radius: 50%;
+        border-width: 2px;
+        border-color: #aaa;
+        overflow: hidden;
+    }
+    .button:hover {
+        background-color: #aea;
+    }
+    .button:active {
+        position: relative;
+        top: 1px;
+    }
+
+    .myButton {
+        background-color:#44c767;
+        -moz-border-radius:28px;
+        -webkit-border-radius:28px;
+        border-radius:28px;
+        border:1px solid #18ab29;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:17px;
+        padding:16px 31px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #2f6627;
+    }
+    .myButton:hover {
+        background-color:#5cbf2a;
+    }
+    .myButton:active {
+        position:relative;
+        top:1px;
+    }
+    .scrollBar {
+        top: -1px;
+        :nth-child(2) { // thumb
+            background-color: #8c9;
+            cursor: ew-resize;
+            width: 10px !important;
+        }
+        width: 160px;
+    }
+    .edit {
+        padding: 0 3px;
+    }
+    .l100 {
+        width: 100px;
+    }
+    .l200 {
+        width: 200px;
+    }
+    .l300 {
+        width: 300px;
+    }
+}
+.dataView {
+    height: 300px;
+    font-size: 18em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: orange;
+    background-color: #bcd;
+    text-align: center;
+}

@@ -3,16 +3,19 @@ Create a tree from an array of flags
 provides a traverse method that mimicks preorder traversal
 */
 
-const Element = function(name: String, hasChildren: Boolean, isLastChild: Boolean, depth: Number) {
-    this.name = typeof name === "string" ? name : ("E" + Element.count);
+let numElements = 0;
+
+const Element = function(name, hasChildren, isLastChild, depth) {
+    this.name = typeof name === "string" ? name : ("E" + numElements);
     this.hasChildren = hasChildren;
     this.isLastChild = isLastChild;
     this.depth = depth;
+    numElements++;
 };
 
 Element.prototype = {
-    hasChildren(): Boolean { return this.hasChildren; },
-    isLastChild(): Boolean { return this.isLastChild; }
+    hasChildren() { return this.hasChildren; },
+    isLastChild() { return this.isLastChild; }
 };
 
 const testArray = [
@@ -41,7 +44,7 @@ const testArray = [
 const FlagTree = function() {
     this.arr = [];
 
-    this.initRandom = function(n: Number) {
+    this.initRandom = function(n) {
         this.arr[0] = new Element("root", true, true, 0);
         for(let i = 1; i < n-1; i++) {
             this.arr[i] = new Element(
@@ -53,7 +56,7 @@ const FlagTree = function() {
         this.arr[n-1] = new Element( "E" + (n-1), false, true );
     },
 
-    this.initFromFlags = function(a: Array = testArray) {
+    this.initFromFlags = function(a = testArray) {
         this.arr[0] = new Element("root", true, true, 0);
 
         let stack =[0];
@@ -82,9 +85,9 @@ const FlagTree = function() {
         }
     };
 
-    this.toString = function(): String {
+    this.toString = function() {
         //let cor = [-1,6,5,4 ,-1,-1,7,17 ,9,12,11,-1 ,-1,16,15,-1, -1,-1,19,-1,];
-        let makeTabs = (n: Number): String => {
+        let makeTabs = (n) => {
             let tabs = "";
             for( var i = 0; i < n; i++) { tabs+= "\t"; }
             return tabs;
@@ -115,7 +118,7 @@ const FlagTree = function() {
         return str;
     };
 
-    this.findNextSibling = function(index: Number): Number {
+    this.findNextSibling = function(index) {
         if (this.arr[index].isLastChild) {
             return -1;
         }
@@ -138,7 +141,7 @@ const FlagTree = function() {
         return -1;
     };
 
-    this.findLastSibling = function(index: Number): Number {
+    this.findLastSibling = function(index) {
         let localDepth = 0;
         for (let i = index; i < this.arr.length; i++) {
             let node = this.arr[i];
@@ -158,7 +161,7 @@ const FlagTree = function() {
 };
 
 FlagTree.prototype = {
-    traverse(cb: TreeVisitor, bVisitRoot: Boolean) {
+    traverse(cb, bVisitRoot) {
 
         let node = {
             id: this.arr[0].name,
@@ -199,7 +202,7 @@ FlagTree.prototype = {
     */
 
 
-    addChild(childName: String, parentName: String): Element {
+    addChild(childName, parentName) {
         let indexToInsert = -1;
 
         if (this.arr.length === 0) {
@@ -259,7 +262,7 @@ FlagTree.prototype = {
         return null;
     },
 
-    removeChild(childName: String, parentName: String) {
+    removeChild(childName, parentName) {
         console.log(parentName);
         throw new Error("not implemented");
     }
@@ -267,4 +270,3 @@ FlagTree.prototype = {
 };
 
 module.exports = FlagTree;
-Object.assign(window.MICAGE = window.MICAGE || {}, module.exports);
