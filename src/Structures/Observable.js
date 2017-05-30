@@ -1,5 +1,20 @@
 import * as __ from "../Util/ParamCheck";
 
+/* Manifesto
+Maybe this the point where the buzzword "immutability" comes into play.
+An observable can only detect changes to it's value. If properties
+of an object are altered the reference stays the same. So the value
+of the observable hasn't changed and no listener has to be called.
+
+Maybe we could provide specialized observable for complex datatypes - 
+like ObservableArray, ObservableTree. We will not be able to just
+"set" or "get" a value for this types. Instead we have to call
+functions which alter a node of a tree for example and inform the
+listener which node has changed. ObservableTree will act as an interface
+to the "real" tree with which you can add or remove nodes, change
+node data and so on.
+*/
+
 /**
  * @class
  * @constructor
@@ -49,8 +64,10 @@ ObservableValue.prototype = Object.create(Observable.prototype, {
     value: {
         get: function () { return this._val },
         set: function (val) {
-            this._val = val;
-            this._callback(val);
+            if (this._val !== val) {
+                this._val = val;
+                this._callback(val);
+            }
         },
     }
 });

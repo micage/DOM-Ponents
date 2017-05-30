@@ -5,6 +5,7 @@ import * as DOM from "../DOM/Elements";
 import ButtonBar from "../DOM/ButtonBar";
 import Button from "../DOM/Button";
 import ScrollBar from "../DOM/ScrollBar";
+import CollapsableSection from "../DOM/CollapsableSection";
 
 // @ts-ignore
 import styles from "./ObservablesTest.less";
@@ -64,58 +65,67 @@ const onScrollBarMount = function (ev) {
 };
 
 const _Create = () => {
-    return [
-        ButtonBar({
-            class: styles.toolBar,
-            children: [
-                ctrls.btnMinus = DOM.A({
-                    id: ids.btnMinus,
-                    innerText: "-",
-                    class: styles.button,
-                    listenTo: {
-                        "click": onButtonClick,
-                        "mgMount": msgFunc
-                    }
-                }),
-                ctrls.btnPlus = DOM.A({
-                    id: ids.btnPlus,
-                    innerText: "+",
-                    class: styles.button,
-                    listenTo: {
-                        click: onButtonClick,
-                        "mgMount": msgFunc
-                    }
-                }),
-                ctrls.sbVal = ScrollBar({
-                    id: "Heinz",
-                    class: styles.scrollBar,
-                    listenTo: {
-                        "mgRatio": onMgScroll,
-                        // "mgAppend": msgFunc,
-                        // "mgMount": onScrollBarMount
-                    }
-                }),
-                ctrls.editVal = DOM.Input({
-                    class: styles.edit,
-                    type: "number",
-                    min: 0, max: 100,
-                    listenTo: {
-                        "change": onEditChange,
-                        "mgAppend": msgFunc,
-                        "mgMount": msgFunc
-                    }
-                })
-            ]
-        }),
-        ctrls.dataView = DOM.Div({
-            class: styles.dataView,
-            listenTo: {
-                "mgMount": () => {
-                    obs.val1.value = 42;
-                }
+    let self = CollapsableSection({
+        title: "Test Observables",
+        class: styles.csection,
+        children: [
+            ButtonBar({
+                class: styles.toolBar,
+                children: [
+                    ctrls.btnMinus = DOM.A({
+                        id: ids.btnMinus,
+                        innerText: "-",
+                        class: styles.button,
+                        listenTo: {
+                            "click": onButtonClick,
+                            "mgMount": msgFunc
+                        }
+                    }),
+                    ctrls.btnPlus = DOM.A({
+                        id: ids.btnPlus,
+                        innerText: "+",
+                        class: styles.button,
+                        listenTo: {
+                            click: onButtonClick,
+                            "mgMount": msgFunc
+                        }
+                    }),
+                    ctrls.sbVal = ScrollBar({
+                        id: "Heinz",
+                        class: styles.scrollBar,
+                        listenTo: {
+                            "mgRatio": (ev) => obs.val1.setFromRatio(ev.detail),
+                            // "mgAppend": msgFunc,
+                            // "mgMount": onScrollBarMount
+                        }
+                    }),
+                    ctrls.editVal = DOM.Input({
+                        class: styles.edit,
+                        type: "number",
+                        min: 0, max: 100,
+                        listenTo: {
+                            "change": onEditChange,
+                            "mgAppend": msgFunc,
+                            "mgMount": msgFunc
+                        }
+                    })
+                ]
+            }),
+            ctrls.dataView = DOM.Div({
+                class: styles.dataView,
+            })
+        ],
+        listenTo: {
+            "mgMount": () => {
+                // first change of val1, initializes the component data 
+                // by calling all listeners
+                obs.val1.value = 42;
             }
-        })
-    ];
-}
+        }
+    });
+
+    return self;
+};
+
 
 export default _Create;

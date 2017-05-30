@@ -1,118 +1,52 @@
 // CollapsableSection.js
+import * as __ from "../Util/ParamCheck";
+import { Div, P, AddClasses } from "./Elements";
 
-/*  TODO:
-clean up the style mess!
-*/
-
-import { Div, P } from "./Elements";
 // @ts-ignore - next line
 import styles from "./CollapsableSection.less"
-/*
-.sectionHeader {
-    margin-left: -12px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 12pt;
-    background-color: #e2e9f3;
-    padding: 3px 3px 3px 12px;
-}
-*/
 
-let styleP = {
-    "margin-left": "-12px",
-    "margin-top": "20px",
-    "margin-bottom": "10px",
-    "font-size": "14pt",
-    "padding": "3px 3px 3px 12px",
-
-    "-webkit-user-select":" none",
-    "-moz-user-select":" none",
-    "-khtml-user-select":" none",
-    "-ms-user-select":" none",
-    "user-select":" none",
-
-    "background-color": "hsl(220, 50%, 90%)",
-    "color": "#222",
-    "cursor": "default"
-};
-let stylePEnter = {
-    "background-color": "hsl(220, 50%, 60%)",
-    "color": "#eee",
-    "cursor": "pointer"
-};
-let stylePLeave = {
-    "background-color": "hsl(220, 50%, 90%)",
-    "color": "#222",
-    "cursor": "default"
-};
-
-let styleContent = {
-    "display": "block",
-    //"overflow-x": "auto"
-};
-let styleContentVisible = {
-    "display": "block"
-};
-let styleContentHidden = {
-    "display": "none"
-};
-
-
-const toggleContent = (p) => {
-    let style = p.Content.style;
-    if (style.display === "block") {
-        style.display = "none";
-    }
-    else {
-        style.display = "block"; 
-    }
-}
-
-// TODO: args.useInlineBlock
+//==================================================================
 
 const _Create = (args) => {
-    if (!args.title || typeof args.title !== "string") {
+    if (!__.checkString(args.title)) {
         args.title = "Title is missing.";
     }
-
-    let header = P({ innerText: args.title, style: styleP });
-    if (args.isInitiallyClosed === undefined) args.isInitiallyClosed = false;
-    
-    header.onclick = (evt) => {
-        let p = evt.target;
-        toggleContent(p); 
+    if (!__.checkBoolean(args.isInitiallyClosed)) {
+        args.isInitiallyClosed = false;
     }
-
-    header.onmouseenter = (evt) => {
-        Object.assign(evt.target.style, stylePEnter);
-    }
-
-    header.onmouseleave = (evt) => {
-        Object.assign(evt.target.style, stylePLeave);
-    }
-
-    if (!args.children || !Array.isArray(args.children)) {
+    if (!__.checkArray(args.children)) {
         args.children = Div({
-            children: P({ 
-                innerText: "empty", 
-                style: { "font-size": "48pt" } 
-            })
+            innerText: "empty"
         })
     }
-    let content = Div({
-        class: args.class,
-        style: styleContent,
-        children: args.children
-     });
-    header.Content = content;
+    else if (!args.children.length) { // array could be empty
 
-    args.isInitiallyClosed ?
-        Object.assign(content.style, styleContentHidden) :
-        Object.assign(content.style, styleContentVisible);
+    }
+
+    let header = P({
+        class: styles.p,
+        innerText: args.title, 
+    });
+    
+    let content = Div({
+        class: styles.content,
+        children: args.children,
+     });
 
     let self = Div({
-        children: [ header, content ]
+        class: styles.csection,
+        children: [ header, content ],
+        listenTo: args.listenTo
     });
+    if (__.checkString(args.class)) AddClasses(self, args.class);
+
+    if (args.isInitiallyClosed) {
+        self.classList.toggle('hidden');
+    }
+
+    header.onclick = (evt) => {
+        self.classList.toggle(styles.hidden);
+    }
 
     return self;
 };

@@ -1,27 +1,46 @@
 @import "./app.less";
 
-@scrollBarHeight: 24px;
+@toolBarHeight: 24px;
 @buttonWidth: 24px;
 
+.tbItem {
+    display: inline-block;
+    box-sizing: border-box;
+    height: inherit;
+    vertical-align: top;
+    // position: relative;
+    border: 1px  solid #888;
+    line-height: @toolBarHeight;
+    user-select: none;
+    cursor: default;
+    font-size: 11px;
+};
+
 .csection {
-    :global(p) {
-        padding-left: 10px !important;
+    > :first-child {        // header
+        font-size: 14pt;
+    }
+    > :nth-child(2) {       // content
+            margin: 8px;
     }
     .toolBar {
-        height: @scrollBarHeight;
+        height: @toolBarHeight;
         border: 1px solid #aaa;
-        margin-bottom: 4px;
-        > * {
+        .editValueGroup {
             display: inline-block;
-            box-sizing: border-box;
-            vertical-align: top;
-            // position: relative;
-            border: 1px  solid #888;
-            line-height: @scrollBarHeight;
-            user-select: none;
-            cursor: default;
             height: inherit;
-            top: -1px;
+            > * {
+                display: inline-block;
+                box-sizing: border-box;
+                vertical-align: top;
+                // position: relative;
+                border: 1px  solid #888;
+                line-height: @toolBarHeight;
+                user-select: none;
+                cursor: default;
+                height: inherit;
+                top: -1px;
+            }
         }
         .button {
             text-align: center;
@@ -50,6 +69,9 @@
         display: block;
         height: 300px;
         font-family: sans-serif;
+        .treeView > ul { // right panel
+            margin-top: 2px;
+        }
         :nth-child(3) { // right panel
             overflow: hidden;
         }

@@ -1,0 +1,41 @@
+.csection {
+    color: #333;
+
+    .p {
+        padding: 3px 3px 3px 12px;
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        background-color: hsl(220, 50%, 90%);
+        color: #222;
+        cursor: default
+    };
+
+    .p:hover {
+        background-color: hsl(220, 50%, 60%);
+        color: #eee;
+        cursor: pointer;    
+    }
+    
+    .content {
+        // display: none;
+        max-height: 400px;
+        -webkit-transition: max-height 0.2s;
+        -moz-transition: max-height 0.2s;
+        transition: max-height 0.2s;
+        // transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+        transition-timing-function: ease-in-out;
+        overflow: hidden;
+    }
+}
+
+
+.csection.hidden .content {
+    // display: none;
+    max-height: 0;
+}
+

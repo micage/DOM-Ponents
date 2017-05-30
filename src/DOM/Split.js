@@ -11,6 +11,8 @@ const clsSplitted = "cls" + Math.random().toString().slice(2);
  * @param {*} options 
  */
 
+let cursorBackup = document.body.style.cursor;
+
 window.addEventListener("resize", function (evt) {
     let splittedElements = document.querySelectorAll(clsSplitted);
     for (var i = 0; i < splittedElements.length; i++) {
@@ -53,7 +55,7 @@ export const split = function(elem, options ) {
     for (let i = 0; i < divs.length; i++) {
         let childStyle = divs.item(i).style;
         if (settings.horizontal) {
-            childStyle.float = "left"; // necessary?
+            childStyle.display = "inline-block";
             childStyle.height = boxHeight + "px";
         }
         else {
@@ -87,7 +89,6 @@ export const split = function(elem, options ) {
         return false; // consume event
     });
 
-    let cursorBackup = document.body.style.cursor;
     let barX = 0, barY = 0;
     
     bar.addEventListener('mousedown', function(ev) {

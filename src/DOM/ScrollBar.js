@@ -21,19 +21,15 @@ const _Create = (args) => {
         Div({ class: "two" }),
     ];
 
-    // this listener has to be added to the creation args (!)
-    if (!checkObject(args.listenTo)) args.listenTo = {};
-    args.listenTo.mgMount = onMount;
-
     let self = Div(args);
     if (!checkBoolean(args.horizontal)) args.horizontal = true;
     self.classList.add(args.horizontal ? _TypeH : _TypeV);
     self.Type = "ScrollBar";
 
-    function onMount(ev) {
+    self.addEventListener("mgMount", function onMount(ev) {
         console.log(`ScrollBar: ${ev.type} ${ev.target.className}`);
         split(self, args);
-    };
+    });
 
     return self;
 };

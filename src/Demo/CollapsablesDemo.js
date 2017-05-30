@@ -1,15 +1,15 @@
-/* TODO
-*/
-
 import CollapsableSection from "../DOM/CollapsableSection";
 import { Div, P, Img } from "../DOM/Elements";
 import Code from "../DOM/Code";
 
-// raw imports
+// @ts-ignore
 import srcSelf from "!raw-loader!./CollapsablesDemo";
+// @ts-ignore
 import srcCollapsableSection from "!raw-loader!../DOM/CollapsableSection";
+// @ts-ignore
 import svgEberswalder from "!raw-loader!../../www/Eberswalder5.svg";
 
+// @ts-ignore
 import styles from "./CollapsablesDemo.less";
 
 const _Create = (args) => {

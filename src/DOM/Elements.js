@@ -10,19 +10,28 @@ const _Element = {
     props: Object,
     children: [] // of HTMLElement
 };
-
-export const trigger = (elem, evtName, data) => {
+const EventOptions = {
+    bubbles: false,
+    cancelable: true
+};
+export const trigger = (elem, evtName, data, options) => {
     let ev;
     if (data === undefined) {
-        ev = new Event(evtName, {
-            bubbles: false
-        });
+        if(__.checkObject(options)) {
+            ev = new Event(evtName);
+        }
+        else {
+            ev = new Event(evtName, options);
+        }
     }
     else {
-        ev = new CustomEvent(evtName, {
-            detail: data,
-            bubbles: false
-        });
+        if (__.checkObject(options)) {
+            options.detail = data;
+        }
+        else {
+            options = { detail: data };
+        }
+        ev = new CustomEvent(evtName, options);
     }
     elem.dispatchEvent(ev);
 }
@@ -118,9 +127,14 @@ export const mount = () => {
             let child = children.item(i);
             stack.push(child);
         }
-        trigger(elem, "mgMount")
+        
         stackIndex++;
     }
+    // mount elements in reverse order, root at last
+    stack.reverse().forEach((elem) => {
+        trigger(elem, "mgMount")
+        // console.log(`mount: ${elem.tagName}, ${elem.id}, ${elem.className}`);
+    });
 
     console.log(`DOM fully loaded and parsed. Elements: ${stackIndex - 1}`);
 };

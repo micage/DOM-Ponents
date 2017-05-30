@@ -62,7 +62,7 @@ import * as __ from "../Util/ParamCheck";
 
             if (settings.horizontal) {
                 $(this).children('div').each(function(i, o) {
-                    $(o).css('float', 'left');
+                    $(o).css('display', 'inline-block');
                 });
             }
             this.onresize();
