@@ -1,5 +1,6 @@
 import styles from "./app2.less";
 import "./Util/helper.js";
+import { App, mount } from "./DOM/Elements";
 // import Pattern1 from "./Test/Pattern1.js";
 // import "./Test/CanvasTest.js";
 // import "./Test/FrameTest.js";
@@ -13,9 +14,10 @@ import "./Util/helper.js";
 // import "./babel-transform-test.js";
 // import "./Test/Layout/ValueSlider";
 // import "./Test/Layout/ScrollBar";
-import "./Demo/TreeConverterDemo";
+import SVGEditor from "./Demo/SVGEditor";
 
 //=============================================================================
+App(SVGEditor);
 
 //=============================================================================
 
@@ -26,5 +28,12 @@ import "./Demo/TreeConverterDemo";
 //=============================================================================
 // HMR
 if (module.hot) {
-    module.hot.accept();
+    module.hot.accept(
+        ['./app2.js', './Demo/SVGEditor.js'],
+        function (v) {
+            App(SVGEditor);
+            mount();
+            console.log('module.hot.accept ' + JSON.stringify(v));
+        }
+    );
 }

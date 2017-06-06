@@ -10,6 +10,7 @@ const _Element = {
     props: Object,
     children: [] // of HTMLElement
 };
+
 const EventOptions = {
     bubbles: false,
     cancelable: true
@@ -33,11 +34,33 @@ export const trigger = (elem, evtName, data, options) => {
         }
         ev = new CustomEvent(evtName, options);
     }
-    elem.dispatchEvent(ev);
+    
+    return elem.dispatchEvent(ev);
 }
 
 export const genId = () => "id:" + Math.random();
 
+export const forParents = (elem, untilElem, cb, cbFilter) => {
+    let parent = elem;
+    while ((parent = parent.parentElement) && parent !== untilElem) {
+        if (cbFilter && !cbFilter(parent)) {
+            continue;
+        }
+        else {
+            cb(parent);
+        }
+    }
+}
+
+export const getParents = (elem, untilElem) => {
+    let parents = [];
+    forParents(
+        elem,
+        untilElem || document.body,
+        (parent) => parents.push(parent)
+    );
+    return parents;
+}
 
 export const AppendChildren = (node, children) => {
     if (__DEBUG__) {
@@ -205,6 +228,13 @@ export const Pre = (args) => {
 export const Input = (args) => {
     let _args = args || {};
     _args.Type = 'input';
+
+    return Create(_args);
+};
+
+export const TextArea = (args) => {
+    let _args = args || {};
+    _args.Type = 'textarea';
 
     return Create(_args);
 };

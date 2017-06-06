@@ -1,6 +1,6 @@
 import TreeView from "../UI/TreeView4";
 import ObjectTree from "../Structures/ObjectTree";
-import { Div } from "../DOM/Elements";
+import { Div, trigger } from "../DOM/Elements";
 
 
 const _Create = (args) => {
@@ -24,17 +24,22 @@ const _Create = (args) => {
         new ObjectTree(payload.json),
         { // options
             doNode: payload.doNode,
-            onSelect: payload.onSelect,
+            onSelect: (label) => trigger(self, "mgSelect", label),
             onLabel: payload.onLabel
         }
     );
 
     self.Type = "TreeView";
 
-    // self.addEventListener('mgScrollStart', function(evt) {
+    self.addEventListener("mgDoSelect", function(ev) {
+        let lblText = ev.detail;
+        console.log('TreeView: ' + lblText + " selected");        
+        treeView.select(lblText);
+    });
+    // self.addEventListener('mgScrollStart', function(ev) {
     // });
     //
-    // self.addEventListener('mgScrollStop', function(evt) {
+    // self.addEventListener('mgScrollStop', function(ev) {
     // });
 
     return self;

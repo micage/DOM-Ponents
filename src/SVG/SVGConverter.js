@@ -5,13 +5,15 @@ import { NodePrinter } from "../Structures/ObjectTree";
 
 import { parseString } from "xml2js";
 
+// var pathSegmentPattern = /[a-z][^a-z]*/ig;
+
 // ===========================================================================
 
 /** @export
  * @param {string} - an XML file as a string
  * @return {Object} - object literal, hierarchy of svg groups and objects
  */
-const parseSVG = file => {
+export const parseSVG = file => {
     let result = null;
     let err = null;
 
@@ -43,7 +45,7 @@ const parse = (trgtParentNode, srcNode) => {
                 case "rect": parseRect(trgtParentNode, srcNode[key]); break;
                 case "circle": parseCircle(trgtParentNode, srcNode[key]); break;
                 case "text": parseText(trgtParentNode, srcNode[key]); break;
-                default: console.log(`${key}: ${srcNode[key]}`);
+                default: parseElements(trgtParentNode, srcNode[key]);
             }
         });
     }
@@ -56,6 +58,14 @@ const parse = (trgtParentNode, srcNode) => {
 };
 
 let unknownCouter = 0;
+
+const parseElements = (parentNode, elems) => {
+    if (__.checkArray(elems)) {
+        elems.forEach(elem => {
+            parse(parentNode, elem);
+        })
+    }
+};
 
 const parseAttr = (parentNode, attr) => {
     if (!__.checkObject(attr)) {
@@ -128,4 +138,4 @@ const parseText = (parentNode, texts) => {
     }
 };
 
-export { parseSVG };
+//export { parseSVG };

@@ -9,11 +9,12 @@
     height: inherit;
     vertical-align: top;
     // position: relative;
-    border: 1px  solid #888;
+    border: 0; // reset UA styles
+    border-right: 1px solid #888;
     line-height: @toolBarHeight;
     user-select: none;
     cursor: default;
-    font-size: 10pt;
+    font-size: 8pt;
 };
 
 .csection {
@@ -26,22 +27,43 @@
     .toolBar {
         height: @toolBarHeight;
         border: 1px solid #aaa;
+        > * {
+            &:extend(.tbItem);
+        }
         .editValueGroup {
-            display: inline-block;
-            height: inherit;
             > * {
-                display: inline-block;
-                box-sizing: border-box;
-                vertical-align: top;
-                // position: relative;
-                border: 1px  solid #888;
-                line-height: @toolBarHeight;
-                user-select: none;
-                cursor: default;
-                height: inherit;
-                top: -1px;
+                &:extend(.tbItem);
             }
         }
+
+        // primitive toggle button
+        .toggleButton {
+            width: 40px;
+            text-align: center;
+            font-weight: bold;
+            line-height: 24px;
+            color: #56f;
+            &:before {
+                content: "MAP";
+            }
+            &:global(.active) {
+                color: #2a1;
+                &:before  {
+                    content: "DATA";
+                }
+            }
+            &:hover {
+                background-color: #f2f2f2;
+            }
+            &:active {
+                line-height: 26px;
+            }
+        }
+
+        // .toggleButton:global(.active) {
+        //     color: green;
+        // }
+
         .button {
             text-align: center;
             width: @buttonWidth;

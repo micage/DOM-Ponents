@@ -1,0 +1,37 @@
+.self {
+    display: inline-block;
+    height: inherit;
+    width: inherit;
+
+    > * {
+        display: block;
+    }
+
+    .title {
+        margin: 10px;
+        font-size: 14pt;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .prop {
+        display: flex;
+        margin: 15px;
+        .label {
+            min-width: 120px;
+            display: inline-block;
+            text-align: right;
+            padding-right: 8px;
+            &:after {
+                content: ":"
+            }
+        }
+
+        input[type="text"] {
+            flex: 1
+        }
+
+        .value {
+        }
+    }
+
+}

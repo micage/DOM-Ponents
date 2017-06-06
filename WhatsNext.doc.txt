@@ -1,0 +1,44 @@
+Selections:
+    Big Black Hole
+
+Cut/Copy/Paste (Selection):
+    Big Black Hole
+
+TreeView:
+    implement ObservableTree!
+
+    edit node label
+
+    add/remove items -> create dialog
+
+    show/hide nodes, unhide all, hide others
+    same with lock/ unlock
+
+    give leaf-nodes a z-value and a transform matrix
+
+    multi-selection (by pressing SHIFT for ex.)
+
+    Items: path, circle, rect, line, text, ... make their props editable
+
+Animations: Black Hole
+    Transformations by altering node trafo matrix
+    maybe give nodes a cb function that has to provide values 
+    for a given point in time
+
+Load/Save project file: Black Hole
+    Input type="file" could be a start -> "svgo online" for a start
+
+    Import svg into existing project, for merging
+
+use "use"!
+    for instancing, leads to a reference system, items are resources only
+    an item which has been loaded or created is unique and not visible and not 
+    part of the scene. Using it in a scene would require creating a reference to it
+
+Styles:
+    sorting of styles
+
+Space Partitioning/ Visibility: e.g. quad tree, k-D tree
+    visibility check vs. brute-force painting, measure times!
+
+

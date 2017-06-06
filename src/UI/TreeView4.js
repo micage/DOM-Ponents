@@ -3,6 +3,7 @@
 import './TreeView4.less';
 import 'font-awesome/css/font-awesome.css';
 import Console from "./Console";
+import { forParents, getParents } from "../DOM/Elements"
 
 const ICON_CLASS = 'fa';
 const _ICON_CLASS = '.fa';
@@ -26,15 +27,15 @@ const _NODE_LABEL_CLASS = '.tree-node-label';
 
 const NODE_INDENTATION = 16; // pixels
 
-
+// handles all click inside the TreeView
 const _handleClickTree = function(evt) {
-    let clickedElement = evt.srcElement ? $(evt.srcElement) : $(evt.originalTarget); // Grrh!
+    let clickedElement = evt.srcElement ? evt.srcElement : evt.originalTarget; // Grrh!
     // possible srcElement: tree, listitem, label, icon
 
-    if ( clickedElement.hasClass(ICON_CLASS) ) {
-        this.toggle(clickedElement.parent().parent()); // toggle expects a listitem
+    if ( clickedElement.classList.contains(ICON_CLASS) ) {
+        this.toggle(clickedElement.parentElement.parentElement); // toggle expects a listitem
     }
-    else if ( clickedElement.hasClass(NODE_LABEL_CLASS) ) {
+    else if (clickedElement.classList.contains(NODE_LABEL_CLASS) ) {
         _onSelect.call(this, evt); // toggle expects a label, already in ev.target
     }
     else {
@@ -61,18 +62,9 @@ const _isTargetOk = function(srcSpan, dstSpan) {
         return false;
     }
 
-    // 3) anchestors of dstItem contain srcItem
-    if ($(dstSpan).closest(srcItem).length !== 0) {
-        return false;
-    }
+    // 3) Todo: from a different tree -> see above 0)
 
-    // 4) Todo: from a different tree -> see above 0)
-
-    // 5) Todo: user defined
-
-    if ($(dstSpan).hasClass(NODE_CLASS)) {
-        return false;
-    }
+    // 4) Todo: user defined
 
     return true;
 };
@@ -82,7 +74,7 @@ const _handleDragStart = function(ev) {
     Console.log('drag start: ' + ev.target.innerText);
 
     // only item labels can be dragged
-    if ( $(ev.target).hasClass(NODE_LABEL_CLASS) ) {
+    if (ev.target.classList.contains(NODE_LABEL_CLASS) ) {
         // ev.target.style.opacity = 0.5;
 
         // Todo: this shoudn't be necessary, -> use setData, but what MIME-type?
@@ -105,30 +97,28 @@ const _handleDragStart = function(ev) {
  *  dropEffect: Based on effectAllowed value
  */
 const _handleDragEnter = function(ev) {
-    let $element = $(ev.target);
+    let element = ev.target;
 
     // Firefox fix, it gives a text node instead of list item
     if (ev.target.constructor.name === "Text") {
-        $element = $(ev.target.parentNode);
+        element = ev.target.parentNode;
     }
 
     // ev.dataTransfer.dropEffect = 'move';
 
     // drag over a node label
-    if ( $element.hasClass(NODE_LABEL_CLASS) ) {
-        Console.log('drag enter: ' + $element.text()
+    if (element.classList.contains(NODE_LABEL_CLASS) ) {
+        Console.log('drag enter: ' + element.innerText
             + ' effect: ' + ev.dataTransfer.dropEffect);
 
         if (_isTargetOk(this._draggedNode, ev.target)) {
             ev.preventDefault();
-            $element.addClass('over');
-            // dragImage.setOk();
-            // $(ev.target).parent().addClass('over-item');
+            element.classList.add('over');
         }
     }
 
     // drag over list item or 'mmm-tree' (this is the empty space inside the div)
-    else if ( $element.hasClass(NODE_CLASS) || $element.hasClass(TREE_CLASS) ) {
+    else if ( element.classList.contains(NODE_CLASS) || element.classList.contains(TREE_CLASS) ) {
         Console.log('drag enter: / effect: ' + ev.dataTransfer.dropEffect);
         ev.preventDefault();
     }
@@ -142,15 +132,15 @@ const _handleDragEnter = function(ev) {
  *  Default Action: Reset the current drag operation to "none"
  */
 const _handleDragOver = function(ev) {
-    let $element = $(ev.target);
+    let element = ev.target;
 
     // Firefox fix, it gives a text node instead of list item
     if (ev.target.constructor.name === "Text") {
-        $element = $(ev.target.parentNode);
+        element = ev.target.parentNode;
     }
 
     // drag over a node label
-    if ( $element.hasClass(NODE_LABEL_CLASS) ) {
+    if (element.classList.contains(NODE_LABEL_CLASS) ) {
         // Console.log('drag over: ' + ev.target.innerText + ' effect: ' + ev.dataTransfer.dropEffect);
         if (_isTargetOk(this._draggedNode, ev.target)) {
             ev.preventDefault();
@@ -158,7 +148,7 @@ const _handleDragOver = function(ev) {
     }
 
     // drag over list item or 'mmm-tree' (this is the empty space inside the div)
-    else if ( $element.hasClass(NODE_CLASS) || $element.hasClass(TREE_CLASS) ) {
+    else if (element.classList.contains(NODE_CLASS) || element.classList.contains(TREE_CLASS) ) {
         // Console.log('drag over: /');
         ev.preventDefault();
     }
@@ -172,16 +162,14 @@ const _handleDragOver = function(ev) {
  *  dropEffect: "none"
  */
 const _handleDragLeave = function(ev) {
-    let $element = $(ev.target);
+    let element = ev.target;
 
     // Firefox fix, it gives a text node instead of list item
     if (ev.target.constructor.name === "Text") {
-        $element = $(ev.target.parentNode);
+        element = ev.target.parentNode;
     }
 
-    // Console.log('drag leave: ' + ev.target.innerText);
-    $element.removeClass('over');
-    // $(ev.target).parent().removeClass('over-item');
+    element.classList.remove('over');
 };
 const _handleDrop = function(ev) {
     // this._draggedNode is a label, it's parent is a list item, drop source
@@ -233,13 +221,13 @@ const _handleDragEnd = function(ev) {
     Console.log('drag end: ' + ev.target.innerText);
 };
 
-const _onSelect = function(ev) { // ev.target = $('li > span')
+const _onSelect = function(ev) { // ev.target.tagName = "span"
     let prevSelectedItem = this._selectedItem;
-    $(this._selectedItem).toggleClass(NODE_SELECTED_CLASS);
-    this._selectedItem = ev.target;
+    if (this._selectedItem) this._selectedItem.classList.toggle(NODE_SELECTED_CLASS);
 
+    this._selectedItem = ev.target;
     if (this._selectedItem) {
-        $(this._selectedItem).toggleClass(NODE_SELECTED_CLASS);
+        this._selectedItem.classList.toggle(NODE_SELECTED_CLASS);
 
         let cb = this._options.onSelect;
         if (typeof cb === 'function') {
@@ -287,20 +275,21 @@ const AdjustNodeDepth = function(srcItem, dstItem) {
 }
 
 const _addItem = function(srcItem, dstItem) {
-    // $srcItem = drag source, $dstItem = drop target
+    // srcItem = drag source, dstItem = drop target
     
     AdjustNodeDepth(srcItem, dstItem);
     
-    let $dstGroup = $(dstItem).children('ul'); // get the group element
+    let ul = dstItem.children.item(1); // get the group element
 
     // destination item has no children, so create a group
-    if ($dstGroup.length === 0) {
-        $dstGroup = $('<ul>').appendTo($(dstItem));
+    if (!ul) {
+        ul = document.createElement('ul');
+        dstItem.appendChild(ul);
 
         // initially all parent nodes are collapsed
         dstItem.classList.add(NODE_COLLAPSED_CLASS);
 
-        // icon is child of label
+        // icon is child of label, TODO: do not pollute global Elements -> _createItem
         dstItem.label.icon.classList.add(ICON_COLLAPSED_CLASS);
     }
 
@@ -309,7 +298,7 @@ const _addItem = function(srcItem, dstItem) {
         srcItem.classList.toggle(NODE_INVISIBLE_CLASS);
     }
 
-    $dstGroup[0].appendChild(srcItem);
+    ul.appendChild(srcItem);
 };
 
 const _init = function(rootNode, options) {
@@ -327,7 +316,7 @@ const _init = function(rootNode, options) {
     // click label -> selects it
     this._parent.addEventListener('click', _handleClickTree.bind(this), false);
 
-    // create root list as child of $parent
+    // create root list
     let ul = document.createElement('ul');
     this._parent.appendChild(ul);
 
@@ -391,9 +380,6 @@ const _init = function(rootNode, options) {
         let child = ul.children.item(i);
         child.classList.toggle(NODE_INVISIBLE_CLASS);
     }
-
-    // mimick a click to select root
-    _onSelect.call(this, { target: this._parent });
 };
 
 /** Note on ES6 class concept
@@ -414,7 +400,6 @@ const _init = function(rootNode, options) {
 */
 class TreeView4 {
     constructor(parent, rootNode, options) { // parent = 'div.mmm-tree'
-        this._$parent = $(parent);
         this._parent = parent;
         this._selectedItem = null;
         this._draggedNode = null;
@@ -442,7 +427,7 @@ class TreeView4 {
     }
 
     // Todo: synchronize tree
-    addchild($parent, childName, childData) {
+    addchild(parent, childName, childData) {
     }
 
     // Todo: synchronize tree
@@ -467,70 +452,91 @@ class TreeView4 {
     // Todo: synchronize tree
     removeSelection() {
         if (this._selectedItem) {
-            this.remove($(this._selectedItem.parentNode));
+            this.remove(this._selectedItem.parentNode);
             this._selectedItem = null;
         }
     }
 
     // Todo: synchronize tree
-    remove($item) {
-        // remove group and icon if old parent gets empty
-        let $srcGroup = $item.closest('ul');
-        let $srcGroupIcon = $srcGroup.siblings(_ICON_CLASS);
-        let isSingleChild = $item.siblings(_NODE_CLASS).length === 0;
-        $item.remove();
+    // li { span { i }, ul { li, li, ... } } , recursive definition
+    remove(li) {
+        let ul = li.parentElement;
+        let parentLi = ul.parentElement;
+        let parentLabel = parentLi.children.item(0);
+        let parentIcon = parentLabel.children.item(0);
+        let isSingleChild = ul.children.length === 0;
+        ul.removeChild(li);
+        // remove group and change icon if old parent gets empty
         if (isSingleChild) {
-            $srcGroup.remove();
-            $srcGroupIcon.off().remove(); // todo: is it necessary to off()?
+            parentLi.removeChild(ul);
+            parentLabel.classList.remove(ICON_COLLAPSED_CLASS);
+            parentLabel.classList.remove(ICON_EXPANDED_CLASS);
         }
     }
 
-    toggle($item) {
-        $item.toggleClass(NODE_COLLAPSED_CLASS);
+    toggle(li) {
+        li.classList.toggle(NODE_COLLAPSED_CLASS);
 
-        let $icon = $item.children('span').children('i.fa');
-        $icon.toggleClass(ICON_EXPANDED_CLASS);
-        $icon.toggleClass(ICON_COLLAPSED_CLASS);
+        let icon = li.children.item(0).children.item(0);
+        icon.classList.toggle(ICON_EXPANDED_CLASS);
+        icon.classList.toggle(ICON_COLLAPSED_CLASS);
 
-        // toggles visibility of $item's children
-        $item.children('ul').children('.tree-node').toggleClass(NODE_INVISIBLE_CLASS);
+        // toggles visibility of list items children
+        let ul = li.children.item(1);
+        let lis = ul.children;
+        for (var n = 0; n < lis.length; n++) {
+            var li = lis[n];
+            li.classList.toggle(NODE_INVISIBLE_CLASS);
+        }
     }
 
     toggleSelection() {
-        this.toggle($(this.selected.parentNode));
+        this.toggle(this.selected.parentNode);
     }
 
     get selected() { return this._selectedItem; }
 
     get fullPathOfSelection() {
-        let $sel = $(this._selectedItem);
-        if (this._selectedItem) {
-            let arr = $sel.parents(_NODE_CLASS).map(function() {
-                return $(this).children('.tree-node-label').text();
-            });
-            return arr.get().reverse().join('/');
-        }
-        return '/';
+        let sel = this._selectedItem;
+        let parents = getParents(this._selectedItem, this._parent);
+        parents = parents.filter((v) => v.classList.contains(NODE_CLASS));
+        return parents.map((p) => {
+            p => p.children.item(0).innerText
+        }).reverse().join(".");
     }
 
+    // traverses all nodes until the user callback returns false
+    // TODO: a filter function to skip nodes conditionally would be nice
     traverse(cb) {
         let keepGoing = true;
-        let _preorder = (i, li) => {
+        const _preorder = (li) => {
             if (keepGoing) {
                 keepGoing = cb.call(this, li) === false ? false : true;
-                $(li).find(' > ul').children(_NODE_CLASS).each(_preorder.bind(this));
+
+                // recursive call
+                let ul = li.children.item(1);           // ul is second child of li                
+                if (ul) {                               // only if node has children
+                    let lis = ul.children;
+                    for (var n = 0; n < lis.length; n++) {
+                        var li = lis[n];
+                        _preorder(li);
+                    }
+                }
             }
         };
-        _preorder(0, this._parent);
+
+        // root = tree host elem -> ul -> first li
+        let li_0 = this._parent.children.item(0).children.item(0);
+        _preorder.bind(this)(li_0);
     }
 
     // Todo: more sophisticated find like find('Human.Head')
     find(labelText) {
         let found = null;
         this.traverse((li) => {
-            let $lbl = $(li).children('span');
-            if($lbl.text() === labelText) {
-                found = { $item: li, $label: $lbl };
+            let lbl = li.children.item(0);
+            if (lbl.innerText === labelText) {
+                found = { item: li, label: lbl };
                 return false; // stop further traversal
             }
         });
@@ -540,27 +546,31 @@ class TreeView4 {
     select(labelText, scrollTarget) {
         let found = this.find(labelText);
         if (found) {
+            if (!scrollTarget) scrollTarget = this._parent;
+            
             // call the click handler
-            _onSelect.call(this, { target: found.$label[0] });
+            _onSelect.call(this, { target: found.label });
 
             // expand parent chain
-            let tv = this;
-            $(this.selected).parents('li').each(function() {
-                // 'this' is a DOM element here !!!
-                if ($(this).hasClass(NODE_COLLAPSED_CLASS)) {
-                    tv.toggle($(this));
-                }
-            });
+            forParents(
+                this.selected, 
+                this._parent, // while parent !== root_ul
+                (parent) => this.toggle(parent), 
+                (parent) => 
+                    parent.classList.contains(NODE_CLASS) 
+                    && parent.classList.contains(NODE_COLLAPSED_CLASS)
+            );
 
             // scroll into view
-            tv._parent.scrollTop = 0; // reset scroll view
-            let y0 = this._parent.offsetTop;
+            scrollTarget.scrollTop = 0; // reset scroll view
+            let y0 = scrollTarget.offsetTop;
             let y1 = this.selected.offsetTop;
-            // Console.log('mmm-tree offset.top: ' + y0);
-            // Console.log('selected offset.top: ' + y1);
-            // this._parent.scrollTop = y1 - y0;
             scrollTarget.scrollTop = y1 - y0;
+
+            return found;
         }
+
+        return null;
     }
 
 }

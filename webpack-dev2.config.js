@@ -35,11 +35,11 @@ module.exports = {
         // Allows error warnings but does not stop compiling.
         // new webpack.NoEmitOnErrorsPlugin(),
 
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery",
-            "window.jQuery": "jquery"
-        }),
+        // new webpack.ProvidePlugin({
+        //     $: "jquery",
+        //     jQuery: "jquery",
+        //     "window.jQuery": "jquery"
+        // }),
 
         new webpack.DefinePlugin({
             // __DEBUG__: JSON.stringify(JSON.parse(process.env.DEBUG)),

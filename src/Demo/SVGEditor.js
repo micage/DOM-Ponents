@@ -8,6 +8,7 @@ import ButtonBar from "../DOM/ButtonBar";
 import Button from "../DOM/Button";
 import CollapsableSection from "../DOM/CollapsableSection";
 import ScrollBar from "../DOM/ScrollBar";
+import PropView from "../DOM/PropView";
 import ObservablesTest from "./ObservablesTest";
 
 import { parseSVG } from "../SVG/SVGConverter";
@@ -22,7 +23,7 @@ import svgScrollView from "!raw-loader!../../www/ScrollView.svg";
 import svgEberswalder from "!raw-loader!../../www/Eberswalder9_opt2.svg";
 
 // @ts-ignore
-import styles from "./TreeConverterDemo.less";
+import styles from "./SVGEditor.less";
 
 /* Manifesto
 controls are only allowed to change observables
@@ -36,28 +37,49 @@ the root component is considered the owner of all observables
 
 /* TODO:
 treeView.select: send the TreeView a message -> trigger(tv, "mgSelect", strLabel)
+SplitView onRatio: reset zoom center
 */
-const FILE = "TreeConverterDemo";
+const FILE = "SVGEditor";
+
+var mySVGIcon = "<svg\
+    id='svg39295'\
+    version='1.2'\
+    viewBox='0 0 24 24'\
+    xmlns='http://www.w3.org/2000/svg'>\
+    <g>\
+        <text x='0' y='24' font-family='Verdana' font-size='14pt'>D</text>\
+    </g>\
+</svg>";
+
+// pixel to svg length
+// svg_X = dom_X * svgBaseScale
 
 let locals = {
-    svgBaseScale: 1, // will be set by mapView.onMount
+    svgBaseScale: 0, // will be set by mapView.onMount
+    selSVGElement: null,
+    selTreeItem: null,
     zoomStartValue: 1,
-    zoomMinValue: 1,
+    zoomMinValue: 0.5,
     zoomMaxValue: 10,
     step: .1,
     mouseX: 0,
     mouseY: 0,
+    viewBoxW_0: 0,
+    viewBoxH_0: 0,
 };
 
 let ids = {
     btnMinus: DOM.genId(),
     btnPlus: DOM.genId(),
+    propView: DOM.genId(),
 };
 
 // used Elements
 let views = {
+    splitView: null,
     treeView: null,
     mapView: null,
+    propView: null,
     svg: null,
     btnMinus: null,    
     btnPlus: null,    
@@ -67,74 +89,137 @@ let views = {
     st2: null,
     editViewBoxX: null,
     editViewBoxY: null,
+    btnData: DOM.Div({
+        style: {
+            "background-image": "url:'data:image/svg+xml;utf8," + mySVGIcon + "')"
+        },
+        class: styles.toggleButton,
+        listenTo: {
+            "click": (ev) => {
+                ev.target.classList.toggle("active");
+                obs.editorMode.value = ev.target.classList.contains("active") ? "data" : "map";
+            }
+        }
+    }),
 };
 
 // observables
 let obs = {
     zoom: new ObservableRangedValue(undefined, locals.zoomMinValue, locals.zoomMaxValue),
     
-    viewBoxX: new ObservableValue(undefined),
-    viewBoxY: new ObservableValue(undefined),
+    viewBoxX: new ObservableValue(),
+    viewBoxY: new ObservableValue(),
+    viewBoxW: new ObservableValue(),
+    viewBoxH: new ObservableValue(),
 
-    selPath: new ObservableValue(undefined),
+    selPath: new ObservableValue(),
+
+    editorMode: new ObservableValue(),
 };
 
 const onAppMount = () => {
-    obs.zoom.setFromRatio(0);
+    obs.zoom.value = 1;
 
     obs.selPath.value = "/";
     
     obs.viewBoxX.value = 0;
     obs.viewBoxY.value = 0;
+    obs.viewBoxW.value = 510;
+    obs.viewBoxH.value = 500;
 };
 
 // each view that has a dependency to zoom, can be updated here
 obs.zoom.addListener(function (val) {
+    var oldZoom;
     // console.log(`val: ${val}`);
     views.editZoom.value = this.value.toFixed(1);
     DOM.trigger(views.sbZoom, "mgScrollTo", this.getRatio());
 
      // svg transform center, c = cx = cy, since width and height of this svg are equal
     let c = views.svg.width.baseVal.value * 0.5;
-
     let vx = views.mapView.clientWidth * 0.5;
     let vy = views.mapView.clientHeight * 0.5;
     
     let s = this.value; // scale factor
+    let vb = views.svg.viewBox.baseVal;
+    vb.width = locals.viewBoxW_0 / s;
+    vb.height = locals.viewBoxH_0 / s;
 
-    // scale around center of mapView
-    let s1 = s - 1;
-    let tx = s1 * (c - vx);
-    let ty = s1 * (c - vy);
-    
-    // scale around mouse(x, y)
-    // does not work, until keeping track of mouse position all the time
-    // mapView.onmouseenter -> mapView.onmousemove
-    // this formula, although, is correct
-    // let tx = s1 * (c - locals.mouseX);
-    // let ty = s1 * (c - locals.mouseY);
+    let strange = (s - 1) / s;
 
-    // views.svg.style.transform = `scale(${this.value})`;
-    views.svg.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
-    console.log('transform: ' + views.svg.style.transform);
-    
+    views.svg.viewBox.baseVal.x = obs.viewBoxX.value + 590 * strange;
+    views.svg.viewBox.baseVal.y = obs.viewBoxY.value + 170 * strange;
 });
 
-obs.selPath.addListener(function (val) {
-    //DOM.trigger(views.treeView, "mgSelect", val);
-    // How to get the full path?
-    views.stSelect.innerText = val;
+obs.selPath.addListener( function(pathName) {
+    // select tree node    
+    DOM.trigger(views.treeView, "mgDoSelect", pathName);
+
+    // replace propView
+    let propView = PropView({
+        style: {
+            "width": views.splitView.children.item(2).clientWidth + "px"
+        },
+        class: "two",
+        title: pathName,
+        props: locals.selTreeItem ? locals.selTreeItem.data.attr : {}
+    });
+    if (obs.editorMode.value === "data") {
+        views.splitView.removeChild(views.propView);
+        views.splitView.appendChild(propView);
+    }
+    views.propView = propView;
+
+    locals.selSVGElement = views.svg.getElementById(pathName);
+    let path = locals.selSVGElement;
+    if (path) {
+        let hue = Math.floor(Math.random() * 360);
+        path.style.fill = `hsl(${hue}, 50%, 70%)`;
+        if (path.id) {
+            console.log("map clicked: " + path.id);
+            obs.selPath.value = path.id;
+        }
+        else {
+            console.log('Path has no id.');
+        }
+    }
+
+    views.stSelect.innerText = pathName;
 });
 
 obs.viewBoxX.addListener(function (val) {
-    views.svg.viewBox.baseVal.x = val;
+    let s = obs.zoom.value;
+    let vb = views.svg.viewBox.baseVal;
+    vb.x = val + 590 * (s - 1) / s;
+
     views.editViewBoxX.value = val.toFixed(0);
 });
 
 obs.viewBoxY.addListener(function (val) {
-    views.svg.viewBox.baseVal.y = val;
+    let s = obs.zoom.value;
+    let vb = views.svg.viewBox.baseVal;
+    vb.y = val + 170 * (s - 1) / s;
+    
     views.editViewBoxY.value = val.toFixed();
 });
+
+obs.editorMode.addListener(function() {
+    switch(this.value) {
+        case "data":
+            views.splitView.removeChild(views.mapView);
+            views.splitView.appendChild(views.propView);
+        break;
+
+        case "map":
+            views.splitView.removeChild(views.propView);
+            views.splitView.appendChild(views.mapView);
+        break;
+    }
+
+    console.log(`editMode: ${this.value}`)
+});
+
+//======================================================================
 
 
 const cancelEvent = ev => {
@@ -153,7 +238,9 @@ const onZoomButtonClick = (ev) => {
     }
 };
 
-let app = DOM.Div({
+//module.exports =
+export default
+DOM.Div({
     id: "app", 
     children: [
         CollapsableSection({
@@ -217,9 +304,10 @@ let app = DOM.Div({
                                 "input": (ev) => obs.viewBoxY.value = ev.target.value * 1
                             }
                         }),
+                        views.btnData,
                     ]
                 }),
-                SplitView({
+                views.splitView = SplitView({
                     class: styles.splitView,
                     ratio: .2,
                     children: [
@@ -227,12 +315,11 @@ let app = DOM.Div({
                             class: styles.treeView,
                             json: parseSVG(svgEberswalder),
                             doNode: (node) => node.id !== "attr", // process tree node if its id is not "attr"
-                            onSelect: function (label) {
-                                let path = document.getElementById(label.innerText);
-                                if (path) {
-                                    let r = Math.floor(Math.random() * 360);
-                                    path.style.fill = "hsl(" + r + ", 90%, 70%)";
+                            listenTo: {
+                                "mgSelect": function(ev) {
+                                    let label = ev.detail;
                                     obs.selPath.value = label.innerText;
+                                    locals.selTreeItem = label.parentElement;
                                 }
                             }
                         }),
@@ -248,9 +335,8 @@ let app = DOM.Div({
 
                                     // e.g. 1181/960
                                     locals.svgBaseScale = views.svg.viewBox.baseVal.width / views.mapView.clientWidth;
-
-                                    // pixel to svg length
-                                    // svg_X = dom_X * svgBaseScale
+                                    locals.viewBoxW_0 = views.svg.viewBox.baseVal.width;
+                                    locals.viewBoxH_0 = views.svg.viewBox.baseVal.height;
 
                                     views.svg.addEventListener("mousedown", (ev) => {
                                         locals.mouseX = ev.clientX;
@@ -280,15 +366,7 @@ let app = DOM.Div({
                                 },
                                 "click": (ev) => {
                                     let path = ev.target;
-                                    let hue = Math.floor(Math.random() * 360);
-                                    path.style.fill = `hsl(${hue}, 50%, 70%)`;
-                                    if (path.id) {
-                                        console.log("map clicked: " + path.id);
-                                        obs.selPath.value = path.id;
-                                    }
-                                    else {
-                                        console.log('Path has no id.');
-                                    }
+                                    obs.selPath.value = path.id;
                                 },
                                 "wheel": (ev) => {
                                     locals.mouseX = ev.offsetX;
@@ -316,34 +394,10 @@ let app = DOM.Div({
                     ]
                 })
             ],
-            listenTo: {
-                "mgMount": () => {
-                    // first change of zoom
-                    obs.zoom.value = locals.zoomStartValue;
-                }
-            }
         }),
-        ObservablesTest() // CollapsableSection
     ],
     listenTo: {
         "mgMount": onAppMount // obs init
     }
 })
 
-DOM.App(app);
-
-//=============================================================================
-// HMR
-if (module.hot) {
-    module.hot.accept(
-        [ module.i ],
-        function(v) {
-            console.log('module.hot.accept'); debugger;
-        }
-    );
-    module.hot.dispose(() => {
-        document.body.removeChild(app);
-    });
-}
-var xxx = './Demo/TreeConverterDemo.js';
-var yyy = 2;
