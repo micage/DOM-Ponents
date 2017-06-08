@@ -4,6 +4,7 @@ import { ObservableValue, ObservableRangedValue } from "../Structures/Observable
 import SplitView from "../DOM/SplitView.1";
 import TreeView from "../DOM/TreeView";
 import * as DOM from "../DOM/Elements";
+import * as Evt from "../DOM/Events";
 import ButtonBar from "../DOM/ButtonBar";
 import Button from "../DOM/Button";
 import CollapsableSection from "../DOM/CollapsableSection";
@@ -11,7 +12,7 @@ import ScrollBar from "../DOM/ScrollBar";
 import PropView from "../DOM/PropView";
 import ObservablesTest from "./ObservablesTest";
 
-import { parseSVG } from "../SVG/SVGConverter";
+import { parseSVG } from "../SVG/SVGConvertor";
 
 // @ts-ignore
 import svgPath1 from "!raw-loader!../../assets/svg/Path1.svg";
@@ -133,7 +134,7 @@ obs.zoom.addListener(function (val) {
     var oldZoom;
     // console.log(`val: ${val}`);
     views.editZoom.value = this.value.toFixed(1);
-    DOM.trigger(views.sbZoom, "mgScrollTo", this.getRatio());
+    Evt.trigger(views.sbZoom, Evt.Type.RATIO_DO, this.getRatio());
 
      // svg transform center, c = cx = cy, since width and height of this svg are equal
     let c = views.svg.width.baseVal.value * 0.5;
@@ -153,7 +154,7 @@ obs.zoom.addListener(function (val) {
 
 obs.selPath.addListener( function(pathName) {
     // select tree node    
-    DOM.trigger(views.treeView, "mgDoSelect", pathName);
+    Evt.trigger(views.treeView, "mgDoSelect", pathName);
 
     // replace propView
     let propView = PropView({
@@ -169,6 +170,7 @@ obs.selPath.addListener( function(pathName) {
         views.splitView.appendChild(propView);
     }
     views.propView = propView;
+    Evt.trigger(views.splitView, "mgChildReplaced");
 
     locals.selSVGElement = views.svg.getElementById(pathName);
     let path = locals.selSVGElement;
@@ -215,6 +217,7 @@ obs.editorMode.addListener(function() {
             views.splitView.appendChild(views.mapView);
         break;
     }
+    Evt.trigger(views.splitView, "mgChildReplaced");
 
     console.log(`editMode: ${this.value}`)
 });

@@ -43,7 +43,9 @@ const Create = (args) => {
                 view = DOM.Input({
                     type: "checkbox", value: boolVal, class: styles.value,
                     listenTo: {
-                        change: () => { }
+                        change: () => {
+                            // TODO: change node data -> change svg
+                        }
                     }
                 });
             }

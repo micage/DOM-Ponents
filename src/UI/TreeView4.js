@@ -322,7 +322,7 @@ const _init = function(rootNode, options) {
 
     // init stack with root list
     let _stack = [ ul ];
-    let skipLevel = 1000;
+    let skipLevel = 1000; // has to be greater than max node.depth
 
     // visitor of node hierarchy
     const createULorLI = function(node) {

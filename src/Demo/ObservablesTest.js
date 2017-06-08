@@ -2,6 +2,7 @@
 import { ObservableRangedValue } from "../Structures/Observable";
 
 import * as DOM from "../DOM/Elements";
+import * as Evt from "../DOM/Events";
 import ButtonBar from "../DOM/ButtonBar";
 import Button from "../DOM/Button";
 import ScrollBar from "../DOM/ScrollBar";
@@ -33,7 +34,7 @@ obs.val1.addListener(function(value) {
     console.log(`Observable: ${value}`);
 
     // conversion to range(0, 1)
-    DOM.trigger(ctrls.sbVal, "mgScrollTo", this.getRatio());
+    Evt.trigger(ctrls.sbVal, Evt.Type.RATIO_DO, this.getRatio());
 
     let val = Math.floor(value);
     ctrls.editVal.value = val;
@@ -95,8 +96,6 @@ const _Create = () => {
                         class: styles.scrollBar,
                         listenTo: {
                             "mgRatio": (ev) => obs.val1.setFromRatio(ev.detail),
-                            // "mgAppend": msgFunc,
-                            // "mgMount": onScrollBarMount
                         }
                     }),
                     ctrls.editVal = DOM.Input({

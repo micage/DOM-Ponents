@@ -30,15 +30,16 @@
   },
   "directories": {},
   "keywords": [
-    "react",
     "webpack",
-    "cordova",
     "babel",
-    "component"
+    "component",
+    "dom",
+    "treeview",
+    "svg"
   ],
   "license": "MIT",
   "main": "./src/index.js",
-  "name": "react-cordova-test-1",
+  "name": "DOM-ponents",
   "optionalDependencies": {},
   "private": true,
   "readme": "ERROR: No README data found!",

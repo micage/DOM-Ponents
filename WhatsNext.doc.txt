@@ -1,8 +1,26 @@
-Selections:
-    Big Black Hole
+General concepts:
+    Selections:
 
-Cut/Copy/Paste (Selection):
-    Big Black Hole
+    Cut/Copy/Paste (Selection):
+
+    Load/Save project file:
+        Input type="file" could be a start -> "svgo online" for a start
+
+        Import svg into existing project, for merging
+
+
+
+SplitView:
+    listen to window resize events
+    redirect it to view "one" and "two"
+
+SVGConvertor:
+    give nodes a type, so that PropView knows what to present
+
+SVGEditor:
+    MapView:
+        make it a component, call it SVGView
+        adjust zoom center on resize
 
 TreeView:
     implement ObservableTree!
@@ -14,21 +32,15 @@ TreeView:
     show/hide nodes, unhide all, hide others
     same with lock/ unlock
 
-    give leaf-nodes a z-value and a transform matrix
-
     multi-selection (by pressing SHIFT for ex.)
 
+
+-------------------------------------------------------------------
+SVG:
+----
     Items: path, circle, rect, line, text, ... make their props editable
 
-Animations: Black Hole
-    Transformations by altering node trafo matrix
-    maybe give nodes a cb function that has to provide values 
-    for a given point in time
-
-Load/Save project file: Black Hole
-    Input type="file" could be a start -> "svgo online" for a start
-
-    Import svg into existing project, for merging
+    give leaf-nodes a z-value and a transform matrix
 
 use "use"!
     for instancing, leads to a reference system, items are resources only
@@ -41,4 +53,8 @@ Styles:
 Space Partitioning/ Visibility: e.g. quad tree, k-D tree
     visibility check vs. brute-force painting, measure times!
 
+Animations: Black Hole
+    Transformations by altering node trafo matrix
+    maybe give nodes a cb function that has to provide values 
+    for a given point in time
 

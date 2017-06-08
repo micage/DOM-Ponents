@@ -40,11 +40,17 @@ const parse = (trgtParentNode, srcNode) => {
             switch (key) {
                 case "svg": parse(trgtParentNode, srcNode[key]); break;
                 case "$": trgtParentNode = parseAttr(trgtParentNode, srcNode[key]); break;
-                case "g": parseGroup(trgtParentNode, srcNode[key]); break;
-                case "path": parsePath(trgtParentNode, srcNode[key]); break;
-                case "rect": parseRect(trgtParentNode, srcNode[key]); break;
-                case "circle": parseCircle(trgtParentNode, srcNode[key]); break;
-                case "text": parseText(trgtParentNode, srcNode[key]); break;
+                case "g": parseGroups(trgtParentNode, srcNode[key]); break;
+                case "path": parsePathes(trgtParentNode, srcNode[key]); break;
+                case "rect": parseRects(trgtParentNode, srcNode[key]); break;
+                case "circle": parseCircles(trgtParentNode, srcNode[key]); break;
+                case "text": parseTexts(trgtParentNode, srcNode[key]); break;
+                case "type": 
+                    ((a) => {
+                        trgtParentNode.type = srcNode[a];
+                        console.log('type: ' + srcNode[a]);                        
+                    })(key);
+                    break;
                 default: parseElements(trgtParentNode, srcNode[key]);
             }
         });
@@ -98,39 +104,47 @@ const _parseSVG = (parentNode, svg) => {
     parentNode = parentNode.svg;
 };
 
-const parseGroup = (parentNode, group) => {
-    if (__.checkArray(group)) {
-        group.forEach(entry => {
-            parse(parentNode, entry);
+const parseGroups = (parentNode, groups) => {
+    if (__.checkArray(groups)) {
+        groups.forEach(g => {
+            g.$.type = "g";
+            g.type = "g";
+            parse(parentNode, g);
         })
     }
 };
 
-const parsePath = (parentNode, pathes) => {
+const parsePathes = (parentNode, pathes) => {
     if (__.checkArray(pathes)) {
         pathes.forEach(path => {
+            path.$.type = "path";
+            path.type = "path";
             parse(parentNode, path);
         })
     }
 };
 
-const parseRect = (parentNode, rects) => {
+const parseRects = (parentNode, rects) => {
     if (__.checkArray(rects)) {
-        rects.forEach(path => {
-            parse(parentNode, path);
+        rects.forEach(rect => {
+            rect.$.type = "rect";
+            rect.type = "rect";
+            parse(parentNode, rect);
         })
     }
 };
 
-const parseCircle = (parentNode, circles) => {
+const parseCircles = (parentNode, circles) => {
     if (__.checkArray(circles)) {
         circles.forEach(circle => {
+            circle.$.type = "circle";
+            circle.type = "circle";
             parse(parentNode, circle);
         })
     }
 };
 
-const parseText = (parentNode, texts) => {
+const parseTexts = (parentNode, texts) => {
     if (__.checkArray(texts)) {
         texts.forEach(text => {
             parse(parentNode, text);

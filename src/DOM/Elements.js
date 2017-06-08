@@ -1,7 +1,9 @@
+var __DEBUG__;
+
 import * as __ from "../Util/ParamCheck";
+import * as Evt from "./Events";
 
 //=================================================================================
-var __DEBUG__;
 
 const _Element = {
     id: String,
@@ -11,34 +13,8 @@ const _Element = {
     children: [] // of HTMLElement
 };
 
-const EventOptions = {
-    bubbles: false,
-    cancelable: true
-};
-export const trigger = (elem, evtName, data, options) => {
-    let ev;
-    if (data === undefined) {
-        if(__.checkObject(options)) {
-            ev = new Event(evtName);
-        }
-        else {
-            ev = new Event(evtName, options);
-        }
-    }
-    else {
-        if (__.checkObject(options)) {
-            options.detail = data;
-        }
-        else {
-            options = { detail: data };
-        }
-        ev = new CustomEvent(evtName, options);
-    }
-    
-    return elem.dispatchEvent(ev);
-}
-
-export const genId = () => "id:" + Math.random();
+export const genId = () => "id" + Math.random().toString().slice(2);
+export const genClassId = () => "cls" + Math.random().toString().slice(2);
 
 export const forParents = (elem, untilElem, cb, cbFilter) => {
     let parent = elem;
@@ -70,7 +46,6 @@ export const AppendChildren = (node, children) => {
     for (let i = 0; i < children.length; i++) {
         let child = children[i];
         node.appendChild(child);
-        trigger(child, "append");
     }
 };
 
@@ -155,7 +130,7 @@ export const mount = () => {
     }
     // mount elements in reverse order, root at last
     stack.reverse().forEach((elem) => {
-        trigger(elem, "mgMount")
+        Evt.trigger(elem, Evt.Type.MOUNT);
         // console.log(`mount: ${elem.tagName}, ${elem.id}, ${elem.className}`);
     });
 

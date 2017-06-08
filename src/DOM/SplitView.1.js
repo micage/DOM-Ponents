@@ -1,6 +1,7 @@
 import { checkBoolean, checkObject } from "../Util/ParamCheck";
-import { split } from "../DOM/Split";
+import { split } from "./Split";
 import { Div } from "./Elements";
+import * as Evt from "./Events";
 
 // @ts-ignore
 import styles from "./SplitView.less"
@@ -21,12 +22,16 @@ const _Create = (args) => {
     
     // this listener has to be added to the creation args (!)
     if (!checkObject(args.listenTo)) args.listenTo = {};
-    args.listenTo.mgMount = function(ev) {
+    args.listenTo["mgMount"] = function(ev) {
         console.log(`SplitView: ${ev.type} ${ev.target.className}`);
         split(self, args);
     };
-    args.listenTo.mgRatio = function(ev) {
+    args.listenTo["mgRatio"] = function (ev) {
         console.log(`SplitView: ${ev.type} ${ev.target.className}`);
+    };
+    args.listenTo["mgResize"] = function (ev) {
+        console.log(`SplitView: ${ev.type} ${ev.target.className}`);
+        Evt.trigger(self, "mgRatioDo")
     };
 
     let self = Div(args);

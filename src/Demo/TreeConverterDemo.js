@@ -4,6 +4,7 @@ import { ObservableValue, ObservableRangedValue } from "../Structures/Observable
 import SplitView from "../DOM/SplitView.1";
 import TreeView from "../DOM/TreeView";
 import * as DOM from "../DOM/Elements";
+import * as Evt from "../DOM/Events";
 import ButtonBar from "../DOM/ButtonBar";
 import Button from "../DOM/Button";
 import CollapsableSection from "../DOM/CollapsableSection";
@@ -92,7 +93,7 @@ const onAppMount = () => {
 obs.zoom.addListener(function (val) {
     // console.log(`val: ${val}`);
     views.editZoom.value = this.value.toFixed(1);
-    DOM.trigger(views.sbZoom, "mgScrollTo", this.getRatio());
+    Evt.trigger(views.sbZoom, Evt.Type.RATIO_DO, this.getRatio());
 
      // svg transform center, c = cx = cy, since width and height of this svg are equal
     let c = views.svg.width.baseVal.value * 0.5;
@@ -121,7 +122,8 @@ obs.zoom.addListener(function (val) {
 });
 
 obs.selPath.addListener(function (val) {
-    //DOM.trigger(views.treeView, "mgSelect", val);
+    Evt.trigger(views.treeView, "mgSelect", val);
+    
     // How to get the full path?
     views.stSelect.innerText = val;
 });

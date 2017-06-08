@@ -5,7 +5,7 @@
             "name": "Launch Chrome Canary",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:3010",
+            "url": "http://localhost:3012",
             "webRoot": "${workspaceRoot}/src",
             "osx": {
                 "runtimeExecutable": "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"

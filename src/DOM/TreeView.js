@@ -1,6 +1,7 @@
 import TreeView from "../UI/TreeView4";
 import ObjectTree from "../Structures/ObjectTree";
-import { Div, trigger } from "../DOM/Elements";
+import { Div } from "../DOM/Elements";
+import * as Evt from "./Events";
 
 
 const _Create = (args) => {
@@ -24,7 +25,7 @@ const _Create = (args) => {
         new ObjectTree(payload.json),
         { // options
             doNode: payload.doNode,
-            onSelect: (label) => trigger(self, "mgSelect", label),
+            onSelect: (label) => Evt.trigger(self, Evt.Type.SELECT, label),
             onLabel: payload.onLabel
         }
     );
