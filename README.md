@@ -1,29 +1,38 @@
 # DOM-Ponents
+Quickl guide to get started in a blink of an eye ...
 
-Quickly and easily start the app using webpack.
 ### Installing
+Go to a directory of your choice
 
-Run: npm i
+Get the repository:
+```
+git clone https://github.com/micage/DOM-Ponents.git
+```
 
-Finally, Run: npm run dev
+Install dependencies:
+```
+npm i
+```
 
-### Commands
+Then type one of the following ...
 
-### Sample 1
+#### Sample 1
 ```
 // start dev server on port 3010
 npm run dev
+
+// for production build:
+npm run pro
 ```
 
-### Sample 2
+#### Sample 2
 ```
 // start dev server on port 3012
 npm run dev2
-```
 
-// build the bundles that you can then put on a server somewhere
-npm run pro
+// for production build:
 npm run pro2
+```
 
 ### Caution and disclaimer
 All work in progress and highly experimental
